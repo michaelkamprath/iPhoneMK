@@ -1,0 +1,3 @@
+iPhoneMK is a loose collection of Objective-C classes for the iPhone SDK that I have put together over time which I feel might be of general utility to people. The classes are released under the Apache 2.0 license.
+
+If you find any of these classes useful, I'd love to hear about it. If you have improvements for any of them, feel free to commit your changes, however, I ask that you try not to change existing interface.
