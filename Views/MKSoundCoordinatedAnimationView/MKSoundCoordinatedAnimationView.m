@@ -1,0 +1,192 @@
+//
+//  MKSoundCoordinatedAnimationView.h
+//  
+// Copyright 2010 Michael F. Kamprath
+// michael@claireware.com
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+#import <AVFoundation/AVFoundation.h>
+#import "MKSoundCoordinatedAnimationView.h"
+#import "MKSoundCoordinatedAnimationLayer.h"
+
+@implementation MKSoundCoordinatedAnimationView
+@dynamic config;
+@dynamic stillImage;
+@dynamic timeScaleFactor;
+@dynamic animationSequenceDuration;
+@dynamic isAnimating;
+@dynamic silenced;
+
+
+
+- (id)initWithFrame:(CGRect)inFrame 
+{
+    if (self = [super initWithFrame:inFrame]) 
+	{
+		
+		CGPoint centerPt = CGPointMake( self.frame.size.width/2.0, self.frame.size.height/2.0 );
+		CGRect boundsRct = CGRectMake( 0, 0, self.frame.size.width, self.frame.size.height);
+		
+		_animationLayer = [[MKSoundCoordinatedAnimationLayer alloc] init];
+		_animationLayer.bounds = boundsRct;
+		_animationLayer.position = centerPt;
+		
+		[self.layer addSublayer:_animationLayer];
+		
+    }
+    return self;
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+	if (self = [super initWithCoder:aDecoder])
+	{
+ 		CGPoint centerPt = CGPointMake( self.frame.size.width/2.0, self.frame.size.height/2.0 );
+		CGRect boundsRct = CGRectMake( 0, 0, self.frame.size.width, self.frame.size.height);
+		
+		_animationLayer = [[MKSoundCoordinatedAnimationLayer alloc] init];
+		_animationLayer.bounds = boundsRct;
+		_animationLayer.position = centerPt;
+		
+		[self.layer addSublayer:_animationLayer];
+	}
+	return self;
+}
+
+
+- (void)dealloc 
+{
+	[_animationLayer removeFromSuperlayer];
+	[_animationLayer release];
+	
+    [super dealloc];
+}
+
+
+
+- (void)setNeedsDisplay
+{
+	[super setNeedsDisplay];
+	
+	[self.layer setNeedsDisplay];
+}
+
+#pragma mark -- Properties --
+
+- (NSDictionary*)config;
+{
+	return _animationLayer.config;
+}
+-(void)setConfig:(NSDictionary *)inConfig
+{
+	_animationLayer.config = inConfig;
+}
+
+- (UIImage*)stillImage
+{
+	return _animationLayer.stillImage;
+}	   
+-(void)setStillImage:(UIImage *)inImage
+{
+	_animationLayer.stillImage = inImage;
+	
+}
+
+- (float)timeScaleFactor
+{
+	return _animationLayer.timeScaleFactor;
+}
+- (void)setTimeScaleFactor:(float)inValue
+{
+	_animationLayer.timeScaleFactor = inValue;
+}
+
+- (NSTimeInterval)animationSequenceDuration
+{
+	return _animationLayer.animationSequenceDuration;
+}
+
+- (BOOL)isAnimating
+{
+	return	_animationLayer.isAnimating;
+}
+
+- (BOOL)isSilenced
+{
+	return _animationLayer.isSilenced;
+}
+
+- (void)setSilenced:(BOOL)inBool
+{
+	_animationLayer.silenced = inBool;
+}
+
+#pragma mark -- Public Methods --
+
+-(void)startAnimating
+{
+	[_animationLayer startAnimating];
+}
+
+// starts the animation sequence looping for a specific number of counts. 
+// Passing 0 cycle count value has no effect. If called while animating, will set the 
+// remining loop counter to passed value after current loop finishes. 
+-(void)startAnimatingWithCycleCount:(NSUInteger)inCycleCount
+{
+	[_animationLayer startAnimatingWithCycleCount:inCycleCount];
+	
+}
+
+
+
+// Stops the animation, either immediately or after the end of the current loop.
+-(void)stopAnimatingImmeditely:(BOOL)inImmediately
+{
+	[_animationLayer stopAnimatingImmeditely:inImmediately];
+	
+}
+
+//
+// converts a "property list" configuration dictionary to the format expected by the config property of an instance.
+// The "property list" verison of the configuraiton does not contain sound or image objects, but in stead filenames.
+// This method will generate a config dictionary containin the sound and image objects based. Useful for configuring
+// an animation with a plist file.
+// The property list format is:
+//
+// key = NSNumber containing a float value indicating he number of seconds since start this item should be applied
+// value = a dictionary containing one or more of the following key/value pairs
+//					key			| value
+//				----------------+------------------------------------------------------------
+//				 "soundFile"	| the file name a sound file, including extension (NSString)
+//				 "imageFile"	| the file name of an image, inclding extension (NSString)
+//
++(NSDictionary*)configFromPropertList:(NSDictionary*)inPropertyList
+{
+	
+	return [MKSoundCoordinatedAnimationLayer configFromPropertList:inPropertyList];
+}
+
+//
+// UIImage objects can shared between multiple instnaces of a given animation, but AVAudioPlayer objects
+// cannot because each animation instance may have a different play state. This method will "copy" a config
+// dictionary by producing an (autoreleased) copy of it where the UIImage objects are shared by the 
+// AVAudioPlayer objects are distinct copies. 
++(NSDictionary*)copyConfig:(NSDictionary*)inConfig
+{
+	return [MKSoundCoordinatedAnimationLayer copyConfig:inConfig];
+	
+}
+
+@end
