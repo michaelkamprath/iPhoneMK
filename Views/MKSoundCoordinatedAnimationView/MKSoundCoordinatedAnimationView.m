@@ -19,7 +19,6 @@
 
 #import <AVFoundation/AVFoundation.h>
 #import "MKSoundCoordinatedAnimationView.h"
-#import "MKSoundCoordinatedAnimationLayer.h"
 
 @implementation MKSoundCoordinatedAnimationView
 @dynamic config;
@@ -177,6 +176,13 @@
 	
 	return [MKSoundCoordinatedAnimationLayer configFromPropertList:inPropertyList];
 }
+
++(NSDictionary*)configFromPropertList:(NSDictionary*)inPropertyList usingObjectFactory:(id <MKSoundCoordinatedAnimationObjectFactory>)inObjectFactory
+{
+	return [MKSoundCoordinatedAnimationLayer configFromPropertList:inPropertyList usingObjectFactory:inObjectFactory];
+	
+}
+
 
 //
 // UIImage objects can shared between multiple instnaces of a given animation, but AVAudioPlayer objects

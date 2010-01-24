@@ -32,8 +32,7 @@
 
 
 #import <UIKit/UIKit.h>
-
-@class MKSoundCoordinatedAnimationLayer;
+#import "MKSoundCoordinatedAnimationLayer.h"
 
 @interface MKSoundCoordinatedAnimationView : UIView 
 {
@@ -106,6 +105,13 @@
 //								     | Note that animation will not cycle until all sounds initated in current cycle are complete.
 //
 +(NSDictionary*)configFromPropertList:(NSDictionary*)inPropertyList;
+
+//
+// Performs the same work as configFromPropertList:, but uses the passed MKSoundCoordinatedAnimationObjectFactory to generate
+// the UIImage and AVAudioPlayer objects.
+//
+
++(NSDictionary*)configFromPropertList:(NSDictionary*)inPropertyList usingObjectFactory:(id <MKSoundCoordinatedAnimationObjectFactory>)inObjectFactory;
 
 //
 // UIImage objects can shared between multiple instnaces of a given animation, but AVAudioPlayer objects

@@ -33,6 +33,31 @@
 
 #import <Foundation/Foundation.h>
 #import <QuartzCore/QuartzCore.h>
+#import <AVFoundation/AVFoundation.h>
+
+//
+// protocol MKSoundCoordinatedAnimationObjectFactory
+//
+// This protocol is used to allow clients to define their own factory for generating the UIImage and AVAudioPlayer
+// objects in the MKSoundCoordinatedAnimationLayer configFromPropertList: method.
+//
+@protocol MKSoundCoordinatedAnimationObjectFactory
+
+// 
+// Returns an autoreleased UIImage object ascociated with the passed filename. The UIImage object returned does not have to be 
+// unique across multiple calls to to this method with identical file names passed.
+//
+-(UIImage*)getUIImageForFilename:(NSString*)inFilename;
+
+
+// 
+// Returns an autoreleased AVAudioPlayer object ascociated with the passed filename. The AVAudioPlayer object returned should be 
+// unique across multiple calls to to this method with identical file names passed.
+//
+-(AVAudioPlayer*)getAVAudioPlayerForFilename:(NSString*)inFilename;
+
+@end
+
 
 @interface MKSoundCoordinatedAnimationLayer : CALayer 
 {
@@ -119,6 +144,14 @@
 //								     | Note that animation will not cycle until all sounds initated in current cycle are complete.
 //
 +(NSDictionary*)configFromPropertList:(NSDictionary*)inPropertyList;
+
+
+//
+// Performs the same work as configFromPropertList:, but uses the passed MKSoundCoordinatedAnimationObjectFactory to generate
+// the UIImage and AVAudioPlayer objects.
+//
+
++(NSDictionary*)configFromPropertList:(NSDictionary*)inPropertyList usingObjectFactory:(id <MKSoundCoordinatedAnimationObjectFactory>)inObjectFactory;
 
 //
 // UIImage objects can shared between multiple instnaces of a given animation, but AVAudioPlayer objects

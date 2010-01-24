@@ -39,6 +39,19 @@ NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 
 @end
 
+
+@interface MKDefaultAnimationObjectFactory : NSObject <MKSoundCoordinatedAnimationObjectFactory>
+{
+	
+}
+
+-(UIImage*)getUIImageForFilename:(NSString*)inFilename;
+-(AVAudioPlayer*)getAVAudioPlayerForFilename:(NSString*)inFilename;
+
+@end
+
+
+
 @implementation MKSoundCoordinatedAnimationLayer
 @synthesize config=_config;
 @synthesize stillImage=_stillImage;
@@ -259,6 +272,27 @@ NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 	}
 }
 
+#pragma mark -- Class Methods --
+
+
+
++(NSDictionary*)configFromPropertList:(NSDictionary*)inPropertyList
+{
+	if (inPropertyList == nil)
+	{
+		return nil;
+	}
+	
+	MKDefaultAnimationObjectFactory* objectFactory = [[MKDefaultAnimationObjectFactory alloc] init];
+	
+	NSDictionary* config = [MKSoundCoordinatedAnimationLayer configFromPropertList:inPropertyList usingObjectFactory:objectFactory];
+
+	[objectFactory release];
+	
+	return config;
+}
+
+
 //
 // converts a "property list" configuration dictionary to the format expected by the config property of an instance.
 // The "property list" verison of the configuraiton does not contain sound or image objects, but in stead filenames.
@@ -275,7 +309,8 @@ NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 //				 "lastFrameDuration" | If this is the last frame, a NSNumber indicating the minimum duration of frame.
 //								     | Note that animation will not cycle until all sounds initated in current cycle are complete.
 //
-+(NSDictionary*)configFromPropertList:(NSDictionary*)inPropertyList
+
++(NSDictionary*)configFromPropertList:(NSDictionary*)inPropertyList usingObjectFactory:(id <MKSoundCoordinatedAnimationObjectFactory>)inObjectFactory
 {
 	if (inPropertyList == nil)
 	{
@@ -292,63 +327,21 @@ NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 		
 		NSString* soundFileName = [frameProperties objectForKey:kSCANSoundFileNameKey];
 		
-		if ( soundFileName != nil )
+		AVAudioPlayer *player = [inObjectFactory getAVAudioPlayerForFilename:soundFileName];
+		
+		if (player != nil)
 		{
-			
-			NSString* pathStr;
-			
-			
-			//
-			// if it is desired to load a specific localization, this code will need to be altered to use [NSBundle pathForResource:ofType:inDirectory:forLocalization:]
-			//
-			
-			pathStr = [[NSBundle mainBundle] pathForResource:soundFileName ofType:nil];	
-			
-			if ( pathStr != nil )
-			{
-				NSError* sndErr;
-				NSURL *fileURL = [NSURL fileURLWithPath:pathStr isDirectory:NO];
-				
-				AVAudioPlayer *player = [[ AVAudioPlayer alloc ] initWithContentsOfURL:fileURL error:(&sndErr) ];
-				
-				if (sndErr == nil)
-				{
-					[frameConfig setObject:player forKey:kSCANSoundObjectKey];
-				}
-				else
-				{
-					NSLog(@"Error creating AVAudioPlayer with file path '%@': %@", pathStr, [sndErr localizedDescription]);
-				}
-			}	
-			
+			[frameConfig setObject:player forKey:kSCANSoundObjectKey];
 		}
+
 		
 		NSString* imageFileName = [frameProperties objectForKey:kSCANImageFileNameKey];
 		
-		if (imageFileName != nil)
+		UIImage* image = [inObjectFactory getUIImageForFilename:imageFileName];
+		
+		if (image != nil)
 		{
-			NSString* pathStr;
-			
-			
-			//
-			// if it is desired to load a specific localization, this code will need to be altered to use [NSBundle pathForResource:ofType:inDirectory:forLocalization:]
-			//
-			
-			pathStr = [[NSBundle mainBundle] pathForResource:imageFileName ofType:nil];	
-			
-			if ( pathStr != nil )
-			{
-				UIImage* image = [UIImage imageWithContentsOfFile:pathStr];
-				
-				if ( image != nil )
-				{
-					[frameConfig setObject:image forKey:kSCANImageObjectKey];
-				}
-				else 
-				{
-					NSLog( @"Could not create image with file path '%@'", pathStr );
-				}
-			}
+			[frameConfig setObject:image forKey:kSCANImageObjectKey];
 		}
 		
 		id durationObj = [frameProperties objectForKey:kSCANLastFrameDurationKey];
@@ -362,6 +355,8 @@ NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 	}
 	
 	return configDict;
+	
+	
 }
 
 //
@@ -523,5 +518,80 @@ NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 		[self playCurrentFrameAndQueueNextFrame];
 	}
 }
+
+@end
+
+@implementation MKDefaultAnimationObjectFactory
+
+-(UIImage*)getUIImageForFilename:(NSString*)inFilename
+{
+	if (inFilename != nil)
+	{
+		NSString* pathStr;
+		
+		
+		//
+		// if it is desired to load a specific localization, this code will need to be altered to use [NSBundle pathForResource:ofType:inDirectory:forLocalization:]
+		//
+		
+		pathStr = [[NSBundle mainBundle] pathForResource:inFilename ofType:nil];	
+		
+		if ( pathStr != nil )
+		{
+			UIImage* image = [UIImage imageWithContentsOfFile:pathStr];
+			
+			if ( image != nil )
+			{
+				return image;
+			}
+			else 
+			{
+				NSLog( @"Could not create image with file path '%@'", pathStr );
+			}
+		}
+	}
+	
+	return nil;
+}
+
+-(AVAudioPlayer*)getAVAudioPlayerForFilename:(NSString*)inFilename
+{
+	
+	if ( inFilename != nil )
+	{
+		
+		NSString* pathStr;
+		
+		
+		//
+		// if it is desired to load a specific localization, this code will need to be altered to use [NSBundle pathForResource:ofType:inDirectory:forLocalization:]
+		//
+		
+		pathStr = [[NSBundle mainBundle] pathForResource:inFilename ofType:nil];	
+		
+		if ( pathStr != nil )
+		{
+			NSError* sndErr;
+			
+			NSURL *fileURL = [NSURL fileURLWithPath:pathStr isDirectory:NO];
+			
+			AVAudioPlayer *player = [[ AVAudioPlayer alloc ] initWithContentsOfURL:fileURL error:(&sndErr) ];
+			
+			[[ AVAudioPlayer alloc ] initWithContentsOfURL:fileURL error:(&sndErr) ];
+			
+			if (sndErr == nil)
+			{
+				return player;
+			}
+			else
+			{
+				NSLog(@"Error creating AVAudioPlayer with file path '%@': %@", pathStr, [sndErr localizedDescription]);
+			}
+		}	
+	}
+	
+	return nil;
+}	
+
 
 @end
