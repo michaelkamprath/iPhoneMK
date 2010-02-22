@@ -36,6 +36,7 @@ NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 - (void)playCurrentFrameAndQueueNextFrame;
 - (void)playNextFrame:(NSTimer*)theTimer;
 
+-(void)stopSounds;
 
 @end
 
@@ -56,7 +57,7 @@ NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 @synthesize config=_config;
 @synthesize stillImage=_stillImage;
 @synthesize timeScaleFactor=_timeScaleFactor;
-@dynamic duration;
+@dynamic animationSequenceDuration;
 @dynamic isAnimating;
 @synthesize silenced=_silenced;
 
@@ -85,6 +86,7 @@ NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 {
 	self.timeScaleFactor = 1.0;
 	
+	_playingSounds = [[NSMutableSet setWithCapacity:10] retain];
 }
 
 - (void)dealloc 
@@ -93,7 +95,7 @@ NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 	[_stillImage release];
 	[_currentFrameImage release];
 	[_sortedFrameKeys release];
-	
+	[_playingSounds release];
 	
     [super dealloc];
 }
@@ -264,6 +266,8 @@ NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 		
 		_animationLoopCount = 0;
 		
+		[self stopSounds];
+				
 		[self setNeedsDisplay];
 	}
 	else 
@@ -461,7 +465,21 @@ NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 		
 		if (sound != nil)
 		{
+			AVAudioPlayer* playingSound = [_playingSounds member:sound];
+			
+			if ( playingSound != nil )
+			{
+				[playingSound stop];
+				playingSound.currentTime = 0;
+				[playingSound prepareToPlay];
+				[_playingSounds removeObject:playingSound];
+			}
+			
+			sound.delegate = self;
+			
 			[sound play];
+			
+			[_playingSounds addObject:sound];
 		}
 	}
 }
@@ -505,7 +523,9 @@ NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 	_currentFrameKeyIndex++;
 	
 	if ( _currentFrameKeyIndex == _sortedFrameKeys.count )
-	{
+	{	
+		[self stopSounds];
+		
 		if ((_animationLoopCount != NSUIntegerMax)&&( _animationLoopCount > 0 ))
 		{
 			_animationLoopCount--;
@@ -517,6 +537,31 @@ NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 	{
 		[self playCurrentFrameAndQueueNextFrame];
 	}
+}
+
+- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)inPlayer successfully:(BOOL)inDidFinish
+{
+	AVAudioPlayer* playingSound = [_playingSounds member:inPlayer];
+	
+	if ( playingSound != nil )
+	{
+		[playingSound stop];
+		playingSound.currentTime = 0;
+		[playingSound prepareToPlay];
+		[_playingSounds removeObject:playingSound];
+	}
+}
+
+-(void)stopSounds
+{
+	for (AVAudioPlayer* playingSound in _playingSounds)
+	{
+		[playingSound stop];
+		playingSound.currentTime = 0;
+		[playingSound prepareToPlay];
+	}
+	
+	[_playingSounds removeAllObjects];
 }
 
 @end
@@ -546,7 +591,7 @@ NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 			}
 			else 
 			{
-				NSLog( @"Could not create image with file path '%@'", pathStr );
+				NSLog( @"MKDefaultAnimationObjectFactory: Could not create image with file path '%@'", pathStr );
 			}
 		}
 	}
@@ -585,7 +630,7 @@ NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 			}
 			else
 			{
-				NSLog(@"Error creating AVAudioPlayer with file path '%@': %@", pathStr, [sndErr localizedDescription]);
+				NSLog(@"MKDefaultAnimationObjectFactory: Error creating AVAudioPlayer with file path '%@': %@", pathStr, [sndErr localizedDescription]);
 			}
 		}	
 	}

@@ -59,13 +59,14 @@
 @end
 
 
-@interface MKSoundCoordinatedAnimationLayer : CALayer 
+@interface MKSoundCoordinatedAnimationLayer : CALayer <AVAudioPlayerDelegate>
 {
 	NSDictionary* _config;
 	UIImage* _stillImage;
 	float _timeScaleFactor;
 	BOOL _silenced;
 	
+	NSMutableSet* _playingSounds;
 	
 	NSUInteger _animationLoopCount;
 	
