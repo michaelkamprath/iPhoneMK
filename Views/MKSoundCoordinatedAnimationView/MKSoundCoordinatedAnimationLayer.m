@@ -106,14 +106,24 @@ NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 	CGContextScaleCTM( inContext, 1, -1 );
 	CGContextTranslateCTM( inContext, 0, -self.bounds.size.height );
 	
+	CGImageRef imageRef;
+	CGSize imageSize;
+	
     if ( self.isAnimating && ( _currentFrameImage != nil ) )
 	{
-		CGContextDrawImage( inContext, self.bounds, _currentFrameImage.CGImage );
+		imageRef = _currentFrameImage.CGImage;
+		imageSize = _currentFrameImage.size;
 	}
 	else if ( self.stillImage != nil )
 	{
-		CGContextDrawImage( inContext, self.bounds, self.stillImage.CGImage );
+		imageRef = self.stillImage.CGImage;
+		imageSize = self.stillImage.size;
 	}
+	
+	CGRect imageRect = CGRectMake(0, 0, imageSize.width, imageSize.height);
+	
+	CGContextDrawImage( inContext, imageRect, imageRef );
+	
 }
 
 
@@ -158,11 +168,13 @@ NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 	{
 		[_stillImage release];
 		_stillImage = nil;
+		[self setNeedsDisplay];
 	}
 	
 	if (inImage != nil)
 	{
 		_stillImage = [inImage retain];
+		[self setNeedsDisplay];
 	}
 	
 }
@@ -249,6 +261,18 @@ NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 }
 
 
+- (void)animateOnceWithCompletionInvocation:(NSInvocation*)inInvocation
+{
+	if ( inInvocation != nil )
+	{
+		_completionInvo = [inInvocation retain];
+	}
+	
+
+	[self startAnimatingWithCycleCount:1];
+}
+	
+
 
 // Stops the animation, either immediately or after the end of the current loop.
 -(void)stopAnimatingImmeditely:(BOOL)inImmediately
@@ -267,7 +291,13 @@ NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 		_animationLoopCount = 0;
 		
 		[self stopSounds];
-				
+		
+		if (_completionInvo != nil )
+		{
+			[_completionInvo release];
+			_completionInvo = nil;
+		}
+		
 		[self setNeedsDisplay];
 	}
 	else 
@@ -537,6 +567,13 @@ NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 	{
 		[self playCurrentFrameAndQueueNextFrame];
 	}
+	else if (_completionInvo != nil ) 
+	{
+		[_completionInvo invoke];
+		[_completionInvo release];
+		_completionInvo = nil;
+	}
+
 }
 
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)inPlayer successfully:(BOOL)inDidFinish
@@ -621,9 +658,7 @@ NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 			NSURL *fileURL = [NSURL fileURLWithPath:pathStr isDirectory:NO];
 			
 			AVAudioPlayer *player = [[ AVAudioPlayer alloc ] initWithContentsOfURL:fileURL error:(&sndErr) ];
-			
-			[[ AVAudioPlayer alloc ] initWithContentsOfURL:fileURL error:(&sndErr) ];
-			
+						
 			if (sndErr == nil)
 			{
 				return player;
@@ -632,6 +667,8 @@ NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 			{
 				NSLog(@"MKDefaultAnimationObjectFactory: Error creating AVAudioPlayer with file path '%@': %@", pathStr, [sndErr localizedDescription]);
 			}
+			
+			[player prepareToPlay];
 		}	
 	}
 	

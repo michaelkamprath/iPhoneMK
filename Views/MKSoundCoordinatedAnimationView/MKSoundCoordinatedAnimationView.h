@@ -78,6 +78,11 @@
 // starts the animation sequence on an endless loop. If currently animating, no effect.
 -(void)startAnimating;
 
+// displays the animation sequence once, then fires the passed invocation.
+// If animaiton is immediately stopped or this method is called again prior to the animation sequence completing,
+// the orignal invocation will be not fired and released.
+- (void)animateOnceWithCompletionInvocation:(NSInvocation*)inInvocation;
+
 // starts the animation sequence looping for a specific number of counts. 
 // Passing 0 cycle count value has no effect. If called while animating, will set the 
 // remining loop counter to passed value after current loop finishes. 

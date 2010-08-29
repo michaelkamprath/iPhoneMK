@@ -77,6 +77,8 @@
 	
 	NSTimer* _timer;
 	
+	NSInvocation* _completionInvo;
+	
 }
 
 //
@@ -123,6 +125,11 @@
 // remining loop counter to passed value after current loop finishes. 
 -(void)startAnimatingWithCycleCount:(NSUInteger)inCycleCount;
 
+
+// displays the animation sequence once, then fires the passed invocation.
+// If animaiton is immediately stopped or this method is called again prior to the animation sequence completing,
+// the orignal invocation will be not fired and released.
+- (void)animateOnceWithCompletionInvocation:(NSInvocation*)inInvocation;
 
 // Stops the animation, either immediately or after the end of the current loop.
 -(void)stopAnimatingImmeditely:(BOOL)inImmediately;

@@ -139,6 +139,11 @@
 	[_animationLayer startAnimating];
 }
 
+- (void)animateOnceWithCompletionInvocation:(NSInvocation*)inInvocation
+{
+	[_animationLayer animateOnceWithCompletionInvocation:inInvocation];
+}
+
 // starts the animation sequence looping for a specific number of counts. 
 // Passing 0 cycle count value has no effect. If called while animating, will set the 
 // remining loop counter to passed value after current loop finishes. 
