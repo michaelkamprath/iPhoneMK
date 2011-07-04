@@ -1,7 +1,7 @@
 //
 //  MKSoundCoordinatedAnimationView.h
 //  
-// Copyright 2010 Michael F. Kamprath
+// Copyright 2010-2011 Michael F. Kamprath
 // michael@claireware.com
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,16 +23,17 @@
 @implementation MKSoundCoordinatedAnimationView
 @dynamic config;
 @dynamic stillImage;
-@dynamic timeScaleFactor;
-@dynamic animationSequenceDuration;
+@dynamic naturalCycleDuration;
+@dynamic cycleDuration;
 @dynamic isAnimating;
 @dynamic silenced;
-
+@dynamic completionInvocation;
 
 
 - (id)initWithFrame:(CGRect)inFrame 
 {
-    if (self = [super initWithFrame:inFrame]) 
+    self = [super initWithFrame:inFrame];
+    if (self) 
 	{
 		
 		CGPoint centerPt = CGPointMake( self.frame.size.width/2.0, self.frame.size.height/2.0 );
@@ -50,7 +51,8 @@
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
-	if (self = [super initWithCoder:aDecoder])
+    self = [super initWithCoder:aDecoder];
+	if (self)
 	{
  		CGPoint centerPt = CGPointMake( self.frame.size.width/2.0, self.frame.size.height/2.0 );
 		CGRect boundsRct = CGRectMake( 0, 0, self.frame.size.width, self.frame.size.height);
@@ -82,7 +84,7 @@
 	[self.layer setNeedsDisplay];
 }
 
-#pragma mark -- Properties --
+#pragma mark - Properties
 
 - (NSDictionary*)config;
 {
@@ -103,18 +105,18 @@
 	
 }
 
-- (float)timeScaleFactor
+- (NSTimeInterval)cycleDuration
 {
-	return _animationLayer.timeScaleFactor;
+	return _animationLayer.cycleDuration;
 }
-- (void)setTimeScaleFactor:(float)inValue
+- (void)setCycleDuration:(NSTimeInterval)inCycleDuration
 {
-	_animationLayer.timeScaleFactor = inValue;
+	_animationLayer.cycleDuration = inCycleDuration;
 }
 
-- (NSTimeInterval)animationSequenceDuration
+- (NSTimeInterval)naturalCycleDuration
 {
-	return _animationLayer.animationSequenceDuration;
+	return _animationLayer.naturalCycleDuration;
 }
 
 - (BOOL)isAnimating
@@ -132,27 +134,42 @@
 	_animationLayer.silenced = inBool;
 }
 
-#pragma mark -- Public Methods --
-
--(void)startAnimating
-{
-	[_animationLayer startAnimating];
+-(NSInvocation*)completionInvocation {
+    return _animationLayer.completionInvocation;
 }
 
-- (void)animateOnceWithCompletionInvocation:(NSInvocation*)inInvocation
-{
-	[_animationLayer animateOnceWithCompletionInvocation:inInvocation];
+-(void)setCompletionInvocation:(NSInvocation *)inCompletionInvocation {
+    [_animationLayer setCompletionInvocation:inCompletionInvocation];
+}
+
+#pragma mark - Public Methods
+
+-(void)startAnimating {
+	[_animationLayer startAnimating];
 }
 
 // starts the animation sequence looping for a specific number of counts. 
 // Passing 0 cycle count value has no effect. If called while animating, will set the 
 // remining loop counter to passed value after current loop finishes. 
--(void)startAnimatingWithCycleCount:(NSUInteger)inCycleCount
-{
-	[_animationLayer startAnimatingWithCycleCount:inCycleCount];
+- (void)animateWithCycleCount:(NSUInteger)inCycleCount withCompletionInvocation:(NSInvocation*)inInvocation finalStaticImage:(UIImage*)inFinalStaticImage {
+    [_animationLayer animateWithCycleCount:inCycleCount withCompletionInvocation:inInvocation finalStaticImage:inFinalStaticImage];
 	
 }
 
+
+- (void)animateOnceWithCompletionInvocation:(NSInvocation*)inInvocation {
+	[_animationLayer animateOnceWithCompletionInvocation:inInvocation];
+}
+
+- (void)animateOnceWithCompletionInvocation:(NSInvocation*)inInvocation finalStaticImage:(UIImage*)inFinalStaticImage {
+    [_animationLayer animateOnceWithCompletionInvocation:inInvocation finalStaticImage:inFinalStaticImage];
+}
+
+
+
+- (void)animateRepeatedlyForDuration:(NSTimeInterval)inRepeatDuration withCompletionInvocation:(NSInvocation*)inInvocation finalStaticImage:(UIImage*)inFinalStaticImage {
+    [_animationLayer animateRepeatedlyForDuration:inRepeatDuration withCompletionInvocation:inInvocation finalStaticImage:inFinalStaticImage];
+}
 
 
 // Stops the animation, either immediately or after the end of the current loop.
@@ -162,6 +179,7 @@
 	
 }
 
+#pragma mark - Class Methods
 //
 // converts a "property list" configuration dictionary to the format expected by the config property of an instance.
 // The "property list" verison of the configuraiton does not contain sound or image objects, but in stead filenames.

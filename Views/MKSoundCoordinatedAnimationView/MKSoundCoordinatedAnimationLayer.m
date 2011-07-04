@@ -1,7 +1,7 @@
 //
 //  MKSoundCoordinatedAnimationLayer.m
 //  
-// Copyright 2010 Michael F. Kamprath
+// Copyright 2010-2011 Michael F. Kamprath
 // michael@claireware.com
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,21 +22,31 @@
 
 NSString* const kSCANSoundFileNameKey = @"soundFile";
 NSString* const kSCANImageFileNameKey = @"imageFile";
+NSString* const kSCANImageHighlightMaskFileKey = @"highlightMaskFile";
 
 NSString* const kSCANSoundObjectKey = @"soundObj";
 NSString* const kSCANImageObjectKey = @"imageObj";
+NSString* const kSCANHighlightMaskObjectKey = @"highlightMaskObj";
 NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
+NSString* const kSCANVerticalTranslationKey = @"deltaY";
+NSString* const kSCANHorizontalTranslationKey = @"deltaX";
+NSString* const kSCANRotationPositionDegreesKey = @"rotatePosDegrees";
 
+NSString* const kSCANImageAndPositingAniamtionKey = @"imageAndPositionAnimation";
 
 @interface MKSoundCoordinatedAnimationLayer ()
 
 - (void)initValues;
 
-- (void)playCurrentFrame;
-- (void)playCurrentFrameAndQueueNextFrame;
-- (void)playNextFrame:(NSTimer*)theTimer;
 
 -(void)stopSounds;
+-(void)setUpSoundTimers;
+
+-(void)startAnimationCycleWithCycleCount:(NSUInteger)inCycleCount repeatDuration:(NSTimeInterval)inRepeatDuration;
+-(void)setUpAnimationFrames;
+
+- (void)animationDidStart:(CAAnimation *)theAnimation;
+- (void)animationDidStop:(CAAnimation *)inAnimation finished:(BOOL)inDidFinish;
 
 @end
 
@@ -56,15 +66,16 @@ NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 @implementation MKSoundCoordinatedAnimationLayer
 @synthesize config=_config;
 @synthesize stillImage=_stillImage;
-@synthesize timeScaleFactor=_timeScaleFactor;
-@dynamic animationSequenceDuration;
+@dynamic naturalCycleDuration;
+@dynamic cycleDuration;
 @dynamic isAnimating;
 @synthesize silenced=_silenced;
-
+@synthesize completionInvocation=_completionInvo;
 
 - (id)init
 {
-	if ( self = [super init] )
+    self = [super init];
+	if ( self )
 	{
 		[self initValues];
 	}
@@ -74,7 +85,8 @@ NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 
 - (id)initWithLayer:(id)layer
 {
-	if ( self = [super initWithLayer:layer] )
+    self = [super initWithLayer:layer];
+	if ( self )
 	{
 		[self initValues];
 	}
@@ -84,50 +96,29 @@ NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 
 - (void)initValues
 {
-	self.timeScaleFactor = 1.0;
 	
 	_playingSounds = [[NSMutableSet setWithCapacity:10] retain];
+	    
+    _isAnimating = NO;
+    
 }
 
 - (void)dealloc 
 {
+    [self stopAnimatingImmeditely:YES];
+    
 	[_config release];
 	[_stillImage release];
-	[_currentFrameImage release];
+    [_finalStillImage release];
 	[_sortedFrameKeys release];
 	[_playingSounds release];
-	
+    [_locationSequence release];
+	[_soundPlayDict release];
+    
     [super dealloc];
 }
 
-
-- (void)drawInContext:(CGContextRef)inContext
-{
-	CGContextScaleCTM( inContext, 1, -1 );
-	CGContextTranslateCTM( inContext, 0, -self.bounds.size.height );
-	
-	CGImageRef imageRef;
-	CGSize imageSize;
-	
-    if ( self.isAnimating && ( _currentFrameImage != nil ) )
-	{
-		imageRef = _currentFrameImage.CGImage;
-		imageSize = _currentFrameImage.size;
-	}
-	else if ( self.stillImage != nil )
-	{
-		imageRef = self.stillImage.CGImage;
-		imageSize = self.stillImage.size;
-	}
-	
-	CGRect imageRect = CGRectMake(0, 0, imageSize.width, imageSize.height);
-	
-	CGContextDrawImage( inContext, imageRect, imageRef );
-	
-}
-
-
-#pragma mark -- Properties --
+#pragma mark - Properties
 
 -(void)setConfig:(NSDictionary *)inConfig
 {
@@ -144,8 +135,28 @@ NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 	
 	_config = [inConfig retain];
 	
-	for ( NSNumber* timeKey in _config )
-	{
+    if ( _assignedAnimationTime != nil ) {
+        [_assignedAnimationTime release];
+        _assignedAnimationTime = nil;
+    }
+    
+	NSArray* keys = [_config allKeys];
+	
+	_sortedFrameKeys = [[keys sortedArrayUsingSelector:@selector(compare:)] retain];
+    
+    // now build up location sequence and prepare sounds
+    
+    [_locationSequence release];
+    _locationSequence = nil;
+    
+
+
+    BOOL firstFrame = YES;
+    
+    NSMutableArray* locArray = [NSMutableArray arrayWithCapacity:[inConfig count]];
+    for ( NSNumber* timeKey in _sortedFrameKeys ) {
+        CGPoint frameLoc = CGPointMake( 0.0, 0.0);
+ 
 		NSDictionary* datum = [_config objectForKey:timeKey];
 		
 		AVAudioPlayer* sound = [datum objectForKey:kSCANSoundObjectKey];
@@ -154,40 +165,56 @@ NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 		{
 			[sound prepareToPlay];
 		}
-	}
-	
-	NSArray* keys = [_config allKeys];
-	
-	_sortedFrameKeys = [[keys sortedArrayUsingSelector:@selector(compare:)] retain];
-	
+        
+        if (!firstFrame) {
+            NSNumber* horizDelta = [datum objectForKey:kSCANHorizontalTranslationKey];
+            NSNumber* vertDelta = [datum objectForKey:kSCANVerticalTranslationKey];
+            
+            frameLoc = CGPointMake( frameLoc.x + ( horizDelta != nil ? [horizDelta floatValue] : 0 ),
+                                   frameLoc.y + ( vertDelta != nil ? [vertDelta floatValue] : 0 ) );
+        }
+        
+        NSData* locData = [NSData dataWithBytes:&frameLoc length:sizeof(frameLoc)];
+        
+        [locArray addObject:locData];
+        
+        firstFrame = NO;
+        
+    }
+    
+    _locationSequence = [[NSArray arrayWithArray:locArray] retain];
+    
 }
 
 -(void)setStillImage:(UIImage *)inImage
 {
-	if (_stillImage == nil)
+	if (_stillImage != nil)
 	{
 		[_stillImage release];
 		_stillImage = nil;
-		[self setNeedsDisplay];
+        self.contents = nil;
 	}
 	
 	if (inImage != nil)
 	{
 		_stillImage = [inImage retain];
-		[self setNeedsDisplay];
+        if (!self.isAnimating) {
+            self.contents = (id)_stillImage.CGImage;
+            self.contentsScale = _stillImage.scale;
+        }
 	}
+    
 	
 }
 
-- (NSTimeInterval)animationSequenceDuration
-{
-	if ((self.config != nil)&&( self.config.count > 0 ))
+-(NSTimeInterval)naturalCycleDuration {
+    if ((self.config != nil)&&( self.config.count > 0 ))
 	{
 		NSTimeInterval maxTime = 0;
 		
 		for ( NSNumber* timeKey in self.config )
 		{
-			NSTimeInterval timeKeyValue = [timeKey doubleValue]*self.timeScaleFactor;
+			NSTimeInterval timeKeyValue = [timeKey doubleValue];
 			if ( timeKeyValue > maxTime )
 			{
 				maxTime = timeKeyValue;
@@ -212,7 +239,7 @@ NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 			
 			if ( lastFrameTime != nil )
 			{
-				NSTimeInterval frameEndTime = timeKeyValue + ([lastFrameTime doubleValue])*self.timeScaleFactor;
+				NSTimeInterval frameEndTime = timeKeyValue + ([lastFrameTime doubleValue]);
 				
 				if ( frameEndTime > maxTime )
 				{
@@ -228,85 +255,83 @@ NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 	{
 		return 0;
 	}
-	
+}
+
+
+-(NSTimeInterval)cycleDuration {
+    
+    if ( _assignedAnimationTime != nil ) {
+        return [_assignedAnimationTime doubleValue];
+    }
+    else {
+        return self.naturalCycleDuration;
+    }
+}
+
+-(void)setCycleDuration:(NSTimeInterval)inCycleDuration {
+    if (_assignedAnimationTime != nil) {
+        [_assignedAnimationTime release];
+        _assignedAnimationTime = nil;
+    }
+    
+    if ( inCycleDuration >= 0 ) {
+        _assignedAnimationTime = [[NSNumber numberWithDouble:inCycleDuration] retain];
+    }
 }
 
 - (BOOL)isAnimating
 {
-	
-	return (_animationLoopCount != 0);
+    return _isAnimating;
 }
 
-#pragma mark -- Public Methods --
+
+-(void)setContents:(id)contents {
+    
+    [super setContents:contents];
+}
+
+#pragma mark - Public Methods
 
 -(void)startAnimating
 {
 	//
 	// NSUIntegerMax is  sentinal value indicating to cycle animaitons with no end
 	//
+    [self animateWithCycleCount:NSUIntegerMax withCompletionInvocation:nil finalStaticImage:nil];
 	
-	[self startAnimatingWithCycleCount:NSUIntegerMax];
 }
-
-// starts the animation sequence looping for a specific number of counts. 
-// Passing 0 cycle count value has no effect. If called while animating, will set the 
-// remining loop counter to passed value after current loop finishes. 
--(void)startAnimatingWithCycleCount:(NSUInteger)inCycleCount
-{
-	_animationLoopCount = inCycleCount;
-	
-	_currentFrameKeyIndex = 0;
-	
-	[self playCurrentFrameAndQueueNextFrame];
-}
-
 
 - (void)animateOnceWithCompletionInvocation:(NSInvocation*)inInvocation
 {
-	if ( inInvocation != nil )
-	{
-		_completionInvo = [inInvocation retain];
-	}
-	
-
-	[self startAnimatingWithCycleCount:1];
-}
-	
-
-
-// Stops the animation, either immediately or after the end of the current loop.
--(void)stopAnimatingImmeditely:(BOOL)inImmediately
-{
-	if (inImmediately)
-	{
-		if (_timer != nil)
-		{
-			[_timer invalidate];
-			[_timer release];
-			_timer = nil;
-		}
-		[_currentFrameImage release];
-		_currentFrameImage = nil;
-		
-		_animationLoopCount = 0;
-		
-		[self stopSounds];
-		
-		if (_completionInvo != nil )
-		{
-			[_completionInvo release];
-			_completionInvo = nil;
-		}
-		
-		[self setNeedsDisplay];
-	}
-	else 
-	{
-		_animationLoopCount = 1;
-	}
+    [self animateWithCycleCount:1 withCompletionInvocation:inInvocation finalStaticImage:nil];
+    
 }
 
-#pragma mark -- Class Methods --
+- (void)animateOnceWithCompletionInvocation:(NSInvocation*)inInvocation finalStaticImage:(UIImage*)inFinalStaticImage {
+    
+    [self animateWithCycleCount:1 withCompletionInvocation:inInvocation finalStaticImage:inFinalStaticImage];
+}
+
+- (void)animateWithCycleCount:(NSUInteger)inCycleCount withCompletionInvocation:(NSInvocation*)inInvocation finalStaticImage:(UIImage*)inFinalStaticImage {
+    
+    
+    self.completionInvocation = inInvocation;
+    _finalStillImage = [inFinalStaticImage retain];
+    
+    [self startAnimationCycleWithCycleCount:inCycleCount repeatDuration:0];
+}
+
+- (void)animateRepeatedlyForDuration:(NSTimeInterval)inRepeatDuration withCompletionInvocation:(NSInvocation*)inInvocation finalStaticImage:(UIImage*)inFinalStaticImage {
+    
+    
+    self.completionInvocation = inInvocation;
+    _finalStillImage = [inFinalStaticImage retain];
+    
+    [self startAnimationCycleWithCycleCount:0 repeatDuration:inRepeatDuration];
+}
+
+
+#pragma mark - Class Methods
 
 
 
@@ -359,6 +384,10 @@ NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 		
 		NSMutableDictionary* frameConfig = [NSMutableDictionary dictionaryWithCapacity:[frameProperties count]];
 		
+		//
+		// frame sound
+		//
+		
 		NSString* soundFileName = [frameProperties objectForKey:kSCANSoundFileNameKey];
 		
 		AVAudioPlayer *player = [inObjectFactory getAVAudioPlayerForFilename:soundFileName];
@@ -368,15 +397,25 @@ NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 			[frameConfig setObject:player forKey:kSCANSoundObjectKey];
 		}
 
+		//
+		// frame image
+		//
 		
 		NSString* imageFileName = [frameProperties objectForKey:kSCANImageFileNameKey];
 		
-		UIImage* image = [inObjectFactory getUIImageForFilename:imageFileName];
-		
-		if (image != nil)
-		{
-			[frameConfig setObject:image forKey:kSCANImageObjectKey];
+		if ( imageFileName != nil ) {
+			UIImage* image = [inObjectFactory getUIImageForFilename:imageFileName];
+			
+			if (image != nil)
+			{
+				[frameConfig setObject:image forKey:kSCANImageObjectKey];
+			}
 		}
+		
+		
+		//
+		// last frame duration
+		//
 		
 		id durationObj = [frameProperties objectForKey:kSCANLastFrameDurationKey];
 		
@@ -385,7 +424,35 @@ NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 			[frameConfig setObject:durationObj forKey:kSCANLastFrameDurationKey];
 		}
 		
-		[configDict setObject:frameConfig forKey:timeKey];
+        
+        //
+        // translations
+        //
+        
+        id horizTransValue = [frameProperties objectForKey:kSCANHorizontalTranslationKey];
+		if ( horizTransValue != nil )
+		{
+			[frameConfig setObject:horizTransValue forKey:kSCANHorizontalTranslationKey];
+		}
+
+        id vertTransValue = [frameProperties objectForKey:kSCANVerticalTranslationKey];
+		if ( vertTransValue != nil )
+		{
+			[frameConfig setObject:vertTransValue forKey:kSCANVerticalTranslationKey];
+		}
+
+
+        id rotValue = [frameProperties objectForKey:kSCANRotationPositionDegreesKey];
+		if ( rotValue != nil )
+		{
+			[frameConfig setObject:rotValue forKey:kSCANRotationPositionDegreesKey];
+		}
+
+        //
+        // time key
+        //
+        [configDict setObject:frameConfig forKey:timeKey];
+
 	}
 	
 	return configDict;
@@ -414,13 +481,13 @@ NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 		AVAudioPlayer* soundObj = [sourceFrameConfig objectForKey:kSCANSoundObjectKey];
 		if ( soundObj != nil )
 		{
-			AVAudioPlayer* newSoundObj;
+			AVAudioPlayer* newSoundObj = nil;
 			
 			if ( soundObj.url != nil )
 			{
 				NSError* sndErr;
 				
-				newSoundObj = [[AVAudioPlayer alloc] initWithContentsOfURL:soundObj.url error:&sndErr];
+				newSoundObj = [[[AVAudioPlayer alloc] initWithContentsOfURL:soundObj.url error:&sndErr] autorelease];
 				
 				if ( sndErr != nil )
 				{
@@ -433,7 +500,7 @@ NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 			{
 				NSError* sndErr;
 				
-				newSoundObj = [[AVAudioPlayer alloc] initWithData:soundObj.data error:&sndErr];
+				newSoundObj = [[[AVAudioPlayer alloc] initWithData:soundObj.data error:&sndErr] autorelease];
 				
 				
 				if ( sndErr != nil )
@@ -465,116 +532,46 @@ NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 			[frameConfig setObject:durationObj forKey:kSCANLastFrameDurationKey];
 		}
 		
-		
+        id horizTransValue = [sourceFrameConfig objectForKey:kSCANHorizontalTranslationKey];
+		if ( horizTransValue != nil )
+		{
+			[frameConfig setObject:horizTransValue forKey:kSCANHorizontalTranslationKey];
+		}
+        
+        id vertTransValue = [sourceFrameConfig objectForKey:kSCANVerticalTranslationKey];
+		if ( vertTransValue != nil )
+		{
+			[frameConfig setObject:vertTransValue forKey:kSCANVerticalTranslationKey];
+		}
+
+
+        id rotValue = [sourceFrameConfig objectForKey:kSCANRotationPositionDegreesKey];
+		if ( rotValue != nil )
+		{
+			[frameConfig setObject:rotValue forKey:kSCANRotationPositionDegreesKey];
+		}
+
 		[newConfigDict setObject:frameConfig forKey:timeKey];
 	}
 	
-	return newConfigDict;
+	return [newConfigDict retain];
 	
 }
 
-#pragma mark -- Private Methods -- 
+#pragma mark - Sound Management Methods
 
-- (void)playCurrentFrame
-{
-	NSDictionary* datum = [self.config objectForKey:[_sortedFrameKeys objectAtIndex:_currentFrameKeyIndex]];
-	
-	UIImage* image = [datum objectForKey:kSCANImageObjectKey];
-	
-	if (image != nil )
-	{
-		[_currentFrameImage release];
-		_currentFrameImage = [image retain];
-		
-		[self setNeedsDisplay];
-	}
-	
-	if (!self.isSilenced)
-	{
-		AVAudioPlayer* sound = [datum objectForKey:kSCANSoundObjectKey];
-		
-		if (sound != nil)
-		{
-			AVAudioPlayer* playingSound = [_playingSounds member:sound];
-			
-			if ( playingSound != nil )
-			{
-				[playingSound stop];
-				playingSound.currentTime = 0;
-				[playingSound prepareToPlay];
-				[_playingSounds removeObject:playingSound];
-			}
-			
-			sound.delegate = self;
-			
-			[sound play];
-			
-			[_playingSounds addObject:sound];
-		}
-	}
+- (void)soundPlayTimerFireMethod:(NSTimer*)theTimer {
+    
+    AVAudioPlayer* sound = (AVAudioPlayer*)[theTimer userInfo];
+    
+    sound.delegate = self;
+    
+    [_playingSounds addObject:sound];
+    
+    [sound play];
+    
 }
 
-- (void)playCurrentFrameAndQueueNextFrame
-{
-	[self playCurrentFrame];
-	
-	NSTimeInterval frameDuration = 0;
-	
-	NSNumber* currentTimeKey = [_sortedFrameKeys objectAtIndex:_currentFrameKeyIndex];
-	
-	if ( _currentFrameKeyIndex + 1 < _sortedFrameKeys.count )
-	{
-		NSNumber* nextTimeKey =  [_sortedFrameKeys objectAtIndex:(_currentFrameKeyIndex+1)];
-		
-		frameDuration = [nextTimeKey doubleValue] - [currentTimeKey floatValue];
-	}
-	else if ( _currentFrameKeyIndex + 1 == _sortedFrameKeys.count )
-	{
-		NSDictionary* datum = [self.config objectForKey:currentTimeKey];
-		
-		NSNumber* lastFrameDuration = [datum objectForKey:kSCANLastFrameDurationKey];
-		
-		if ( lastFrameDuration != nil )
-		{
-			frameDuration = [lastFrameDuration floatValue];
-		}
-	}
-	
-	frameDuration *= self.timeScaleFactor;
-	
-	_timer = [[NSTimer scheduledTimerWithTimeInterval:frameDuration target:self selector:@selector(playNextFrame:) userInfo:nil repeats:NO] retain];
-}
-
-- (void)playNextFrame:(NSTimer*)theTimer
-{
-	[_timer release];
-	_timer = nil;
-	
-	_currentFrameKeyIndex++;
-	
-	if ( _currentFrameKeyIndex == _sortedFrameKeys.count )
-	{	
-		[self stopSounds];
-		
-		if ((_animationLoopCount != NSUIntegerMax)&&( _animationLoopCount > 0 ))
-		{
-			_animationLoopCount--;
-		}
-		_currentFrameKeyIndex = 0;
-	}
-	
-	if ( _animationLoopCount > 0 )
-	{
-		[self playCurrentFrameAndQueueNextFrame];
-	}
-	else if (_completionInvo != nil ) 
-	{
-		[_completionInvo invoke];
-		[_completionInvo release];
-		_completionInvo = nil;
-	}
-
-}
 
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)inPlayer successfully:(BOOL)inDidFinish
 {
@@ -601,7 +598,391 @@ NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 	[_playingSounds removeAllObjects];
 }
 
+
+#pragma mark - Animation Code
+
+-(void)startAnimationCycleWithCycleCount:(NSUInteger)inCycleCount repeatDuration:(NSTimeInterval)inRepeatDuration {
+    _animationStartPosition = self.position;
+
+    
+    if (_animationGroup == nil) {
+        [self setUpAnimationFrames];
+    }
+    
+    [CATransaction lock];
+    [CATransaction begin];
+        
+    NSTimeInterval duration = self.cycleDuration;
+    _animationGroup.duration = duration;
+    
+    for (CAAnimation* animation in _animationGroup.animations) {
+        animation.duration = duration;
+    }
+    
+    if ( inCycleCount > 0 ) {
+        _animationGroup.repeatCount = inCycleCount;
+        _animationGroup.repeatDuration = 0;
+    }
+    else {
+        _animationGroup.repeatCount = 0;
+        _animationGroup.repeatDuration = inRepeatDuration;
+    }
+    
+    if (_finalStillImage != nil) {
+        [CATransaction begin];
+        [CATransaction setDisableActions:YES];
+        self.stillImage = _finalStillImage;
+        [CATransaction commit];
+        
+        [_finalStillImage release];
+        _finalStillImage = nil;
+    }
+    
+	[self addAnimation:_animationGroup forKey:kSCANImageAndPositingAniamtionKey];
+    
+    [CATransaction commit];
+    [CATransaction unlock];
+    
+    [self performSelectorOnMainThread:@selector(setUpSoundTimers) withObject:nil waitUntilDone:NO];
+}
+
+-(void)setUpSoundTimers {
+    
+    if ( !self.silenced && _soundPlayDict != nil && [_soundPlayDict count] > 0 ) {
+        NSUInteger soundListSize = [_soundPlayDict count];
+        
+        _soundTimers = [[NSMutableArray arrayWithCapacity:soundListSize] retain];
+        
+        NSArray* timeKeys = [_soundPlayDict allKeys];
+        for ( NSNumber* key in timeKeys ) {
+            NSTimeInterval keyValue = [key floatValue];
+            
+            NSDate* fireTime = [NSDate dateWithTimeIntervalSinceNow:keyValue];
+                
+            NSTimer* timer = [[[NSTimer alloc] initWithFireDate:fireTime
+                                                           interval:self.cycleDuration 
+                                                             target:self
+                                                           selector:@selector(soundPlayTimerFireMethod:) 
+                                                           userInfo:[_soundPlayDict objectForKey:key]
+                                                            repeats:YES] autorelease];
+                
+                
+            [_soundTimers addObject:timer];
+                
+          
+            [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
+                
+        }
+    }
+}
+
+
+// Stops the animation, either immediately or after the end of the current loop.
+-(void)stopAnimatingImmeditely:(BOOL)inImmediately
+{
+    if ( inImmediately ) {
+        if ( self.isAnimating ) {
+            [self removeAnimationForKey:kSCANImageAndPositingAniamtionKey]; 
+            
+            
+            if ( _animationGroup != nil ) {
+                [_animationGroup release];
+                _animationGroup = nil;
+            }
+            
+            // set the animating flag. Technically, the animation doesn't stop until the animationDidStop callback is called. 
+            _isAnimating = NO;
+        }
+    }
+    else {
+        NSLog(@"Defered animation stopping is not supported.");
+    }
+}
+
+
+-(void)setUpAnimationFrames {
+    
+    if (self.isAnimating) {
+        NSLog(@"setting up animation frames for %@, but already animating. Killing.", self);
+        [self stopAnimatingImmeditely:YES];
+    }
+    
+    if ( _animationGroup != nil ) {
+        [_animationGroup release];
+        _animationGroup = nil;
+    }
+    if ( _soundPlayDict != nil ) {
+        [_soundPlayDict release];
+        _soundPlayDict = nil;
+    }
+    
+    //
+    // key times
+    // normalize frame keys
+    //
+    
+    CGFloat naturalDuration = self.naturalCycleDuration;
+    
+    if (naturalDuration <= 0) {
+        NSLog(@"Error! Animation duration value = %f", naturalDuration );
+        return;
+    }
+    
+    NSMutableArray* imageKeyArray = [NSMutableArray arrayWithCapacity:[_sortedFrameKeys count]];
+    NSMutableArray* imageArray = [NSMutableArray arrayWithCapacity:[_sortedFrameKeys count]];
+
+    NSMutableArray* positionKeyArray = [NSMutableArray arrayWithCapacity:[_sortedFrameKeys count]];
+    CGMutablePathRef positionPath = CGPathCreateMutable();
+    CGPoint firstPt = self.position;
+    [positionKeyArray addObject:[NSNumber numberWithFloat:0]];
+    CGPathMoveToPoint(positionPath,NULL, firstPt.x, firstPt.y);
+    
+    
+    NSMutableArray* rotationKeyArray = [NSMutableArray arrayWithCapacity:[_sortedFrameKeys count]];
+    NSMutableArray* rotationValueArray = [NSMutableArray arrayWithCapacity:[_sortedFrameKeys count]];
+    CATransform3D firstTransform = self.transform;
+    [rotationKeyArray addObject:[NSNumber numberWithFloat:0]];
+    [rotationValueArray addObject:[NSValue valueWithCATransform3D:firstTransform]];
+    
+    _soundPlayDict = [[NSMutableDictionary dictionaryWithCapacity:[_sortedFrameKeys count]] retain];
+    
+    NSUInteger frameIndex = 0;
+    
+    UIImage* firstImage = nil;
+    
+    BOOL hasMoveAnimation = NO;
+    BOOL hasRotateAnimation = NO;
+    
+    for ( NSNumber* frameKey in _sortedFrameKeys ) {
+        
+        NSNumber* normalizedFrameKey = [NSNumber numberWithFloat:([frameKey floatValue]/naturalDuration)];
+        
+        //
+        // first determine if the frame has an image
+        //
+        
+        
+        NSDictionary* datum = [self.config objectForKey:frameKey];
+        
+        UIImage* image = [datum objectForKey:kSCANImageObjectKey];
+
+        if ( image != nil ) {
+            [imageKeyArray addObject:normalizedFrameKey];
+            [imageArray addObject:(id)image.CGImage];
+                        
+            if ( firstImage == nil ) {
+                firstImage = image;
+            }
+        }
+        
+         
+        if (frameIndex > 0 ) {
+        
+            //
+            // add position
+            //
+
+            NSNumber* horizDelta = [datum objectForKey:kSCANHorizontalTranslationKey];
+            NSNumber* vertDelta = [datum objectForKey:kSCANVerticalTranslationKey];
+
+            if ( horizDelta != nil || vertDelta != nil ) {
+                hasMoveAnimation = YES;
+                
+                if (horizDelta == nil) {
+                    horizDelta = [NSNumber numberWithFloat:0];
+                }
+                if (vertDelta == nil) {
+                    vertDelta = [NSNumber numberWithFloat:0];
+                }
+                
+                [positionKeyArray addObject:normalizedFrameKey];
+                CGPathAddLineToPoint(positionPath, NULL, firstPt.x + [horizDelta floatValue], firstPt.y + [vertDelta floatValue]);
+                
+            }
+ 
+        
+            //
+            // Add Rotation
+            //
+
+            NSNumber* rotationValue = [datum objectForKey:kSCANRotationPositionDegreesKey];
+            
+            if ( rotationValue != nil ) {
+                hasRotateAnimation = YES;
+                CGFloat rotRadians = [rotationValue floatValue]*(M_PI/180.0);
+                
+                CATransform3D rotTransform = CATransform3DConcat(firstTransform, CATransform3DMakeRotation( rotRadians, 0, 0, 1));
+                
+                [rotationKeyArray addObject:normalizedFrameKey];
+                [rotationValueArray addObject:[NSValue valueWithCATransform3D:rotTransform]];
+                
+            }
+        }
+        
+
+        
+        
+        //
+        // add sound
+        //
+        
+        AVAudioPlayer* sound = [datum objectForKey:kSCANSoundObjectKey];
+        
+        if ( sound != nil ) {
+            [_soundPlayDict setObject:sound forKey:frameKey];
+        }
+        
+                           
+        //
+        // get ready for next
+        //
+        
+        
+        frameIndex++;
+    }
+    
+    // add return to hom path
+    NSNumber* lastKey = [NSNumber numberWithFloat:1.0];
+    [positionKeyArray addObject:lastKey];
+    CGPathAddLineToPoint(positionPath, NULL, firstPt.x, firstPt.y);
+    
+    
+    [rotationKeyArray addObject:lastKey];
+    [rotationValueArray addObject:[NSValue valueWithCATransform3D:firstTransform]];
+    
+    // must all image at time key 1.0 so that loops works correctly
+    if (firstImage != nil && ![imageKeyArray containsObject:lastKey]) {
+        [imageKeyArray addObject:lastKey];
+        [imageArray addObject:(id)firstImage.CGImage];
+        
+    }
+    //
+    // set up the animation
+    //
+    NSTimeInterval cycleDuration = self.cycleDuration;
+    
+    CAKeyframeAnimation* imageAnimation = nil;
+    
+    if ([imageArray count] > 0 ) {
+        imageAnimation = [CAKeyframeAnimation animationWithKeyPath:@"contents"];
+        imageAnimation.keyTimes = imageKeyArray;
+        imageAnimation.calculationMode = kCAAnimationDiscrete;
+//        imageAnimation.calculationMode = kCAAnimationLinear;
+        imageAnimation.values = imageArray;
+        imageAnimation.duration = cycleDuration;    
+        imageAnimation.delegate = self;
+    }
+    
+    
+    CAKeyframeAnimation* positionAnimation = nil;
+    
+    if ( hasMoveAnimation ) {
+        positionAnimation = [CAKeyframeAnimation animationWithKeyPath:@"position"];
+        positionAnimation.keyTimes = positionKeyArray;
+        positionAnimation.calculationMode = kCAAnimationLinear;
+        positionAnimation.path = positionPath;
+        positionAnimation.duration = cycleDuration;
+        positionAnimation.delegate = self; 
+    }
+    
+    CFRelease(positionPath);
+    
+    
+    CAKeyframeAnimation* rotationAnimation = nil;
+    
+    if ( hasRotateAnimation ) {
+        rotationAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
+        rotationAnimation.keyTimes = rotationKeyArray;
+        rotationAnimation.calculationMode = kCAAnimationLinear;        
+        rotationAnimation.values = rotationValueArray;
+        rotationAnimation.duration = cycleDuration;    
+        rotationAnimation.delegate = self;
+    }
+    
+    
+    //
+    // create the group
+    //
+    
+    CAAnimationGroup *theGroup = [CAAnimationGroup animation];
+	
+	theGroup.duration = cycleDuration;
+	theGroup.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+	
+    NSMutableArray* animationList = [NSMutableArray arrayWithCapacity:3];
+    
+    if ( imageAnimation != nil ) {
+        [animationList addObject:imageAnimation];
+    }
+    if ( positionAnimation != nil ) {
+        [animationList addObject:positionAnimation];
+    }
+    if ( rotationAnimation != nil ) {
+        [animationList addObject:rotationAnimation];
+    }
+   
+	theGroup.animations = animationList;
+	
+    theGroup.delegate = self;
+    theGroup.removedOnCompletion = YES;
+
+    _animationGroup = [theGroup retain];
+}
+
+- (void)animationDidStart:(CAAnimation *)inAnimation {
+
+    _isAnimating = YES;
+        
+}
+                          
+
+- (void)animationDidStop:(CAAnimation *)inAnimation finished:(BOOL)inDidFinish {
+    
+    _isAnimating = NO;
+    
+    [self stopSounds];
+    
+    if (_soundTimers != nil) {
+        for ( NSTimer* timer in _soundTimers ) {
+            AVAudioPlayer* sound = (AVAudioPlayer*)[timer userInfo];
+            
+            [sound stop];
+            
+            [timer invalidate];
+        }
+        
+        [_soundTimers release];
+        _soundTimers = nil;
+    }
+    if ( inDidFinish ) {
+ 
+    }
+    
+    [_animationGroup release];
+    _animationGroup = nil;
+    [_soundPlayDict release];
+    _soundPlayDict = nil;
+    
+    self.contents = (id)self.stillImage.CGImage;
+    self.contentsScale = self.stillImage.scale;
+
+
+    if (self.completionInvocation != nil ) {
+        
+        NSInvocation* invo = [self.completionInvocation retain];
+        
+        // set to nil prior to invoke in case invoke sets up a new animation with it's own invocation
+        self.completionInvocation = nil;
+        
+        [invo invoke];
+        [invo release];
+        
+    }
+}
+
 @end
+
+#pragma mark - Default Animation Object Factory
 
 @implementation MKDefaultAnimationObjectFactory
 
@@ -657,10 +1038,12 @@ NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 			
 			NSURL *fileURL = [NSURL fileURLWithPath:pathStr isDirectory:NO];
 			
-			AVAudioPlayer *player = [[ AVAudioPlayer alloc ] initWithContentsOfURL:fileURL error:(&sndErr) ];
+			AVAudioPlayer *player = [[[ AVAudioPlayer alloc ] initWithContentsOfURL:fileURL error:(&sndErr) ] autorelease];
 						
 			if (sndErr == nil)
 			{
+				[player prepareToPlay];
+
 				return player;
 			}
 			else
@@ -668,12 +1051,10 @@ NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 				NSLog(@"MKDefaultAnimationObjectFactory: Error creating AVAudioPlayer with file path '%@': %@", pathStr, [sndErr localizedDescription]);
 			}
 			
-			[player prepareToPlay];
 		}	
 	}
 	
 	return nil;
 }	
-
 
 @end

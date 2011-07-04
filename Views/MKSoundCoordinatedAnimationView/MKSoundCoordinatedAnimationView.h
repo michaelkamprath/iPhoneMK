@@ -1,7 +1,7 @@
 //
 //  MKSoundCoordinatedAnimationView.h
 //  
-// Copyright 2010 Michael F. Kamprath
+// Copyright 2010-2011 Michael F. Kamprath
 // michael@claireware.com
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -50,6 +50,12 @@
 //				 "imageObj"	         | the UIImage image object to display
 //				 "lastFrameDuration" | If this is the last frame, a NSNumber indicating the minimum duration of frame.
 //								     | Note that animation will not cycle until all sounds initated in current cycle are complete.
+//               "deltaX"            | How far to translate the image center horizontally from it's starting point on frame 0. Will return to 0 on last frame.
+//                                   | Should be a NSNumber. Frame 0 should have no delta. any defined will be ignored.
+//               "deltaY"            | How far to translate the image center vertically from it's starting point on frame 0. Will return to 0 on last frame.
+//                                   | Should be a NSNumber. Frame 0 should have no delta. any defined will be ignored.
+//               "rotatePosDegrees"  | Rotational orientation (in degrees!) to rotate image to relative to orientation on frame 0. Will return to frame 0 orientation 
+//                                   | on last frame. Should be a NSNumber
 //
 @property (retain,nonatomic) NSDictionary* config;
 
@@ -57,14 +63,11 @@
 // be filled with the backgroundColor
 @property (retain,nonatomic) UIImage* stillImage;
 
-// A facto used to elongate (>1) or shrink (<1) the time of the animation as indicated
-// by the config dictionary. If adjusted during animation, will take affect the frame after next.
-// Does not impact the play duration of sound objects, just the frame kay times and last frame duration.
-@property (assign,nonatomic) float timeScaleFactor;
-
 // return the total time of the animtion considering what is in the config dictionary
-// and the current value of the timeScaleFactor;
-@property (readonly,nonatomic) NSTimeInterval animationSequenceDuration;
+@property (readonly,nonatomic) NSTimeInterval naturalCycleDuration;
+
+// returns the cycle time of the animation. Can set it to a different value too
+@property (assign,nonatomic) NSTimeInterval cycleDuration;
 
 // Inidcates whether the viewis animating 
 @property (readonly,nonatomic) BOOL isAnimating;
@@ -74,20 +77,33 @@
 // plying sound.
 @property (assign,nonatomic,getter=isSilenced) BOOL silenced;
 
+// The NSInvocation that will be invoked at the completion of an animation sequence.
+@property (retain, nonatomic) NSInvocation* completionInvocation;
 
 // starts the animation sequence on an endless loop. If currently animating, no effect.
 -(void)startAnimating;
+
+// starts the animation sequence looping for a specific number of counts. 
+// Passing 0 cycle count value has no effect. If called while animating, will set the 
+// remining loop counter to passed value after current loop finishes. 
+- (void)animateWithCycleCount:(NSUInteger)inCycleCount withCompletionInvocation:(NSInvocation*)inInvocation finalStaticImage:(UIImage*)inFinalStaticImage;
 
 // displays the animation sequence once, then fires the passed invocation.
 // If animaiton is immediately stopped or this method is called again prior to the animation sequence completing,
 // the orignal invocation will be not fired and released.
 - (void)animateOnceWithCompletionInvocation:(NSInvocation*)inInvocation;
 
-// starts the animation sequence looping for a specific number of counts. 
-// Passing 0 cycle count value has no effect. If called while animating, will set the 
-// remining loop counter to passed value after current loop finishes. 
--(void)startAnimatingWithCycleCount:(NSUInteger)inCycleCount;
 
+// displays the animation sequence once, completing with the final static image, then fires the passed invocation.
+// If animation is immediately stopped or this method is called again prior to the animation sequence completing,
+// the orignal invocation will be not fired and released.
+- (void)animateOnceWithCompletionInvocation:(NSInvocation*)inInvocation finalStaticImage:(UIImage*)inFinalStaticImage;
+
+
+// displays the animation sequence for the indicate duration.
+// If animaiton is immediately stopped or this method is called again prior to the animation sequence completing,
+// the orignal invocation will be not fired and released.
+- (void)animateRepeatedlyForDuration:(NSTimeInterval)inRepeatDuration withCompletionInvocation:(NSInvocation*)inInvocation finalStaticImage:(UIImage*)inFinalStaticImage;
 
 // Stops the animation, either immediately or after the end of the current loop.
 -(void)stopAnimatingImmeditely:(BOOL)inImmediately;
@@ -108,6 +124,12 @@
 //				 "imageFile"	     | the file name of an image, inclding extension (NSString)
 //				 "lastFrameDuration" | If this is the last frame, a NSNumber indicating the minimum duration of frame.
 //								     | Note that animation will not cycle until all sounds initated in current cycle are complete.
+//               "deltaX"            | How far to translate the image center horizontally from it's starting point on frame 0. Will return to 0 on last frame.
+//                                   | Should be a NSNumber.
+//               "deltaY"            | How far to translate the image center vertically from it's starting point on frame 0. Will return to 0 on last frame.
+//                                   | Should be a NSNumber.
+//               "rotatePosDegrees"  | Rotational orientation (in degrees!) to rotate image to relative to orientation on frame 0. Will return to frame 0 orientation 
+//                                   | on last frame. Should be a NSNumber
 //
 +(NSDictionary*)configFromPropertList:(NSDictionary*)inPropertyList;
 
