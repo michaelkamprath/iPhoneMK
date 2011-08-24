@@ -71,6 +71,7 @@
 {
 	[_fillColor release];
 	[_imageURL release];
+	[_imageView release];
 	[_activityIndicator release];
 	
     [super dealloc];
