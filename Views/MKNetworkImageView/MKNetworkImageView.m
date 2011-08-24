@@ -57,7 +57,7 @@
 	
 	CGRect viewFrame = CGRectMake( 0, 0, self.frame.size.width, self.frame.size.height );
 	
-	_imageView = [[UIImageView alloc] initWithFrame:viewFrame];
+	_imageView = [[[UIImageView alloc] initWithFrame:viewFrame] autorelease];
 	[self addSubview:_imageView];
 	
 	_activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
