@@ -28,7 +28,7 @@
 //
 
 - (void)initState;
-- (CGPathRef)createBadgePathForTextSize:(CGSize)inSize;
+- (CGPathRef)newBadgePathForTextSize:(CGSize)inSize;
 
 @end
 
@@ -106,7 +106,7 @@
 	
 	CGSize numberSize = [numberString sizeWithFont:self.font];
 		
-	CGPathRef badgePath = [self createBadgePathForTextSize:numberSize];
+	CGPathRef badgePath = [self newBadgePathForTextSize:numberSize];
 	
 	CGRect badgeRect = CGPathGetBoundingBox(badgePath);
 	
@@ -267,7 +267,7 @@
 	
 	CGSize numberSize = [numberString sizeWithFont:self.font];
 	
-	CGPathRef badgePath = [self createBadgePathForTextSize:numberSize];
+	CGPathRef badgePath = [self newBadgePathForTextSize:numberSize];
 	
 	CGRect badgeRect = CGPathGetBoundingBox(badgePath);
 	
