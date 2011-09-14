@@ -220,10 +220,8 @@
 }
 
 
-- (CGPathRef)createBadgePathForTextSize:(CGSize)inSize
+- (CGPathRef)newBadgePathForTextSize:(CGSize)inSize
 {
-	const CGFloat kPi = 3.14159265;
-	
 	CGFloat arcRadius = ceil((inSize.height+self.pad)/2.0);
 	
 	CGFloat badgeWidthAdjustment = inSize.width - inSize.height/2.0;
@@ -242,9 +240,9 @@
 	CGMutablePathRef badgePath = CGPathCreateMutable();
 	
 	CGPathMoveToPoint( badgePath, NULL, arcRadius, 0 );
-	CGPathAddArc( badgePath, NULL, arcRadius, arcRadius, arcRadius, 3.0*kPi/2.0, kPi/2.0, YES);
+	CGPathAddArc( badgePath, NULL, arcRadius, arcRadius, arcRadius, 3.0*M_PI_2, M_PI_2, YES);
 	CGPathAddLineToPoint( badgePath, NULL, badgeWidth-arcRadius, 2.0*arcRadius);
-	CGPathAddArc( badgePath, NULL, badgeWidth-arcRadius, arcRadius, arcRadius, kPi/2.0, 3.0*kPi/2.0, YES);
+	CGPathAddArc( badgePath, NULL, badgeWidth-arcRadius, arcRadius, arcRadius, M_PI_2, 3.0*M_PI_2, YES);
 	CGPathAddLineToPoint( badgePath, NULL, arcRadius, 0 );
 	
 	return badgePath;
