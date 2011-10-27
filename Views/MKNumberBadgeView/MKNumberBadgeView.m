@@ -36,6 +36,7 @@
 @implementation MKNumberBadgeView
 @synthesize value=_value;
 @synthesize shadow=_shadow;
+@synthesize shadowOffset=_shadowOffset;
 @synthesize shine=_shine;
 @synthesize font=_font;
 @synthesize fillColor=_fillColor;
@@ -75,6 +76,7 @@
 	self.pad = 4;
 	self.font = [UIFont boldSystemFontOfSize:16];
 	self.shadow = YES;
+	self.shadowOffset = CGSizeMake(0, -3);
 	self.shine = YES;
 	self.alignment = UITextAlignmentCenter;
 	self.fillColor = [UIColor redColor];
@@ -115,12 +117,18 @@
 	badgeRect.size.width = ceil( badgeRect.size.width );
 	badgeRect.size.height = ceil( badgeRect.size.height );
 	
+    
+    CGFloat lineWidth = 2.0;
 	
 	CGContextSaveGState( curContext );
-	CGContextSetLineWidth( curContext, 2.0 );
+	CGContextSetLineWidth( curContext, lineWidth );
 	CGContextSetStrokeColorWithColor(  curContext, self.strokeColor.CGColor  );
 	CGContextSetFillColorWithColor( curContext, self.fillColor.CGColor );
-		
+	
+	// Line stroke straddles the path, so we need to account for the outer portion
+	badgeRect.size.width += ceilf( lineWidth / 2 );
+	badgeRect.size.height += ceilf( lineWidth / 2 );
+	
 	CGPoint ctm;
 	
 	switch (self.alignment) 
@@ -143,9 +151,7 @@
 	{
 		CGContextSaveGState( curContext );
 
-		CGSize blurSize;
-		blurSize.width = 0;
-		blurSize.height = -3;
+		CGSize blurSize = self.shadowOffset;
 		UIColor* blurColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
 		
 		CGContextSetShadowWithColor( curContext, blurSize, 4, blurColor.CGColor );
