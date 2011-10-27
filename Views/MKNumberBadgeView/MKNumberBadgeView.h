@@ -44,6 +44,8 @@
 	
 	BOOL _shadow;
 	BOOL _shine;
+    
+    CGSize _shadowOffset;
 	
 	UITextAlignment _alignment;
 }
@@ -53,6 +55,9 @@
 
 // Indicates whether the badge view draws a dhadow or not.
 @property (assign,nonatomic) BOOL shadow;
+
+// The offset for the shadow, if there is one.
+@property (assign,nonatomic) CGSize shadowOffset;
 
 // Indicates whether the badge view should be drawn with a shine
 @property (assign,nonatomic) BOOL shine;
