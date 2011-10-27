@@ -115,11 +115,17 @@
 	badgeRect.size.width = ceil( badgeRect.size.width );
 	badgeRect.size.height = ceil( badgeRect.size.height );
 	
+    
+    CGFloat lineWidth = 2.0;
 	
 	CGContextSaveGState( curContext );
-	CGContextSetLineWidth( curContext, 2.0 );
+	CGContextSetLineWidth( curContext, lineWidth );
 	CGContextSetStrokeColorWithColor(  curContext, self.strokeColor.CGColor  );
 	CGContextSetFillColorWithColor( curContext, self.fillColor.CGColor );
+    
+    // Line stroke straddles the path, so we need to account for the outer portion
+    badgeRect.size.width += ceilf( lineWidth / 2 );
+    badgeRect.size.height += ceilf( lineWidth / 2 );
 		
 	CGPoint ctm;
 	
