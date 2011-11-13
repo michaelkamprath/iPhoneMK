@@ -20,17 +20,26 @@
 #import <AVFoundation/AVFoundation.h>
 #import "MKSoundCoordinatedAnimationLayer.h"
 
+NSString* const kSCANMetaDataKey = @"meta";
+
 NSString* const kSCANSoundFileNameKey = @"soundFile";
 NSString* const kSCANImageFileNameKey = @"imageFile";
 NSString* const kSCANImageHighlightMaskFileKey = @"highlightMaskFile";
+NSString* const kSCANStillImageFileNameKey = @"stillImageFile";
 
 NSString* const kSCANSoundObjectKey = @"soundObj";
 NSString* const kSCANImageObjectKey = @"imageObj";
+NSString* const kSCANStillImageObjectKey = @"stillImageObj";
 NSString* const kSCANHighlightMaskObjectKey = @"highlightMaskObj";
 NSString* const kSCANLastFrameDurationKey = @"lastFrameDuration";
 NSString* const kSCANVerticalTranslationKey = @"deltaY";
 NSString* const kSCANHorizontalTranslationKey = @"deltaX";
 NSString* const kSCANRotationPositionDegreesKey = @"rotatePosDegrees";
+NSString* const kSCANAlphaKey = @"alpha";
+NSString* const kSCANVerticalScaleKey = @"scaleY";
+NSString* const kSCANHorizontalScaleKey = @"scaleX";
+NSString* const kSCANVerticalAnchorKey = @"anchorY";
+NSString* const kSCANHorizontalAnchorKey = @"anchorX";
 
 NSString* const kSCANImageAndPositingAniamtionKey = @"imageAndPositionAnimation";
 
@@ -112,7 +121,6 @@ NSString* const kSCANImageAndPositingAniamtionKey = @"imageAndPositionAnimation"
     [_finalStillImage release];
 	[_sortedFrameKeys release];
 	[_playingSounds release];
-    [_locationSequence release];
 	[_soundPlayDict release];
     
     [super dealloc];
@@ -140,23 +148,16 @@ NSString* const kSCANImageAndPositingAniamtionKey = @"imageAndPositionAnimation"
         _assignedAnimationTime = nil;
     }
     
-	NSArray* keys = [_config allKeys];
+	NSMutableArray* keys = [NSMutableArray arrayWithArray:[_config allKeys]];
+    
+    [keys removeObject:kSCANMetaDataKey];
 	
 	_sortedFrameKeys = [[keys sortedArrayUsingSelector:@selector(compare:)] retain];
     
-    // now build up location sequence and prepare sounds
-    
-    [_locationSequence release];
-    _locationSequence = nil;
-    
-
-
-    BOOL firstFrame = YES;
-    
-    NSMutableArray* locArray = [NSMutableArray arrayWithCapacity:[inConfig count]];
+    // now prepare sounds
+     
     for ( NSNumber* timeKey in _sortedFrameKeys ) {
-        CGPoint frameLoc = CGPointMake( 0.0, 0.0);
- 
+  
 		NSDictionary* datum = [_config objectForKey:timeKey];
 		
 		AVAudioPlayer* sound = [datum objectForKey:kSCANSoundObjectKey];
@@ -166,23 +167,42 @@ NSString* const kSCANImageAndPositingAniamtionKey = @"imageAndPositionAnimation"
 			[sound prepareToPlay];
 		}
         
-        if (!firstFrame) {
-            NSNumber* horizDelta = [datum objectForKey:kSCANHorizontalTranslationKey];
-            NSNumber* vertDelta = [datum objectForKey:kSCANVerticalTranslationKey];
-            
-            frameLoc = CGPointMake( frameLoc.x + ( horizDelta != nil ? [horizDelta floatValue] : 0 ),
-                                   frameLoc.y + ( vertDelta != nil ? [vertDelta floatValue] : 0 ) );
-        }
-        
-        NSData* locData = [NSData dataWithBytes:&frameLoc length:sizeof(frameLoc)];
-        
-        [locArray addObject:locData];
-        
-        firstFrame = NO;
-        
     }
     
-    _locationSequence = [[NSArray arrayWithArray:locArray] retain];
+    //
+    // apply meta properties
+    //
+    
+    NSDictionary* metaConfig = [_config objectForKey:kSCANMetaDataKey];
+    
+    if ( metaConfig != nil ) {
+        // still image
+    
+        UIImage* image = [metaConfig objectForKey:kSCANStillImageObjectKey];
+        
+        if ( image != nil ) {
+            self.stillImage = image;
+        }
+        
+        // rotation and scale
+        
+        NSNumber* rotationValue = [metaConfig objectForKey:kSCANRotationPositionDegreesKey];
+        NSNumber* scaleXValue = [metaConfig objectForKey:kSCANHorizontalScaleKey];
+        NSNumber* scaleYValue = [metaConfig objectForKey:kSCANVerticalScaleKey];
+        
+        if ( (rotationValue != nil)||(scaleXValue != nil)||(scaleYValue != nil) ) {
+            CGFloat rotRadians = (rotationValue != nil) ? [rotationValue floatValue]*(M_PI/180.0) : 0.0;
+            CGFloat scaleX = (scaleXValue != nil) ? [scaleXValue floatValue] : 1.0;
+            CGFloat scaleY = (scaleYValue != nil) ? [scaleYValue floatValue] : 1.0;
+            
+            
+            CATransform3D staticTransform = CATransform3DConcat( CATransform3DMakeRotation( rotRadians, 0, 0, 1), CATransform3DMakeScale(scaleX, scaleY, 1.0));
+            
+            self.transform = staticTransform;
+        }
+
+    }
+    
     
 }
 
@@ -192,7 +212,6 @@ NSString* const kSCANImageAndPositingAniamtionKey = @"imageAndPositionAnimation"
 	{
 		[_stillImage release];
 		_stillImage = nil;
-        self.contents = nil;
 	}
 	
 	if (inImage != nil)
@@ -203,16 +222,19 @@ NSString* const kSCANImageAndPositingAniamtionKey = @"imageAndPositionAnimation"
             self.contentsScale = _stillImage.scale;
         }
 	}
+    else if (!self.isAnimating) {
+        self.contents = nil;
+    }
     
 	
 }
 
 -(NSTimeInterval)naturalCycleDuration {
-    if ((self.config != nil)&&( self.config.count > 0 ))
+    if ((self.config != nil)&&( _sortedFrameKeys.count > 0 ))
 	{
 		NSTimeInterval maxTime = 0;
 		
-		for ( NSNumber* timeKey in self.config )
+		for ( NSNumber* timeKey in _sortedFrameKeys )
 		{
 			NSTimeInterval timeKeyValue = [timeKey doubleValue];
 			if ( timeKeyValue > maxTime )
@@ -314,6 +336,9 @@ NSString* const kSCANImageAndPositingAniamtionKey = @"imageAndPositionAnimation"
 
 - (void)animateWithCycleCount:(NSUInteger)inCycleCount withCompletionInvocation:(NSInvocation*)inInvocation finalStaticImage:(UIImage*)inFinalStaticImage {
     
+    if (![inInvocation argumentsRetained]) {
+        [inInvocation retainArguments];
+    }
     
     self.completionInvocation = inInvocation;
     _finalStillImage = [inFinalStaticImage retain];
@@ -352,23 +377,6 @@ NSString* const kSCANImageAndPositingAniamtionKey = @"imageAndPositionAnimation"
 }
 
 
-//
-// converts a "property list" configuration dictionary to the format expected by the config property of an instance.
-// The "property list" verison of the configuraiton does not contain sound or image objects, but in stead filenames.
-// This method will generate a config dictionary containin the sound and image objects based. Useful for configuring
-// an animation with a plist file.
-// The property list format is:
-//
-// key = NSNumber containing a float value indicating he number of seconds since start this item should be applied
-// value = a dictionary containing one or more of the following key/value pairs
-//					key		         | value
-//				---------------------+------------------------------------------------------------
-//				 "soundFile"	     | the file name a sound file, including extension (NSString)
-//				 "imageFile"	     | the file name of an image, inclding extension (NSString)
-//				 "lastFrameDuration" | If this is the last frame, a NSNumber indicating the minimum duration of frame.
-//								     | Note that animation will not cycle until all sounds initated in current cycle are complete.
-//
-
 +(NSDictionary*)configFromPropertList:(NSDictionary*)inPropertyList usingObjectFactory:(id <MKSoundCoordinatedAnimationObjectFactory>)inObjectFactory
 {
 	if (inPropertyList == nil)
@@ -378,80 +386,180 @@ NSString* const kSCANImageAndPositingAniamtionKey = @"imageAndPositionAnimation"
 	
 	NSMutableDictionary* configDict = [NSMutableDictionary dictionaryWithCapacity:[inPropertyList count]];
 	
-	for ( NSNumber* timeKey in inPropertyList )
+	for ( id dictKey in inPropertyList )
 	{
-		NSDictionary* frameProperties = [inPropertyList objectForKey:timeKey];
-		
-		NSMutableDictionary* frameConfig = [NSMutableDictionary dictionaryWithCapacity:[frameProperties count]];
-		
-		//
-		// frame sound
-		//
-		
-		NSString* soundFileName = [frameProperties objectForKey:kSCANSoundFileNameKey];
-		
-		AVAudioPlayer *player = [inObjectFactory getAVAudioPlayerForFilename:soundFileName];
-		
-		if (player != nil)
-		{
-			[frameConfig setObject:player forKey:kSCANSoundObjectKey];
-		}
-
-		//
-		// frame image
-		//
-		
-		NSString* imageFileName = [frameProperties objectForKey:kSCANImageFileNameKey];
-		
-		if ( imageFileName != nil ) {
-			UIImage* image = [inObjectFactory getUIImageForFilename:imageFileName];
-			
-			if (image != nil)
-			{
-				[frameConfig setObject:image forKey:kSCANImageObjectKey];
-			}
-		}
-		
-		
-		//
-		// last frame duration
-		//
-		
-		id durationObj = [frameProperties objectForKey:kSCANLastFrameDurationKey];
-		
-		if ( durationObj != nil )
-		{
-			[frameConfig setObject:durationObj forKey:kSCANLastFrameDurationKey];
-		}
-		
+        // first check if this is the meta block
         
-        //
-        // translations
-        //
-        
-        id horizTransValue = [frameProperties objectForKey:kSCANHorizontalTranslationKey];
-		if ( horizTransValue != nil )
-		{
-			[frameConfig setObject:horizTransValue forKey:kSCANHorizontalTranslationKey];
-		}
+        if ( [kSCANMetaDataKey compare:dictKey] == NSOrderedSame ) {
+            NSDictionary* metaProperties = [inPropertyList objectForKey:kSCANMetaDataKey];
+            NSMutableDictionary* metaConfig = [NSMutableDictionary dictionaryWithCapacity:[metaProperties count]];
+            
+            //
+            // still image
+            //
+            
+            NSString* imageFileName = [metaProperties objectForKey:kSCANStillImageFileNameKey];
+            
+            if ( imageFileName != nil ) {
+                UIImage* image = [inObjectFactory getUIImageForFilename:imageFileName];
+                
+                if (image != nil)
+                {
+                    [metaConfig setObject:image forKey:kSCANStillImageObjectKey];
+                }
+            }
+            
+            //
+            // anchor values
+            //
+            
+            NSNumber* anchorX = [metaProperties objectForKey:kSCANHorizontalAnchorKey];
+            if ( anchorX != nil ) {
+                [metaConfig setObject:anchorX forKey:kSCANHorizontalAnchorKey];
+            }
+            NSNumber* anchorY = [metaProperties objectForKey:kSCANVerticalAnchorKey];
+            if ( anchorY != nil ) {
+                [metaConfig setObject:anchorY forKey:kSCANVerticalAnchorKey];
+            }
+            
+            // rotation and scale
+            
+            id rotValue = [metaProperties objectForKey:kSCANRotationPositionDegreesKey];
+            if ( rotValue != nil )
+            {
+                [metaConfig setObject:rotValue forKey:kSCANRotationPositionDegreesKey];
+            }
 
-        id vertTransValue = [frameProperties objectForKey:kSCANVerticalTranslationKey];
-		if ( vertTransValue != nil )
-		{
-			[frameConfig setObject:vertTransValue forKey:kSCANVerticalTranslationKey];
-		}
+            id scaleXValue = [metaProperties objectForKey:kSCANHorizontalScaleKey];
+            if ( scaleXValue != nil ) {
+                [metaConfig setObject:scaleXValue forKey:kSCANHorizontalScaleKey];
+            }
+            
+            id scaleYValue = [metaProperties objectForKey:kSCANVerticalScaleKey];
+            if ( scaleYValue != nil ) {
+                [metaConfig setObject:scaleYValue forKey:kSCANVerticalScaleKey];
+            }
+            
+            
+            [configDict setObject:metaConfig forKey:kSCANMetaDataKey]; 
 
 
-        id rotValue = [frameProperties objectForKey:kSCANRotationPositionDegreesKey];
-		if ( rotValue != nil )
-		{
-			[frameConfig setObject:rotValue forKey:kSCANRotationPositionDegreesKey];
-		}
+        }
+        else {
+            
+            NSNumber* timeKey = (NSNumber*)dictKey;
+            
+            NSDictionary* frameProperties = [inPropertyList objectForKey:timeKey];
+            
+            NSMutableDictionary* frameConfig = [NSMutableDictionary dictionaryWithCapacity:[frameProperties count]];
+            
+            //
+            // frame sound
+            //
+            
+            NSString* soundFileName = [frameProperties objectForKey:kSCANSoundFileNameKey];
+            
+            AVAudioPlayer *player = [inObjectFactory getAVAudioPlayerForFilename:soundFileName];
+            
+            if (player != nil)
+            {
+                [frameConfig setObject:player forKey:kSCANSoundObjectKey];
+            }
 
-        //
-        // time key
-        //
-        [configDict setObject:frameConfig forKey:timeKey];
+            //
+            // frame image
+            //
+            
+            NSString* imageFileName = [frameProperties objectForKey:kSCANImageFileNameKey];
+            
+            if ( imageFileName != nil ) {
+                UIImage* image = [inObjectFactory getUIImageForFilename:imageFileName];
+                
+                if (image != nil)
+                {
+                    [frameConfig setObject:image forKey:kSCANImageObjectKey];
+                }
+            }
+            
+            
+            //
+            // last frame duration
+            //
+            
+            id durationObj = [frameProperties objectForKey:kSCANLastFrameDurationKey];
+            
+            if ( durationObj != nil )
+            {
+                [frameConfig setObject:durationObj forKey:kSCANLastFrameDurationKey];
+            }
+            
+            
+            //
+            // translations
+            //
+            
+            id horizTransValue = [frameProperties objectForKey:kSCANHorizontalTranslationKey];
+            if ( horizTransValue != nil )
+            {
+                [frameConfig setObject:horizTransValue forKey:kSCANHorizontalTranslationKey];
+            }
+
+            id vertTransValue = [frameProperties objectForKey:kSCANVerticalTranslationKey];
+            if ( vertTransValue != nil )
+            {
+                [frameConfig setObject:vertTransValue forKey:kSCANVerticalTranslationKey];
+            }
+
+
+            id rotValue = [frameProperties objectForKey:kSCANRotationPositionDegreesKey];
+            if ( rotValue != nil )
+            {
+                [frameConfig setObject:rotValue forKey:kSCANRotationPositionDegreesKey];
+            }
+
+            //
+            // alpha
+            //
+            
+            id alphaValue = [frameProperties objectForKey:kSCANAlphaKey];
+            if ( alphaValue != nil ) {
+                [frameConfig setObject:alphaValue forKey:kSCANAlphaKey];
+            }
+            
+            //
+            // scale
+            //
+            
+            id scaleXValue = [frameProperties objectForKey:kSCANHorizontalScaleKey];
+            if ( scaleXValue != nil ) {
+                [frameConfig setObject:scaleXValue forKey:kSCANHorizontalScaleKey];
+            }
+            
+            id scaleYValue = [frameProperties objectForKey:kSCANVerticalScaleKey];
+            if ( scaleYValue != nil ) {
+                [frameConfig setObject:scaleYValue forKey:kSCANVerticalScaleKey];
+            }
+            
+            //
+            // anchor point
+            //
+            
+            
+            id anchorXValue = [frameProperties objectForKey:kSCANHorizontalAnchorKey];
+            if ( anchorXValue != nil ) {
+                [frameConfig setObject:anchorXValue forKey:kSCANHorizontalAnchorKey];
+            }
+            
+            id anchorYValue = [frameProperties objectForKey:kSCANVerticalAnchorKey];
+            if ( anchorYValue != nil ) {
+                [frameConfig setObject:anchorYValue forKey:kSCANVerticalAnchorKey];
+            }
+           
+            //
+            // time key
+            //
+            [configDict setObject:frameConfig forKey:timeKey];
+        }
 
 	}
 	
@@ -469,89 +577,127 @@ NSString* const kSCANImageAndPositingAniamtionKey = @"imageAndPositionAnimation"
 {
 	NSMutableDictionary* newConfigDict = [NSMutableDictionary dictionaryWithCapacity:[inConfig count]];
 	
-	for ( NSNumber* timeKey in inConfig )
+	for ( id dictKey in inConfig )
 	{
-		NSDictionary* sourceFrameConfig = [inConfig objectForKey:timeKey];
-		
-		NSMutableDictionary* frameConfig = [NSMutableDictionary dictionaryWithCapacity:[sourceFrameConfig count]];
-		
-		//
-		// create a new sound object
-		//
-		AVAudioPlayer* soundObj = [sourceFrameConfig objectForKey:kSCANSoundObjectKey];
-		if ( soundObj != nil )
-		{
-			AVAudioPlayer* newSoundObj = nil;
-			
-			if ( soundObj.url != nil )
-			{
-				NSError* sndErr;
-				
-				newSoundObj = [[[AVAudioPlayer alloc] initWithContentsOfURL:soundObj.url error:&sndErr] autorelease];
-				
-				if ( sndErr != nil )
-				{
-					NSLog(@"Error creating AVAudioPlayer with URL '%@': %@", soundObj.url, [sndErr localizedDescription]);
-					
-					newSoundObj = nil;
-				}
-			}
-			else if ( soundObj.data != nil )
-			{
-				NSError* sndErr;
-				
-				newSoundObj = [[[AVAudioPlayer alloc] initWithData:soundObj.data error:&sndErr] autorelease];
-				
-				
-				if ( sndErr != nil )
-				{
-					NSLog(@"Error creating AVAudioPlayer from source data: %@", [sndErr localizedDescription]);
-					
-					newSoundObj = nil;
-				}
-				
-			}
-			
-			if ( newSoundObj != nil )
-			{
-				[frameConfig setObject:newSoundObj forKey:kSCANSoundObjectKey];
-			}
-		}
-		
-		id imageObj = [sourceFrameConfig objectForKey:kSCANImageObjectKey];
-		
-		if ( imageObj != nil )
-		{
-			[frameConfig setObject:imageObj forKey:kSCANImageObjectKey];
-		}
-		
-		id durationObj = [sourceFrameConfig objectForKey:kSCANLastFrameDurationKey];
-		
-		if ( durationObj != nil )
-		{
-			[frameConfig setObject:durationObj forKey:kSCANLastFrameDurationKey];
-		}
-		
-        id horizTransValue = [sourceFrameConfig objectForKey:kSCANHorizontalTranslationKey];
-		if ( horizTransValue != nil )
-		{
-			[frameConfig setObject:horizTransValue forKey:kSCANHorizontalTranslationKey];
-		}
+        // first check if this is the meta block
         
-        id vertTransValue = [sourceFrameConfig objectForKey:kSCANVerticalTranslationKey];
-		if ( vertTransValue != nil )
-		{
-			[frameConfig setObject:vertTransValue forKey:kSCANVerticalTranslationKey];
-		}
+        if ( [kSCANMetaDataKey compare:dictKey] == NSOrderedSame ) {
+            // just dump everthing 
+            
+            [newConfigDict setObject:[inConfig objectForKey:kSCANMetaDataKey] forKey:kSCANMetaDataKey]; 
+            
+        }
+        else  {
+            NSNumber* timeKey = (NSNumber*)dictKey;
+
+            NSDictionary* sourceFrameConfig = [inConfig objectForKey:timeKey];
+            
+            NSMutableDictionary* frameConfig = [NSMutableDictionary dictionaryWithCapacity:[sourceFrameConfig count]];
+            
+            //
+            // create a new sound object
+            //
+            AVAudioPlayer* soundObj = [sourceFrameConfig objectForKey:kSCANSoundObjectKey];
+            if ( soundObj != nil )
+            {
+                AVAudioPlayer* newSoundObj = nil;
+                
+                if ( soundObj.url != nil )
+                {
+                    NSError* sndErr;
+                    
+                    newSoundObj = [[[AVAudioPlayer alloc] initWithContentsOfURL:soundObj.url error:&sndErr] autorelease];
+                    
+                    if ( sndErr != nil )
+                    {
+                        NSLog(@"Error creating AVAudioPlayer with URL '%@': %@", soundObj.url, [sndErr localizedDescription]);
+                        
+                        newSoundObj = nil;
+                    }
+                }
+                else if ( soundObj.data != nil )
+                {
+                    NSError* sndErr;
+                    
+                    newSoundObj = [[[AVAudioPlayer alloc] initWithData:soundObj.data error:&sndErr] autorelease];
+                    
+                    
+                    if ( sndErr != nil )
+                    {
+                        NSLog(@"Error creating AVAudioPlayer from source data: %@", [sndErr localizedDescription]);
+                        
+                        newSoundObj = nil;
+                    }
+                    
+                }
+                
+                if ( newSoundObj != nil )
+                {
+                    [frameConfig setObject:newSoundObj forKey:kSCANSoundObjectKey];
+                }
+            }
+            
+            id imageObj = [sourceFrameConfig objectForKey:kSCANImageObjectKey];
+            
+            if ( imageObj != nil )
+            {
+                [frameConfig setObject:imageObj forKey:kSCANImageObjectKey];
+            }
+            
+            id durationObj = [sourceFrameConfig objectForKey:kSCANLastFrameDurationKey];
+            
+            if ( durationObj != nil )
+            {
+                [frameConfig setObject:durationObj forKey:kSCANLastFrameDurationKey];
+            }
+            
+            id horizTransValue = [sourceFrameConfig objectForKey:kSCANHorizontalTranslationKey];
+            if ( horizTransValue != nil )
+            {
+                [frameConfig setObject:horizTransValue forKey:kSCANHorizontalTranslationKey];
+            }
+            
+            id vertTransValue = [sourceFrameConfig objectForKey:kSCANVerticalTranslationKey];
+            if ( vertTransValue != nil )
+            {
+                [frameConfig setObject:vertTransValue forKey:kSCANVerticalTranslationKey];
+            }
 
 
-        id rotValue = [sourceFrameConfig objectForKey:kSCANRotationPositionDegreesKey];
-		if ( rotValue != nil )
-		{
-			[frameConfig setObject:rotValue forKey:kSCANRotationPositionDegreesKey];
-		}
+            id rotValue = [sourceFrameConfig objectForKey:kSCANRotationPositionDegreesKey];
+            if ( rotValue != nil )
+            {
+                [frameConfig setObject:rotValue forKey:kSCANRotationPositionDegreesKey];
+            }
+            
+            id alphaValue = [sourceFrameConfig objectForKey:kSCANAlphaKey];
+            if ( alphaValue != nil ) {
+                [frameConfig setObject:alphaValue forKey:kSCANAlphaKey];
+            }
 
-		[newConfigDict setObject:frameConfig forKey:timeKey];
+            id scaleXValue = [sourceFrameConfig objectForKey:kSCANHorizontalScaleKey];
+            if ( scaleXValue != nil ) {
+                [frameConfig setObject:scaleXValue forKey:kSCANHorizontalScaleKey];
+            }
+            
+            id scaleYValue = [sourceFrameConfig objectForKey:kSCANVerticalScaleKey];
+            if ( scaleYValue != nil ) {
+                [frameConfig setObject:scaleYValue forKey:kSCANVerticalScaleKey];
+            }
+            
+            id anchorXValue = [sourceFrameConfig objectForKey:kSCANHorizontalAnchorKey];
+            if ( anchorXValue != nil ) {
+                [frameConfig setObject:anchorXValue forKey:kSCANHorizontalAnchorKey];
+            }
+            
+            id anchorYValue = [sourceFrameConfig objectForKey:kSCANVerticalAnchorKey];
+            if ( anchorYValue != nil ) {
+                [frameConfig setObject:anchorYValue forKey:kSCANVerticalAnchorKey];
+            }
+
+
+            [newConfigDict setObject:frameConfig forKey:timeKey];
+        }
 	}
 	
 	return [newConfigDict retain];
@@ -682,6 +828,9 @@ NSString* const kSCANImageAndPositingAniamtionKey = @"imageAndPositionAnimation"
 {
     if ( inImmediately ) {
         if ( self.isAnimating ) {
+            NSInvocation* invo = [self.completionInvocation retain];
+            self.completionInvocation = nil;
+            
             [self removeAnimationForKey:kSCANImageAndPositingAniamtionKey]; 
             
             
@@ -692,6 +841,11 @@ NSString* const kSCANImageAndPositingAniamtionKey = @"imageAndPositionAnimation"
             
             // set the animating flag. Technically, the animation doesn't stop until the animationDidStop callback is called. 
             _isAnimating = NO;
+            
+            if (invo != nil) {
+                [invo invoke];
+                [invo release];
+            }
         }
     }
     else {
@@ -728,21 +882,72 @@ NSString* const kSCANImageAndPositingAniamtionKey = @"imageAndPositionAnimation"
         return;
     }
     
+    // first set up meta
+    //
+    
+    NSDictionary* metaData = [self.config objectForKey:kSCANMetaDataKey];
+    
+    BOOL hasMoveAnimation = NO;
+    BOOL hasRotateAnimation = NO;
+    BOOL hasAlphaAnimation = NO;
+    BOOL hasAnchorAnimation = NO;
+    
+    NSMutableArray* anchorKeyArray = [NSMutableArray arrayWithCapacity:2];
+    NSMutableArray* anchorValueArray = [NSMutableArray arrayWithCapacity:2];
+    
+    CGPoint anchorPositionOffset = CGPointMake(0, 0);
+    
+    if ( metaData != nil ) {
+        
+        
+        NSNumber* anchorXValue = [metaData objectForKey:kSCANHorizontalAnchorKey];
+        NSNumber* anchorYValue = [metaData objectForKey:kSCANVerticalAnchorKey];
+        
+        if ( (anchorXValue != nil) || (anchorYValue != nil) ) {
+            
+            CGFloat anchorX = (anchorXValue != nil) ? [anchorXValue floatValue] : self.anchorPoint.x;
+            CGFloat anchorY = (anchorYValue != nil) ? [anchorYValue floatValue] : self.anchorPoint.y;
+            
+            CGPoint anchorPt = CGPointMake(anchorX, anchorY);
+            
+            [anchorKeyArray addObject:[NSNumber numberWithFloat:0]];
+            [anchorValueArray addObject:[NSValue valueWithCGPoint:anchorPt]];
+
+            [anchorKeyArray addObject:[NSNumber numberWithFloat:1]];
+            [anchorValueArray addObject:[NSValue valueWithCGPoint:anchorPt]];
+            
+            anchorPositionOffset = CGPointMake((anchorPt.x - self.anchorPoint.x )*self.bounds.size.width, ( anchorPt.y - self.anchorPoint.y)*self.bounds.size.height);
+            
+            
+            hasAnchorAnimation = YES;
+            hasMoveAnimation = YES;
+        }
+        
+        
+    }
+    
+    
     NSMutableArray* imageKeyArray = [NSMutableArray arrayWithCapacity:[_sortedFrameKeys count]];
     NSMutableArray* imageArray = [NSMutableArray arrayWithCapacity:[_sortedFrameKeys count]];
 
     NSMutableArray* positionKeyArray = [NSMutableArray arrayWithCapacity:[_sortedFrameKeys count]];
     CGMutablePathRef positionPath = CGPathCreateMutable();
-    CGPoint firstPt = self.position;
+    CGPoint firstPt = CGPointMake( self.position.x + anchorPositionOffset.x, self.position.y + anchorPositionOffset.y );
     [positionKeyArray addObject:[NSNumber numberWithFloat:0]];
     CGPathMoveToPoint(positionPath,NULL, firstPt.x, firstPt.y);
     
     
     NSMutableArray* rotationKeyArray = [NSMutableArray arrayWithCapacity:[_sortedFrameKeys count]];
     NSMutableArray* rotationValueArray = [NSMutableArray arrayWithCapacity:[_sortedFrameKeys count]];
-    CATransform3D firstTransform = self.transform;
+    
+    // set initial to identity
+    CATransform3D firstTransform =  CATransform3DMakeScale(1.0, 1.0, 1.0);
     [rotationKeyArray addObject:[NSNumber numberWithFloat:0]];
     [rotationValueArray addObject:[NSValue valueWithCATransform3D:firstTransform]];
+    
+    NSMutableArray* alphaKeyArray = [NSMutableArray arrayWithCapacity:[_sortedFrameKeys count]];
+    NSMutableArray* alphaValueArray = [NSMutableArray arrayWithCapacity:[_sortedFrameKeys count]];
+   
     
     _soundPlayDict = [[NSMutableDictionary dictionaryWithCapacity:[_sortedFrameKeys count]] retain];
     
@@ -750,9 +955,7 @@ NSString* const kSCANImageAndPositingAniamtionKey = @"imageAndPositionAnimation"
     
     UIImage* firstImage = nil;
     
-    BOOL hasMoveAnimation = NO;
-    BOOL hasRotateAnimation = NO;
-    
+   
     for ( NSNumber* frameKey in _sortedFrameKeys ) {
         
         NSNumber* normalizedFrameKey = [NSNumber numberWithFloat:([frameKey floatValue]/naturalDuration)];
@@ -775,51 +978,48 @@ NSString* const kSCANImageAndPositingAniamtionKey = @"imageAndPositionAnimation"
             }
         }
         
-         
-        if (frameIndex > 0 ) {
+        NSNumber* horizDelta = [datum objectForKey:kSCANHorizontalTranslationKey];
+        NSNumber* vertDelta = [datum objectForKey:kSCANVerticalTranslationKey];
         
-            //
-            // add position
-            //
-
-            NSNumber* horizDelta = [datum objectForKey:kSCANHorizontalTranslationKey];
-            NSNumber* vertDelta = [datum objectForKey:kSCANVerticalTranslationKey];
-
-            if ( horizDelta != nil || vertDelta != nil ) {
-                hasMoveAnimation = YES;
-                
-                if (horizDelta == nil) {
-                    horizDelta = [NSNumber numberWithFloat:0];
-                }
-                if (vertDelta == nil) {
-                    vertDelta = [NSNumber numberWithFloat:0];
-                }
-                
-                [positionKeyArray addObject:normalizedFrameKey];
-                CGPathAddLineToPoint(positionPath, NULL, firstPt.x + [horizDelta floatValue], firstPt.y + [vertDelta floatValue]);
-                
-            }
- 
-        
-            //
-            // Add Rotation
-            //
-
-            NSNumber* rotationValue = [datum objectForKey:kSCANRotationPositionDegreesKey];
+        if ( horizDelta != nil || vertDelta != nil ) {
+            hasMoveAnimation = YES;
             
-            if ( rotationValue != nil ) {
-                hasRotateAnimation = YES;
-                CGFloat rotRadians = [rotationValue floatValue]*(M_PI/180.0);
-                
-                CATransform3D rotTransform = CATransform3DConcat(firstTransform, CATransform3DMakeRotation( rotRadians, 0, 0, 1));
-                
-                [rotationKeyArray addObject:normalizedFrameKey];
-                [rotationValueArray addObject:[NSValue valueWithCATransform3D:rotTransform]];
-                
+            if (horizDelta == nil) {
+                horizDelta = [NSNumber numberWithFloat:0];
             }
+            if (vertDelta == nil) {
+                vertDelta = [NSNumber numberWithFloat:0];
+            }
+            
+            [positionKeyArray addObject:normalizedFrameKey];
+            CGPathAddLineToPoint(positionPath, NULL, firstPt.x + [horizDelta floatValue], firstPt.y + [vertDelta floatValue]);
+            
         }
+
         
 
+        //
+        // Add Rotation & Scale
+        //
+        
+        NSNumber* rotationValue = [datum objectForKey:kSCANRotationPositionDegreesKey];
+        NSNumber* scaleXValue = [datum objectForKey:kSCANHorizontalScaleKey];
+        NSNumber* scaleYValue = [datum objectForKey:kSCANVerticalScaleKey];
+        
+        if ( (rotationValue != nil)||(scaleXValue != nil)||(scaleYValue != nil) ) {
+            hasRotateAnimation = YES;
+            CGFloat rotRadians = (rotationValue != nil) ? [rotationValue floatValue]*(M_PI/180.0) : 0.0;
+            CGFloat scaleX = (scaleXValue != nil) ? [scaleXValue floatValue] : 1.0;
+            CGFloat scaleY = (scaleYValue != nil) ? [scaleYValue floatValue] : 1.0;
+            
+            CATransform3D rotTransform = CATransform3DConcat(firstTransform, CATransform3DMakeRotation( rotRadians, 0, 0, 1));
+            
+            CATransform3D finalTransform = CATransform3DConcat( rotTransform, CATransform3DMakeScale(scaleX, scaleY, 1.0));
+            
+            [rotationKeyArray addObject:normalizedFrameKey];
+            [rotationValueArray addObject:[NSValue valueWithCATransform3D:finalTransform]];
+            
+        }
         
         
         //
@@ -832,7 +1032,20 @@ NSString* const kSCANImageAndPositingAniamtionKey = @"imageAndPositionAnimation"
             [_soundPlayDict setObject:sound forKey:frameKey];
         }
         
-                           
+        // 
+        // add alpha
+        //
+        
+        NSNumber* alphaValue = [datum objectForKey:kSCANAlphaKey];
+        
+        if (alphaValue != nil) {
+            [alphaKeyArray addObject:normalizedFrameKey];
+            [alphaValueArray addObject:alphaValue];
+            hasAlphaAnimation = YES;
+        }
+        
+        
+        
         //
         // get ready for next
         //
@@ -843,19 +1056,23 @@ NSString* const kSCANImageAndPositingAniamtionKey = @"imageAndPositionAnimation"
     
     // add return to hom path
     NSNumber* lastKey = [NSNumber numberWithFloat:1.0];
-    [positionKeyArray addObject:lastKey];
-    CGPathAddLineToPoint(positionPath, NULL, firstPt.x, firstPt.y);
+
+    if ( ![positionKeyArray containsObject:lastKey] ) {
+        [positionKeyArray addObject:lastKey];
+        CGPathAddLineToPoint(positionPath, NULL, firstPt.x, firstPt.y);
+    }
     
-    
-    [rotationKeyArray addObject:lastKey];
-    [rotationValueArray addObject:[NSValue valueWithCATransform3D:firstTransform]];
-    
+    if ( ![rotationKeyArray containsObject:lastKey] ) {
+        [rotationKeyArray addObject:lastKey];
+        [rotationValueArray addObject:[NSValue valueWithCATransform3D:firstTransform]];
+    }
     // must all image at time key 1.0 so that loops works correctly
     if (firstImage != nil && ![imageKeyArray containsObject:lastKey]) {
         [imageKeyArray addObject:lastKey];
         [imageArray addObject:(id)firstImage.CGImage];
         
     }
+    
     //
     // set up the animation
     //
@@ -867,7 +1084,6 @@ NSString* const kSCANImageAndPositingAniamtionKey = @"imageAndPositionAnimation"
         imageAnimation = [CAKeyframeAnimation animationWithKeyPath:@"contents"];
         imageAnimation.keyTimes = imageKeyArray;
         imageAnimation.calculationMode = kCAAnimationDiscrete;
-//        imageAnimation.calculationMode = kCAAnimationLinear;
         imageAnimation.values = imageArray;
         imageAnimation.duration = cycleDuration;    
         imageAnimation.delegate = self;
@@ -899,7 +1115,27 @@ NSString* const kSCANImageAndPositingAniamtionKey = @"imageAndPositionAnimation"
         rotationAnimation.delegate = self;
     }
     
+    CAKeyframeAnimation* alphaAnimation = nil;
     
+    if (hasAlphaAnimation) {
+        alphaAnimation = [CAKeyframeAnimation animationWithKeyPath:@"opacity"];
+        alphaAnimation.keyTimes = alphaKeyArray;
+        alphaAnimation.calculationMode = kCAAnimationLinear;        
+        alphaAnimation.values = alphaValueArray;
+        alphaAnimation.duration = cycleDuration;    
+        alphaAnimation.delegate = self;
+    }
+    
+    CAKeyframeAnimation* anchorAnimation = nil;
+    
+    if (hasAnchorAnimation) {
+        anchorAnimation = [CAKeyframeAnimation animationWithKeyPath:@"anchorPoint"];
+        anchorAnimation.keyTimes = anchorKeyArray;
+        anchorAnimation.calculationMode = kCAAnimationDiscrete;       
+        anchorAnimation.values = anchorValueArray;
+        anchorAnimation.duration = cycleDuration;    
+        anchorAnimation.delegate = self;
+    }
     //
     // create the group
     //
@@ -919,6 +1155,12 @@ NSString* const kSCANImageAndPositingAniamtionKey = @"imageAndPositionAnimation"
     }
     if ( rotationAnimation != nil ) {
         [animationList addObject:rotationAnimation];
+    }
+    if ( alphaAnimation != nil ) {
+        [animationList addObject:alphaAnimation];
+    }
+    if ( anchorAnimation != nil ) {
+        [animationList addObject:anchorAnimation];
     }
    
 	theGroup.animations = animationList;
@@ -967,7 +1209,7 @@ NSString* const kSCANImageAndPositingAniamtionKey = @"imageAndPositionAnimation"
     self.contentsScale = self.stillImage.scale;
 
 
-    if (self.completionInvocation != nil ) {
+    if (inDidFinish && self.completionInvocation != nil ) {
         
         NSInvocation* invo = [self.completionInvocation retain];
         

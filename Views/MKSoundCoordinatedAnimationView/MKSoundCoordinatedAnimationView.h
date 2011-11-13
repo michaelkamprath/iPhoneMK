@@ -40,9 +40,24 @@
 }
 
 //
-// Configuration dictionary format
+// Both animation meta data and frame data is held the configuration dictionary.
 //
-// key = NSNumber containing a float value indicating he number of seconds since start this item should be applied
+// Animation Meta Data
+//
+// key = "meta"
+// value = a dictionary containing one or more of the following key/value pairs
+//
+//					key		         | value
+//				---------------------+-------------------------------------------------
+//               "anchorX"           | sets the anchor point for entire animation in the x-axis. Should be a NSNumber [0,1]. If only X (noy Y) is specified, current value 
+//                                   | of Y will be maintained. Will automatically offset the position for this animation so that the layer does not visually move.
+//               "anchorY"           | sets the anchor point for entire animation in the y-axis. Should be a NSNumber [0,1]. If only Y (noy X) is specified, current value 
+//                                   | of X will be maintained. Will automatically offset the position for this animation so that the layer does not visually move.
+//                                   | 
+//
+// Animation Frame Data
+//
+// key = NSNumber containing a float value indicating the number of seconds since start this frame should be applied
 // value = a dictionary containing one or more of the following key/value pairs
 //					key		         | value
 //				---------------------+-------------------------------------------------
@@ -56,6 +71,9 @@
 //                                   | Should be a NSNumber. Frame 0 should have no delta. any defined will be ignored.
 //               "rotatePosDegrees"  | Rotational orientation (in degrees!) to rotate image to relative to orientation on frame 0. Will return to frame 0 orientation 
 //                                   | on last frame. Should be a NSNumber
+//               "alpha"             | Alpha value for layer as a whole. Should be a NSNumber [0,1].
+//               "scaleX"            | Adjusts the scale in the x-axis. Should be an NSNumber.
+//               "scaleY"            | Adjusts the scale in the y-axis. Should be an NSNumber.
 //
 @property (retain,nonatomic) NSDictionary* config;
 
@@ -110,12 +128,24 @@
 
 //
 // converts a "property list" configuration dictionary to the format expected by the config property of an instance.
-// The "property list" verison of the configuraiton does not contain sound or image objects, but in stead filenames.
+// The "property list" verison of the configuraiton does not contain sound or image objects, but instead filenames.
 // This method will generate a config dictionary containin the sound and image objects based. Useful for configuring
-// an animation with a plist file. Localization is honored.
+// an animation with a plist file. Localization is honored. Both animation meta data and frame data is held the configuration property list.
 //
 // The property list format is:
 //
+// Animation Meta Data
+//
+// key = "meta"
+// value = a dictionary containing one or more of the following key/value pairs
+//
+//					key		         | value
+//				---------------------+-------------------------------------------------
+//               "anchorX"           | sets the anchor point for entire animation in the x-axis. Should be a NSNumber [0,1]. If only X (noy Y) is specified, current value 
+//                                   | of Y will be maintained. Will automatically offset the position for this animation so that the layer does not visually move.
+//               "anchorY"           | sets the anchor point for entire animation in the y-axis. Should be a NSNumber [0,1]. If only Y (noy X) is specified, current value 
+//                                   | of X will be maintained. Will automatically offset the position for this animation so that the layer does not visually move.
+//                                   | 
 // key = NSNumber containing a float value indicating he number of seconds since start this item should be applied
 // value = a dictionary containing one or more of the following key/value pairs
 //					key			     | value
@@ -130,6 +160,9 @@
 //                                   | Should be a NSNumber.
 //               "rotatePosDegrees"  | Rotational orientation (in degrees!) to rotate image to relative to orientation on frame 0. Will return to frame 0 orientation 
 //                                   | on last frame. Should be a NSNumber
+//               "alpha"             | Alpha value for layer as a whole. Should be a NSNumber [0,1].
+//               "scaleX"            | Adjusts the scale in the x-axis. Should be an NSNumber.
+//               "scaleY"            | Adjusts the scale in the y-axis. Should be an NSNumber.
 //
 +(NSDictionary*)configFromPropertList:(NSDictionary*)inPropertyList;
 

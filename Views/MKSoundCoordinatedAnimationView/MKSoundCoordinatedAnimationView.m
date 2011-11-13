@@ -180,20 +180,7 @@
 }
 
 #pragma mark - Class Methods
-//
-// converts a "property list" configuration dictionary to the format expected by the config property of an instance.
-// The "property list" verison of the configuraiton does not contain sound or image objects, but in stead filenames.
-// This method will generate a config dictionary containin the sound and image objects based. Useful for configuring
-// an animation with a plist file.
-// The property list format is:
-//
-// key = NSNumber containing a float value indicating he number of seconds since start this item should be applied
-// value = a dictionary containing one or more of the following key/value pairs
-//					key			| value
-//				----------------+------------------------------------------------------------
-//				 "soundFile"	| the file name a sound file, including extension (NSString)
-//				 "imageFile"	| the file name of an image, inclding extension (NSString)
-//
+
 +(NSDictionary*)configFromPropertList:(NSDictionary*)inPropertyList
 {
 	
