@@ -1,0 +1,418 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4C1DF5DD14F60B6E00AE7949 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C1DF5DC14F60B6E00AE7949 /* UIKit.framework */; };
+		4C1DF5DF14F60B6E00AE7949 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C1DF5DE14F60B6E00AE7949 /* Foundation.framework */; };
+		4C1DF5E114F60B6E00AE7949 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C1DF5E014F60B6E00AE7949 /* CoreGraphics.framework */; };
+		4C1DF5E714F60B6E00AE7949 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4C1DF5E514F60B6E00AE7949 /* InfoPlist.strings */; };
+		4C1DF5E914F60B6E00AE7949 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DF5E814F60B6E00AE7949 /* main.m */; };
+		4C1DF5ED14F60B6E00AE7949 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DF5EC14F60B6E00AE7949 /* AppDelegate.m */; };
+		4C1DF5F014F60B6E00AE7949 /* NumberBadgeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DF5EF14F60B6E00AE7949 /* NumberBadgeViewController.m */; };
+		4C1DF5F214F60B6E00AE7949 /* first.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C1DF5F114F60B6E00AE7949 /* first.png */; };
+		4C1DF5F414F60B6E00AE7949 /* first@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C1DF5F314F60B6E00AE7949 /* first@2x.png */; };
+		4C1DF5F714F60B6E00AE7949 /* NetworkImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DF5F614F60B6E00AE7949 /* NetworkImageViewController.m */; };
+		4C1DF5F914F60B6E00AE7949 /* second.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C1DF5F814F60B6E00AE7949 /* second.png */; };
+		4C1DF5FB14F60B6E00AE7949 /* second@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C1DF5FA14F60B6E00AE7949 /* second@2x.png */; };
+		4C1DF5FE14F60B6E00AE7949 /* NumberBadgeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C1DF5FC14F60B6E00AE7949 /* NumberBadgeViewController.xib */; };
+		4C1DF60114F60B6E00AE7949 /* NetworkImageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C1DF5FF14F60B6E00AE7949 /* NetworkImageViewController.xib */; };
+		4C1DF61B14F60C0A00AE7949 /* MKSwitchControlTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DF60E14F60C0A00AE7949 /* MKSwitchControlTableViewCell.m */; };
+		4C1DF61C14F60C0A00AE7949 /* MKNetworkImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DF61214F60C0A00AE7949 /* MKNetworkImageView.m */; };
+		4C1DF61D14F60C0A00AE7949 /* MKNumberBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DF61514F60C0A00AE7949 /* MKNumberBadgeView.m */; };
+		4C1DF61E14F60C0A00AE7949 /* MKSoundCoordinatedAnimationLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DF61814F60C0A00AE7949 /* MKSoundCoordinatedAnimationLayer.m */; };
+		4C1DF61F14F60C0A00AE7949 /* MKSoundCoordinatedAnimationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DF61A14F60C0A00AE7949 /* MKSoundCoordinatedAnimationView.m */; };
+		4C1DF62214F60F6000AE7949 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C1DF62114F60F6000AE7949 /* QuartzCore.framework */; };
+		4C1DF62414F60FB700AE7949 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C1DF62314F60FB700AE7949 /* AVFoundation.framework */; };
+		4C1DF62714F61C7500AE7949 /* TableViewCellsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DF62614F61C7400AE7949 /* TableViewCellsViewController.m */; };
+		4C1DF62A14F624A500AE7949 /* third.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C1DF62814F624A500AE7949 /* third.png */; };
+		4C1DF62B14F624A500AE7949 /* third@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C1DF62914F624A500AE7949 /* third@2x.png */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		4C1DF5D814F60B6E00AE7949 /* iPhoneMK Sample App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iPhoneMK Sample App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C1DF5DC14F60B6E00AE7949 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		4C1DF5DE14F60B6E00AE7949 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		4C1DF5E014F60B6E00AE7949 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		4C1DF5E414F60B6E00AE7949 /* iPhoneMK Sample App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "iPhoneMK Sample App-Info.plist"; sourceTree = "<group>"; };
+		4C1DF5E614F60B6E00AE7949 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		4C1DF5E814F60B6E00AE7949 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		4C1DF5EA14F60B6E00AE7949 /* iPhoneMK Sample App-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iPhoneMK Sample App-Prefix.pch"; sourceTree = "<group>"; };
+		4C1DF5EB14F60B6E00AE7949 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		4C1DF5EC14F60B6E00AE7949 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		4C1DF5EE14F60B6E00AE7949 /* NumberBadgeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NumberBadgeViewController.h; sourceTree = "<group>"; };
+		4C1DF5EF14F60B6E00AE7949 /* NumberBadgeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NumberBadgeViewController.m; sourceTree = "<group>"; };
+		4C1DF5F114F60B6E00AE7949 /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first.png; sourceTree = "<group>"; };
+		4C1DF5F314F60B6E00AE7949 /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first@2x.png"; sourceTree = "<group>"; };
+		4C1DF5F514F60B6E00AE7949 /* NetworkImageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkImageViewController.h; sourceTree = "<group>"; };
+		4C1DF5F614F60B6E00AE7949 /* NetworkImageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetworkImageViewController.m; sourceTree = "<group>"; };
+		4C1DF5F814F60B6E00AE7949 /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
+		4C1DF5FA14F60B6E00AE7949 /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
+		4C1DF5FD14F60B6E00AE7949 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/NumberBadgeViewController.xib; sourceTree = "<group>"; };
+		4C1DF60014F60B6E00AE7949 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/NetworkImageViewController.xib; sourceTree = "<group>"; };
+		4C1DF60D14F60C0A00AE7949 /* MKSwitchControlTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKSwitchControlTableViewCell.h; sourceTree = "<group>"; };
+		4C1DF60E14F60C0A00AE7949 /* MKSwitchControlTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKSwitchControlTableViewCell.m; sourceTree = "<group>"; };
+		4C1DF61114F60C0A00AE7949 /* MKNetworkImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKNetworkImageView.h; sourceTree = "<group>"; };
+		4C1DF61214F60C0A00AE7949 /* MKNetworkImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKNetworkImageView.m; sourceTree = "<group>"; };
+		4C1DF61414F60C0A00AE7949 /* MKNumberBadgeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKNumberBadgeView.h; sourceTree = "<group>"; };
+		4C1DF61514F60C0A00AE7949 /* MKNumberBadgeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKNumberBadgeView.m; sourceTree = "<group>"; };
+		4C1DF61714F60C0A00AE7949 /* MKSoundCoordinatedAnimationLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKSoundCoordinatedAnimationLayer.h; sourceTree = "<group>"; };
+		4C1DF61814F60C0A00AE7949 /* MKSoundCoordinatedAnimationLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKSoundCoordinatedAnimationLayer.m; sourceTree = "<group>"; };
+		4C1DF61914F60C0A00AE7949 /* MKSoundCoordinatedAnimationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKSoundCoordinatedAnimationView.h; sourceTree = "<group>"; };
+		4C1DF61A14F60C0A00AE7949 /* MKSoundCoordinatedAnimationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKSoundCoordinatedAnimationView.m; sourceTree = "<group>"; };
+		4C1DF62114F60F6000AE7949 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		4C1DF62314F60FB700AE7949 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		4C1DF62514F61C7400AE7949 /* TableViewCellsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewCellsViewController.h; sourceTree = "<group>"; };
+		4C1DF62614F61C7400AE7949 /* TableViewCellsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewCellsViewController.m; sourceTree = "<group>"; };
+		4C1DF62814F624A500AE7949 /* third.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = third.png; sourceTree = "<group>"; };
+		4C1DF62914F624A500AE7949 /* third@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "third@2x.png"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4C1DF5D514F60B6E00AE7949 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C1DF5DD14F60B6E00AE7949 /* UIKit.framework in Frameworks */,
+				4C1DF5DF14F60B6E00AE7949 /* Foundation.framework in Frameworks */,
+				4C1DF5E114F60B6E00AE7949 /* CoreGraphics.framework in Frameworks */,
+				4C1DF62214F60F6000AE7949 /* QuartzCore.framework in Frameworks */,
+				4C1DF62414F60FB700AE7949 /* AVFoundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4C1DF5CD14F60B6E00AE7949 = {
+			isa = PBXGroup;
+			children = (
+				4C1DF5E214F60B6E00AE7949 /* iPhoneMK Sample App */,
+				4C1DF5DB14F60B6E00AE7949 /* Frameworks */,
+				4C1DF5D914F60B6E00AE7949 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		4C1DF5D914F60B6E00AE7949 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4C1DF5D814F60B6E00AE7949 /* iPhoneMK Sample App.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4C1DF5DB14F60B6E00AE7949 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4C1DF62314F60FB700AE7949 /* AVFoundation.framework */,
+				4C1DF62114F60F6000AE7949 /* QuartzCore.framework */,
+				4C1DF5DC14F60B6E00AE7949 /* UIKit.framework */,
+				4C1DF5DE14F60B6E00AE7949 /* Foundation.framework */,
+				4C1DF5E014F60B6E00AE7949 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4C1DF5E214F60B6E00AE7949 /* iPhoneMK Sample App */ = {
+			isa = PBXGroup;
+			children = (
+				4C1DF5EB14F60B6E00AE7949 /* AppDelegate.h */,
+				4C1DF5EC14F60B6E00AE7949 /* AppDelegate.m */,
+				4C1DF5EE14F60B6E00AE7949 /* NumberBadgeViewController.h */,
+				4C1DF5EF14F60B6E00AE7949 /* NumberBadgeViewController.m */,
+				4C1DF5F114F60B6E00AE7949 /* first.png */,
+				4C1DF5F314F60B6E00AE7949 /* first@2x.png */,
+				4C1DF5FC14F60B6E00AE7949 /* NumberBadgeViewController.xib */,
+				4C1DF5F514F60B6E00AE7949 /* NetworkImageViewController.h */,
+				4C1DF5F614F60B6E00AE7949 /* NetworkImageViewController.m */,
+				4C1DF5F814F60B6E00AE7949 /* second.png */,
+				4C1DF5FA14F60B6E00AE7949 /* second@2x.png */,
+				4C1DF5FF14F60B6E00AE7949 /* NetworkImageViewController.xib */,
+				4C1DF62514F61C7400AE7949 /* TableViewCellsViewController.h */,
+				4C1DF62614F61C7400AE7949 /* TableViewCellsViewController.m */,
+				4C1DF62814F624A500AE7949 /* third.png */,
+				4C1DF62914F624A500AE7949 /* third@2x.png */,
+				4C1DF60B14F60C0A00AE7949 /* TableViewCells */,
+				4C1DF60F14F60C0A00AE7949 /* Views */,
+				4C1DF5E314F60B6E00AE7949 /* Supporting Files */,
+			);
+			path = "iPhoneMK Sample App";
+			sourceTree = "<group>";
+		};
+		4C1DF5E314F60B6E00AE7949 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				4C1DF5E414F60B6E00AE7949 /* iPhoneMK Sample App-Info.plist */,
+				4C1DF5E514F60B6E00AE7949 /* InfoPlist.strings */,
+				4C1DF5E814F60B6E00AE7949 /* main.m */,
+				4C1DF5EA14F60B6E00AE7949 /* iPhoneMK Sample App-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		4C1DF60B14F60C0A00AE7949 /* TableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				4C1DF60C14F60C0A00AE7949 /* MKSwitchControlTableViewCell */,
+			);
+			name = TableViewCells;
+			path = ../../TableViewCells;
+			sourceTree = "<group>";
+		};
+		4C1DF60C14F60C0A00AE7949 /* MKSwitchControlTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				4C1DF60D14F60C0A00AE7949 /* MKSwitchControlTableViewCell.h */,
+				4C1DF60E14F60C0A00AE7949 /* MKSwitchControlTableViewCell.m */,
+			);
+			path = MKSwitchControlTableViewCell;
+			sourceTree = "<group>";
+		};
+		4C1DF60F14F60C0A00AE7949 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				4C1DF61014F60C0A00AE7949 /* MKNetworkImageView */,
+				4C1DF61314F60C0A00AE7949 /* MKNumberBadgeView */,
+				4C1DF61614F60C0A00AE7949 /* MKSoundCoordinatedAnimationView */,
+			);
+			name = Views;
+			path = ../../Views;
+			sourceTree = "<group>";
+		};
+		4C1DF61014F60C0A00AE7949 /* MKNetworkImageView */ = {
+			isa = PBXGroup;
+			children = (
+				4C1DF61114F60C0A00AE7949 /* MKNetworkImageView.h */,
+				4C1DF61214F60C0A00AE7949 /* MKNetworkImageView.m */,
+			);
+			path = MKNetworkImageView;
+			sourceTree = "<group>";
+		};
+		4C1DF61314F60C0A00AE7949 /* MKNumberBadgeView */ = {
+			isa = PBXGroup;
+			children = (
+				4C1DF61414F60C0A00AE7949 /* MKNumberBadgeView.h */,
+				4C1DF61514F60C0A00AE7949 /* MKNumberBadgeView.m */,
+			);
+			path = MKNumberBadgeView;
+			sourceTree = "<group>";
+		};
+		4C1DF61614F60C0A00AE7949 /* MKSoundCoordinatedAnimationView */ = {
+			isa = PBXGroup;
+			children = (
+				4C1DF61714F60C0A00AE7949 /* MKSoundCoordinatedAnimationLayer.h */,
+				4C1DF61814F60C0A00AE7949 /* MKSoundCoordinatedAnimationLayer.m */,
+				4C1DF61914F60C0A00AE7949 /* MKSoundCoordinatedAnimationView.h */,
+				4C1DF61A14F60C0A00AE7949 /* MKSoundCoordinatedAnimationView.m */,
+			);
+			path = MKSoundCoordinatedAnimationView;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4C1DF5D714F60B6E00AE7949 /* iPhoneMK Sample App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4C1DF60414F60B6E00AE7949 /* Build configuration list for PBXNativeTarget "iPhoneMK Sample App" */;
+			buildPhases = (
+				4C1DF5D414F60B6E00AE7949 /* Sources */,
+				4C1DF5D514F60B6E00AE7949 /* Frameworks */,
+				4C1DF5D614F60B6E00AE7949 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "iPhoneMK Sample App";
+			productName = "iPhoneMK Sample App";
+			productReference = 4C1DF5D814F60B6E00AE7949 /* iPhoneMK Sample App.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4C1DF5CF14F60B6E00AE7949 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = 4C1DF5D214F60B6E00AE7949 /* Build configuration list for PBXProject "iPhoneMK Sample App" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 4C1DF5CD14F60B6E00AE7949;
+			productRefGroup = 4C1DF5D914F60B6E00AE7949 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4C1DF5D714F60B6E00AE7949 /* iPhoneMK Sample App */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		4C1DF5D614F60B6E00AE7949 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C1DF5E714F60B6E00AE7949 /* InfoPlist.strings in Resources */,
+				4C1DF5F214F60B6E00AE7949 /* first.png in Resources */,
+				4C1DF5F414F60B6E00AE7949 /* first@2x.png in Resources */,
+				4C1DF5F914F60B6E00AE7949 /* second.png in Resources */,
+				4C1DF5FB14F60B6E00AE7949 /* second@2x.png in Resources */,
+				4C1DF5FE14F60B6E00AE7949 /* NumberBadgeViewController.xib in Resources */,
+				4C1DF60114F60B6E00AE7949 /* NetworkImageViewController.xib in Resources */,
+				4C1DF62A14F624A500AE7949 /* third.png in Resources */,
+				4C1DF62B14F624A500AE7949 /* third@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4C1DF5D414F60B6E00AE7949 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C1DF5E914F60B6E00AE7949 /* main.m in Sources */,
+				4C1DF5ED14F60B6E00AE7949 /* AppDelegate.m in Sources */,
+				4C1DF5F014F60B6E00AE7949 /* NumberBadgeViewController.m in Sources */,
+				4C1DF5F714F60B6E00AE7949 /* NetworkImageViewController.m in Sources */,
+				4C1DF61B14F60C0A00AE7949 /* MKSwitchControlTableViewCell.m in Sources */,
+				4C1DF61C14F60C0A00AE7949 /* MKNetworkImageView.m in Sources */,
+				4C1DF61D14F60C0A00AE7949 /* MKNumberBadgeView.m in Sources */,
+				4C1DF61E14F60C0A00AE7949 /* MKSoundCoordinatedAnimationLayer.m in Sources */,
+				4C1DF61F14F60C0A00AE7949 /* MKSoundCoordinatedAnimationView.m in Sources */,
+				4C1DF62714F61C7500AE7949 /* TableViewCellsViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		4C1DF5E514F60B6E00AE7949 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4C1DF5E614F60B6E00AE7949 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		4C1DF5FC14F60B6E00AE7949 /* NumberBadgeViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4C1DF5FD14F60B6E00AE7949 /* en */,
+			);
+			name = NumberBadgeViewController.xib;
+			sourceTree = "<group>";
+		};
+		4C1DF5FF14F60B6E00AE7949 /* NetworkImageViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4C1DF60014F60B6E00AE7949 /* en */,
+			);
+			name = NetworkImageViewController.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		4C1DF60214F60B6E00AE7949 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		4C1DF60314F60B6E00AE7949 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		4C1DF60514F60B6E00AE7949 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "iPhoneMK Sample App/iPhoneMK Sample App-Prefix.pch";
+				INFOPLIST_FILE = "iPhoneMK Sample App/iPhoneMK Sample App-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		4C1DF60614F60B6E00AE7949 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "iPhoneMK Sample App/iPhoneMK Sample App-Prefix.pch";
+				INFOPLIST_FILE = "iPhoneMK Sample App/iPhoneMK Sample App-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4C1DF5D214F60B6E00AE7949 /* Build configuration list for PBXProject "iPhoneMK Sample App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4C1DF60214F60B6E00AE7949 /* Debug */,
+				4C1DF60314F60B6E00AE7949 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4C1DF60414F60B6E00AE7949 /* Build configuration list for PBXNativeTarget "iPhoneMK Sample App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4C1DF60514F60B6E00AE7949 /* Debug */,
+				4C1DF60614F60B6E00AE7949 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 4C1DF5CF14F60B6E00AE7949 /* Project object */;
+}
