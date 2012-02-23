@@ -35,16 +35,16 @@
 
 @implementation MKNumberBadgeView
 @synthesize value=_value;
-@synthesize shadow=_shadow;
-@synthesize shadowOffset=_shadowOffset;
-@synthesize shine=_shine;
-@synthesize font=_font;
-@synthesize fillColor=_fillColor;
-@synthesize strokeColor=_strokeColor;
-@synthesize textColor=_textColor;
-@synthesize alignment=_alignment;
+@synthesize shadow;
+@synthesize shadowOffset;
+@synthesize shine;
+@synthesize font;
+@synthesize fillColor;
+@synthesize strokeColor;
+@synthesize textColor;
+@synthesize alignment;
 @dynamic badgeSize;
-@synthesize pad=_pad;
+@synthesize pad;
 
 - (id)initWithFrame:(CGRect)frame 
 {
@@ -73,10 +73,10 @@
 - (void)initState;
 {	
 	self.opaque = NO;
-	self.pad = 4;
+	self.pad = 2;
 	self.font = [UIFont boldSystemFontOfSize:16];
 	self.shadow = YES;
-	self.shadowOffset = CGSizeMake(0, -3);
+	self.shadowOffset = CGSizeMake(0, 3);
 	self.shine = YES;
 	self.alignment = UITextAlignmentCenter;
 	self.fillColor = [UIColor redColor];
@@ -88,10 +88,10 @@
 
 - (void)dealloc 
 {
-	[_font release];
-	[_fillColor release];
-	[_strokeColor release];
-	[_textColor release];
+//	[_font release];
+//	[_fillColor release];
+//	[_strokeColor release];
+//	[_textColor release];
 	
     [super dealloc];
 }

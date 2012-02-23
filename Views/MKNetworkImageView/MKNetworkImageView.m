@@ -28,7 +28,7 @@
 @end
 
 @implementation MKNetworkImageView
-@synthesize imageURL=_imageURL;
+@dynamic imageURL;
 @dynamic image;
 
 - (id)initWithFrame:(CGRect)inFrame 
@@ -100,6 +100,9 @@
 
 
 
+-(NSURL*)imageURL {
+    return _imageURL;
+}
 
 - (void)setImageURL:(NSURL*)inURL
 {

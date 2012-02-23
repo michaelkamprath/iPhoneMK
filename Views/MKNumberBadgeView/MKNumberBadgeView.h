@@ -35,19 +35,6 @@
 @interface MKNumberBadgeView : UIView 
 {
 	NSUInteger _value;
-	
-	UIFont* _font;
-	UIColor* _fillColor;
-	UIColor* _strokeColor;
-	UIColor* _textColor;
-	NSUInteger _pad;
-	
-	BOOL _shadow;
-	BOOL _shine;
-    
-    CGSize _shadowOffset;
-	
-	UITextAlignment _alignment;
 }
 
 // The current value displayed in the badge. Updating the value will update the view's display
