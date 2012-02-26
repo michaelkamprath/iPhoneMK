@@ -45,6 +45,7 @@
 @synthesize alignment;
 @dynamic badgeSize;
 @synthesize pad;
+@synthesize hideWhenZero;
 
 - (id)initWithFrame:(CGRect)frame 
 {
@@ -82,6 +83,7 @@
 	self.fillColor = [UIColor redColor];
 	self.strokeColor = [UIColor whiteColor];
 	self.textColor = [UIColor whiteColor];
+    self.hideWhenZero = NO;
 	
 	self.backgroundColor = [UIColor clearColor];
 }
@@ -260,6 +262,15 @@
 - (void)setValue:(NSUInteger)inValue
 {
 	_value = inValue;
+    
+    if (self.hideWhenZero == YES && _value == 0)
+    {
+        self.hidden = YES;
+    }
+    else
+    {
+        self.hidden = NO;
+    }
 	
 	[self setNeedsDisplay];
 }
