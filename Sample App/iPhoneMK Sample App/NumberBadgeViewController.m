@@ -42,6 +42,7 @@
     
     // Badge Two
     self.badgeTwo.fillColor = [UIColor purpleColor];
+    self.badgeTwo.hideWhenZero = YES;
     
     //Badge Three
     self.badgeThree.fillColor = [UIColor blackColor];
