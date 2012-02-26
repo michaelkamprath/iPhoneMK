@@ -73,4 +73,7 @@
 // is approximate, as the font geometry might effectively slightly increase or decrease the apparent pad.
 @property (nonatomic) NSUInteger pad;
 
+// If YES, the badge will be hidden when the value is 0
+@property (nonatomic) BOOL hideWhenZero;
+
 @end
