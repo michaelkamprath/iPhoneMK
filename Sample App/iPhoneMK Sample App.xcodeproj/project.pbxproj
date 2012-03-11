@@ -263,7 +263,7 @@
 		4C1DF5CF14F60B6E00AE7949 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0430;
 			};
 			buildConfigurationList = 4C1DF5D214F60B6E00AE7949 /* Build configuration list for PBXProject "iPhoneMK Sample App" */;
 			compatibilityVersion = "Xcode 3.2";
