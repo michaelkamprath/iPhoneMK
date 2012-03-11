@@ -8,6 +8,7 @@
 
 #import "TableViewCellsViewController.h"
 #import "MKSwitchControlTableViewCell.h"
+#import "MKIconCheckmarkTableViewCell.h"
 
 @interface TableViewCellsViewController () 
 
@@ -85,7 +86,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return 2;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -93,6 +94,9 @@
     switch (section) {
         case 0:
             return @"MKSwitchControlTableViewCell";
+            break;
+        case 1:
+            return @"MKIconCheckmarkTableViewCell";
             break;
             
         default:
@@ -108,7 +112,9 @@
         case 0:
             return 3;
             break;
-            
+        case 1:
+            return 3;
+            break;
         default:
             return 0;
             break;
@@ -135,6 +141,26 @@
         
         return cell;
     }
+    else if ( [indexPath indexAtPosition:0] == 1 ) {
+        static NSString* IconCheckmarkCellIdentifier = @"IconCheckmarkCell";
+        
+        MKIconCheckmarkTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:IconCheckmarkCellIdentifier];
+        if (cell == nil) {
+            UIImage* checkImage = [UIImage imageNamed:@"checkmarkicon_on.png"];
+            UIImage* emptyImage = [UIImage imageNamed:@"checkmarkicon_empty.png"];
+
+            cell = [[[MKIconCheckmarkTableViewCell alloc] initWithStyle:MKIconCheckmarkTableViewCellStyleRight 
+                                                        reuseIdentifier:IconCheckmarkCellIdentifier 
+                                                             checkImage:checkImage 
+                                                           uncheckImage:emptyImage] autorelease];
+        }
+        
+        cell.textLabel.text = [NSString stringWithFormat:@"Icon Checkmark Cell %d",[indexPath indexAtPosition:1]];
+
+        cell.checked = YES;
+        
+        return cell;
+    }
     else {
         return nil;
     }
@@ -145,14 +171,17 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     [detailViewController release];
-     */
+    
+    if ( [indexPath indexAtPosition:0] == 1 ) {
+        [tableView deselectRowAtIndexPath:[tableView indexPathForSelectedRow] animated:NO];
+        
+        MKIconCheckmarkTableViewCell* cell = (MKIconCheckmarkTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
+        
+        cell.checked = !cell.checked;
+        
+        [cell setNeedsDisplay];
+
+    }
 }
 
 #pragma mark - MKSwitchControlTableViewCell Support
