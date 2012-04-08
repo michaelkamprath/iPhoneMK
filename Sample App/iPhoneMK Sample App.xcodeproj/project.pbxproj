@@ -31,6 +31,10 @@
 		4C1DF62714F61C7500AE7949 /* TableViewCellsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DF62614F61C7400AE7949 /* TableViewCellsViewController.m */; };
 		4C1DF62A14F624A500AE7949 /* third.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C1DF62814F624A500AE7949 /* third.png */; };
 		4C1DF62B14F624A500AE7949 /* third@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C1DF62914F624A500AE7949 /* third@2x.png */; };
+		4C98654A15311A28006F05EB /* fourth.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C98654815311A28006F05EB /* fourth.png */; };
+		4C98654B15311A28006F05EB /* fourth@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C98654915311A28006F05EB /* fourth@2x.png */; };
+		4C98655515311AE0006F05EB /* AnimationLayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C98655315311AE0006F05EB /* AnimationLayerViewController.m */; };
+		4C98655615311AE0006F05EB /* AnimationLayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C98655415311AE0006F05EB /* AnimationLayerViewController.xib */; };
 		4CBC7025150CA17A00AE63B5 /* MKIconCheckmarkTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CBC7024150CA17A00AE63B5 /* MKIconCheckmarkTableViewCell.m */; };
 		4CBC702D150CA25100AE63B5 /* checkmarkicon_empty.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CBC7027150CA25100AE63B5 /* checkmarkicon_empty.png */; };
 		4CBC702E150CA25100AE63B5 /* checkmarkicon_empty@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CBC7028150CA25100AE63B5 /* checkmarkicon_empty@2x.png */; };
@@ -75,6 +79,11 @@
 		4C1DF62614F61C7400AE7949 /* TableViewCellsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewCellsViewController.m; sourceTree = "<group>"; };
 		4C1DF62814F624A500AE7949 /* third.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = third.png; sourceTree = "<group>"; };
 		4C1DF62914F624A500AE7949 /* third@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "third@2x.png"; sourceTree = "<group>"; };
+		4C98654815311A28006F05EB /* fourth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fourth.png; sourceTree = "<group>"; };
+		4C98654915311A28006F05EB /* fourth@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fourth@2x.png"; sourceTree = "<group>"; };
+		4C98655215311AE0006F05EB /* AnimationLayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationLayerViewController.h; sourceTree = "<group>"; };
+		4C98655315311AE0006F05EB /* AnimationLayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimationLayerViewController.m; sourceTree = "<group>"; };
+		4C98655415311AE0006F05EB /* AnimationLayerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AnimationLayerViewController.xib; path = en.lproj/AnimationLayerViewController.xib; sourceTree = "<group>"; };
 		4CBC7023150CA17A00AE63B5 /* MKIconCheckmarkTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKIconCheckmarkTableViewCell.h; sourceTree = "<group>"; };
 		4CBC7024150CA17A00AE63B5 /* MKIconCheckmarkTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKIconCheckmarkTableViewCell.m; sourceTree = "<group>"; };
 		4CBC7027150CA25100AE63B5 /* checkmarkicon_empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkmarkicon_empty.png; sourceTree = "<group>"; };
@@ -151,6 +160,11 @@
 				4CBC7028150CA25100AE63B5 /* checkmarkicon_empty@2x.png */,
 				4CBC702B150CA25100AE63B5 /* checkmarkicon_on.png */,
 				4CBC702C150CA25100AE63B5 /* checkmarkicon_on@2x.png */,
+				4C98655215311AE0006F05EB /* AnimationLayerViewController.h */,
+				4C98655315311AE0006F05EB /* AnimationLayerViewController.m */,
+				4C98655415311AE0006F05EB /* AnimationLayerViewController.xib */,
+				4C98654815311A28006F05EB /* fourth.png */,
+				4C98654915311A28006F05EB /* fourth@2x.png */,
 				4C1DF60B14F60C0A00AE7949 /* TableViewCells */,
 				4C1DF60F14F60C0A00AE7949 /* Views */,
 				4C1DF5E314F60B6E00AE7949 /* Supporting Files */,
@@ -300,6 +314,9 @@
 				4CBC702E150CA25100AE63B5 /* checkmarkicon_empty@2x.png in Resources */,
 				4CBC7031150CA25100AE63B5 /* checkmarkicon_on.png in Resources */,
 				4CBC7032150CA25100AE63B5 /* checkmarkicon_on@2x.png in Resources */,
+				4C98654A15311A28006F05EB /* fourth.png in Resources */,
+				4C98654B15311A28006F05EB /* fourth@2x.png in Resources */,
+				4C98655615311AE0006F05EB /* AnimationLayerViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -321,6 +338,7 @@
 				4C1DF61F14F60C0A00AE7949 /* MKSoundCoordinatedAnimationView.m in Sources */,
 				4C1DF62714F61C7500AE7949 /* TableViewCellsViewController.m in Sources */,
 				4CBC7025150CA17A00AE63B5 /* MKIconCheckmarkTableViewCell.m in Sources */,
+				4C98655515311AE0006F05EB /* AnimationLayerViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -358,7 +376,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = (
+					armv6,
+					armv7,
+				);
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -369,11 +390,11 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -382,15 +403,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = (
+					armv6,
+					armv7,
+				);
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -400,10 +424,14 @@
 		4C1DF60514F60B6E00AE7949 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					armv6,
+					armv7,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iPhoneMK Sample App/iPhoneMK Sample App-Prefix.pch";
 				INFOPLIST_FILE = "iPhoneMK Sample App/iPhoneMK Sample App-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -412,10 +440,14 @@
 		4C1DF60614F60B6E00AE7949 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					armv6,
+					armv7,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iPhoneMK Sample App/iPhoneMK Sample App-Prefix.pch";
 				INFOPLIST_FILE = "iPhoneMK Sample App/iPhoneMK Sample App-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

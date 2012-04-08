@@ -11,6 +11,7 @@
 #import "NumberBadgeViewController.h"
 #import "NetworkImageViewController.h"
 #import "TableViewCellsViewController.h"
+#import "AnimationLayerViewController.h"
 
 @implementation AppDelegate
 
@@ -31,9 +32,10 @@
     UIViewController *viewController1 = [[[NumberBadgeViewController alloc] initWithNibName:@"NumberBadgeViewController" bundle:nil] autorelease];
     UIViewController *viewController2 = [[[NetworkImageViewController alloc] initWithNibName:@"NetworkImageViewController" bundle:nil] autorelease];
     UIViewController *viewController3 = [[[TableViewCellsViewController alloc] init] autorelease];
+    UIViewController *viewController4 = [[[AnimationLayerViewController alloc] initWithNibName:@"AnimationLayerViewController" bundle:nil] autorelease];
     
     self.tabBarController = [[[UITabBarController alloc] init] autorelease];
-    self.tabBarController.viewControllers = [NSArray arrayWithObjects:viewController1, viewController2, viewController3, nil];
+    self.tabBarController.viewControllers = [NSArray arrayWithObjects:viewController1, viewController2, viewController3, viewController4, nil];
     self.window.rootViewController = self.tabBarController;
     [self.window makeKeyAndVisible];
     return YES;
