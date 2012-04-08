@@ -218,8 +218,13 @@ NSString* const kSCANImageAndPositingAniamtionKey = @"imageAndPositionAnimation"
 	{
 		_stillImage = [inImage retain];
         if (!self.isAnimating) {
+            [CATransaction lock];
+            [CATransaction begin];
+            [CATransaction setAnimationDuration:0];
             self.contents = (id)_stillImage.CGImage;
             self.contentsScale = _stillImage.scale;
+            [CATransaction commit];
+            [CATransaction unlock];
         }
 	}
     else if (!self.isAnimating) {
