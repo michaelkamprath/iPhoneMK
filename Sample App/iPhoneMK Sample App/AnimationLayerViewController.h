@@ -8,6 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AnimationLayerViewController : UIViewController
+@class MKSoundCoordinatedAnimationLayer;
+@class AnimationConfigModel;
+
+@interface AnimationLayerViewController : UIViewController {
+    
+    MKSoundCoordinatedAnimationLayer* _animationLayer;
+    
+    AnimationConfigModel* _config;
+}
+@property (retain,nonatomic) IBOutlet UIView* animationAreaView;
+
+
+-(IBAction)animateButtonOne:(id)sender;
+-(IBAction)animateButtonTwo:(id)sender;
+-(IBAction)animateButtonThree:(id)sender;
 
 @end

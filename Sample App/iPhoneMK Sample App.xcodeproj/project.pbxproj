@@ -35,6 +35,18 @@
 		4C98654B15311A28006F05EB /* fourth@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C98654915311A28006F05EB /* fourth@2x.png */; };
 		4C98655515311AE0006F05EB /* AnimationLayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C98655315311AE0006F05EB /* AnimationLayerViewController.m */; };
 		4C98655615311AE0006F05EB /* AnimationLayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C98655415311AE0006F05EB /* AnimationLayerViewController.xib */; };
+		4C98655915311F45006F05EB /* animating_shape.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C98655715311F45006F05EB /* animating_shape.png */; };
+		4C98655A15311F45006F05EB /* animating_shape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C98655815311F45006F05EB /* animating_shape@2x.png */; };
+		4C98655C15311F74006F05EB /* AnimationConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4C98655B15311F74006F05EB /* AnimationConfig.plist */; };
+		4C98656515312109006F05EB /* animating_shape_01.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C98655D15312108006F05EB /* animating_shape_01.png */; };
+		4C98656615312109006F05EB /* animating_shape_01@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C98655E15312108006F05EB /* animating_shape_01@2x.png */; };
+		4C98656715312109006F05EB /* animating_shape_02.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C98655F15312108006F05EB /* animating_shape_02.png */; };
+		4C98656815312109006F05EB /* animating_shape_02@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C98656015312108006F05EB /* animating_shape_02@2x.png */; };
+		4C98656915312109006F05EB /* animating_shape_03.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C98656115312109006F05EB /* animating_shape_03.png */; };
+		4C98656A15312109006F05EB /* animating_shape_03@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C98656215312109006F05EB /* animating_shape_03@2x.png */; };
+		4C98656B15312109006F05EB /* animating_shape_04.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C98656315312109006F05EB /* animating_shape_04.png */; };
+		4C98656C15312109006F05EB /* animating_shape_04@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C98656415312109006F05EB /* animating_shape_04@2x.png */; };
+		4C98656F15312261006F05EB /* AnimationConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C98656E15312260006F05EB /* AnimationConfigModel.m */; };
 		4CBC7025150CA17A00AE63B5 /* MKIconCheckmarkTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CBC7024150CA17A00AE63B5 /* MKIconCheckmarkTableViewCell.m */; };
 		4CBC702D150CA25100AE63B5 /* checkmarkicon_empty.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CBC7027150CA25100AE63B5 /* checkmarkicon_empty.png */; };
 		4CBC702E150CA25100AE63B5 /* checkmarkicon_empty@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CBC7028150CA25100AE63B5 /* checkmarkicon_empty@2x.png */; };
@@ -84,6 +96,19 @@
 		4C98655215311AE0006F05EB /* AnimationLayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationLayerViewController.h; sourceTree = "<group>"; };
 		4C98655315311AE0006F05EB /* AnimationLayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimationLayerViewController.m; sourceTree = "<group>"; };
 		4C98655415311AE0006F05EB /* AnimationLayerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AnimationLayerViewController.xib; path = en.lproj/AnimationLayerViewController.xib; sourceTree = "<group>"; };
+		4C98655715311F45006F05EB /* animating_shape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = animating_shape.png; sourceTree = "<group>"; };
+		4C98655815311F45006F05EB /* animating_shape@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "animating_shape@2x.png"; sourceTree = "<group>"; };
+		4C98655B15311F74006F05EB /* AnimationConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AnimationConfig.plist; sourceTree = "<group>"; };
+		4C98655D15312108006F05EB /* animating_shape_01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = animating_shape_01.png; sourceTree = "<group>"; };
+		4C98655E15312108006F05EB /* animating_shape_01@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "animating_shape_01@2x.png"; sourceTree = "<group>"; };
+		4C98655F15312108006F05EB /* animating_shape_02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = animating_shape_02.png; sourceTree = "<group>"; };
+		4C98656015312108006F05EB /* animating_shape_02@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "animating_shape_02@2x.png"; sourceTree = "<group>"; };
+		4C98656115312109006F05EB /* animating_shape_03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = animating_shape_03.png; sourceTree = "<group>"; };
+		4C98656215312109006F05EB /* animating_shape_03@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "animating_shape_03@2x.png"; sourceTree = "<group>"; };
+		4C98656315312109006F05EB /* animating_shape_04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = animating_shape_04.png; sourceTree = "<group>"; };
+		4C98656415312109006F05EB /* animating_shape_04@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "animating_shape_04@2x.png"; sourceTree = "<group>"; };
+		4C98656D15312260006F05EB /* AnimationConfigModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationConfigModel.h; sourceTree = "<group>"; };
+		4C98656E15312260006F05EB /* AnimationConfigModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimationConfigModel.m; sourceTree = "<group>"; };
 		4CBC7023150CA17A00AE63B5 /* MKIconCheckmarkTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKIconCheckmarkTableViewCell.h; sourceTree = "<group>"; };
 		4CBC7024150CA17A00AE63B5 /* MKIconCheckmarkTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKIconCheckmarkTableViewCell.m; sourceTree = "<group>"; };
 		4CBC7027150CA25100AE63B5 /* checkmarkicon_empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkmarkicon_empty.png; sourceTree = "<group>"; };
@@ -162,7 +187,20 @@
 				4CBC702C150CA25100AE63B5 /* checkmarkicon_on@2x.png */,
 				4C98655215311AE0006F05EB /* AnimationLayerViewController.h */,
 				4C98655315311AE0006F05EB /* AnimationLayerViewController.m */,
+				4C98656D15312260006F05EB /* AnimationConfigModel.h */,
+				4C98656E15312260006F05EB /* AnimationConfigModel.m */,
 				4C98655415311AE0006F05EB /* AnimationLayerViewController.xib */,
+				4C98655B15311F74006F05EB /* AnimationConfig.plist */,
+				4C98655715311F45006F05EB /* animating_shape.png */,
+				4C98655815311F45006F05EB /* animating_shape@2x.png */,
+				4C98655D15312108006F05EB /* animating_shape_01.png */,
+				4C98655E15312108006F05EB /* animating_shape_01@2x.png */,
+				4C98655F15312108006F05EB /* animating_shape_02.png */,
+				4C98656015312108006F05EB /* animating_shape_02@2x.png */,
+				4C98656115312109006F05EB /* animating_shape_03.png */,
+				4C98656215312109006F05EB /* animating_shape_03@2x.png */,
+				4C98656315312109006F05EB /* animating_shape_04.png */,
+				4C98656415312109006F05EB /* animating_shape_04@2x.png */,
 				4C98654815311A28006F05EB /* fourth.png */,
 				4C98654915311A28006F05EB /* fourth@2x.png */,
 				4C1DF60B14F60C0A00AE7949 /* TableViewCells */,
@@ -317,6 +355,17 @@
 				4C98654A15311A28006F05EB /* fourth.png in Resources */,
 				4C98654B15311A28006F05EB /* fourth@2x.png in Resources */,
 				4C98655615311AE0006F05EB /* AnimationLayerViewController.xib in Resources */,
+				4C98655915311F45006F05EB /* animating_shape.png in Resources */,
+				4C98655A15311F45006F05EB /* animating_shape@2x.png in Resources */,
+				4C98655C15311F74006F05EB /* AnimationConfig.plist in Resources */,
+				4C98656515312109006F05EB /* animating_shape_01.png in Resources */,
+				4C98656615312109006F05EB /* animating_shape_01@2x.png in Resources */,
+				4C98656715312109006F05EB /* animating_shape_02.png in Resources */,
+				4C98656815312109006F05EB /* animating_shape_02@2x.png in Resources */,
+				4C98656915312109006F05EB /* animating_shape_03.png in Resources */,
+				4C98656A15312109006F05EB /* animating_shape_03@2x.png in Resources */,
+				4C98656B15312109006F05EB /* animating_shape_04.png in Resources */,
+				4C98656C15312109006F05EB /* animating_shape_04@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -339,6 +388,7 @@
 				4C1DF62714F61C7500AE7949 /* TableViewCellsViewController.m in Sources */,
 				4CBC7025150CA17A00AE63B5 /* MKIconCheckmarkTableViewCell.m in Sources */,
 				4C98655515311AE0006F05EB /* AnimationLayerViewController.m in Sources */,
+				4C98656F15312261006F05EB /* AnimationConfigModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
