@@ -51,16 +51,16 @@
 
 // The font to be used for drawing the numbers. NOTE: not all fonts are created equal for this purpose.
 // Only "system fonts" should be used.
-@property (retain,nonatomic) UIFont* font;
+@property (strong,nonatomic) UIFont* font;
 
 // The color used for the background of the badge.
-@property (retain,nonatomic) UIColor* fillColor;
+@property (strong,nonatomic) UIColor* fillColor;
 
 // The color to be used for drawing the stroke around the badge.
-@property (retain,nonatomic) UIColor* strokeColor;
+@property (strong,nonatomic) UIColor* strokeColor;
 
 // The color to be used for drawing the badge's numbers.
-@property (retain,nonatomic) UIColor* textColor;
+@property (strong,nonatomic) UIColor* textColor;
 
 // How the badge image hould be aligned horizontally in the view. 
 @property (assign,nonatomic) UITextAlignment alignment;
