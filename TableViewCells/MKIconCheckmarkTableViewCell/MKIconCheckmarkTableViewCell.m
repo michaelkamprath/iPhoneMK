@@ -61,6 +61,8 @@
                                        
 -(void)dealloc {
     [_checkImageView release];
+    [self.checkImage release];
+    [self.uncheckImage release];
     
     [super dealloc];
 }
