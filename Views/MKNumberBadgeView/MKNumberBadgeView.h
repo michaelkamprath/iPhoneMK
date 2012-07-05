@@ -29,6 +29,17 @@
 //    * The view's background color is automatically set to clear. If you change the background color, you may get curious results.
 //
 
+#ifndef __has_feature
+#define __has_feature(x) 0
+#endif
+#ifndef __has_extension
+#define __has_extension __has_feature // Compatibility with pre-3.0 compilers.
+#endif
+
+#if __has_feature(objc_arc) && __clang_major__ >= 3
+#error "iPhoneMK is not designed to be used with ARC. Please add '-fno-objc-arc' to the compiler flags of iPhoneMK files."
+#endif // __has_feature(objc_arc)
+
 #import <UIKit/UIKit.h>
 
 
