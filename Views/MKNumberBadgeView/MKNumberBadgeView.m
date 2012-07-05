@@ -90,11 +90,11 @@
 
 - (void)dealloc 
 {
-//	[_font release];
-//	[_fillColor release];
-//	[_strokeColor release];
-//	[_textColor release];
-	
+    [self.font release];
+    [self.fillColor release];
+    [self.strokeColor release];
+    [self.textColor release];
+    
     [super dealloc];
 }
 
