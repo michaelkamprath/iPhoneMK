@@ -20,21 +20,18 @@
 
 - (void)dealloc
 {
-    [_window release];
-    [_tabBarController release];
-    [super dealloc];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
-    UIViewController *viewController1 = [[[NumberBadgeViewController alloc] initWithNibName:@"NumberBadgeViewController" bundle:nil] autorelease];
-    UIViewController *viewController2 = [[[NetworkImageViewController alloc] initWithNibName:@"NetworkImageViewController" bundle:nil] autorelease];
-    UIViewController *viewController3 = [[[TableViewCellsViewController alloc] init] autorelease];
-    UIViewController *viewController4 = [[[AnimationLayerViewController alloc] initWithNibName:@"AnimationLayerViewController" bundle:nil] autorelease];
+    UIViewController *viewController1 = [[NumberBadgeViewController alloc] initWithNibName:@"NumberBadgeViewController" bundle:nil];
+    UIViewController *viewController2 = [[NetworkImageViewController alloc] initWithNibName:@"NetworkImageViewController" bundle:nil];
+    UIViewController *viewController3 = [[TableViewCellsViewController alloc] init];
+    UIViewController *viewController4 = [[AnimationLayerViewController alloc] initWithNibName:@"AnimationLayerViewController" bundle:nil];
     
-    self.tabBarController = [[[UITabBarController alloc] init] autorelease];
+    self.tabBarController = [[UITabBarController alloc] init];
     self.tabBarController.viewControllers = [NSArray arrayWithObjects:viewController1, viewController2, viewController3, viewController4, nil];
     self.window.rootViewController = self.tabBarController;
     [self.window makeKeyAndVisible];

@@ -130,7 +130,7 @@
         
         MKSwitchControlTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (cell == nil) {
-            cell = [[[MKSwitchControlTableViewCell alloc] initWithReuseIdentifier:CellIdentifier] autorelease];
+            cell = [[MKSwitchControlTableViewCell alloc] initWithReuseIdentifier:CellIdentifier];
         }
         
         cell.switchControl.tag = [indexPath indexAtPosition:1];
@@ -149,10 +149,10 @@
             UIImage* checkImage = [UIImage imageNamed:@"checkmarkicon_on.png"];
             UIImage* emptyImage = [UIImage imageNamed:@"checkmarkicon_empty.png"];
 
-            cell = [[[MKIconCheckmarkTableViewCell alloc] initWithStyle:MKIconCheckmarkTableViewCellStyleRight 
+            cell = [[MKIconCheckmarkTableViewCell alloc] initWithStyle:MKIconCheckmarkTableViewCellStyleRight 
                                                         reuseIdentifier:IconCheckmarkCellIdentifier 
                                                              checkImage:checkImage 
-                                                           uncheckImage:emptyImage] autorelease];
+                                                           uncheckImage:emptyImage];
         }
         
         cell.textLabel.text = [NSString stringWithFormat:@"Icon Checkmark Cell %d",[indexPath indexAtPosition:1]];

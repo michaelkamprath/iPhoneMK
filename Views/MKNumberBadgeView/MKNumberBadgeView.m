@@ -2,7 +2,7 @@
 //  MKNumberBadgeView.m
 //  MKNumberBadgeView
 //
-// Copyright 2009 Michael F. Kamprath
+// Copyright 2009-2012 Michael F. Kamprath
 // michael@claireware.com
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,6 +17,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+
+#ifndef __has_feature
+#define __has_feature(x) 0
+#endif
+#ifndef __has_extension
+#define __has_extension __has_feature // Compatibility with pre-3.0 compilers.
+#endif
+
+#if __has_feature(objc_arc) && __clang_major__ >= 3
+#error "iPhoneMK is not designed to be used with ARC. Please add '-fno-objc-arc' to the compiler flags of iPhoneMK files."
+#endif // __has_feature(objc_arc)
+
 
 #import "MKNumberBadgeView.h"
 
