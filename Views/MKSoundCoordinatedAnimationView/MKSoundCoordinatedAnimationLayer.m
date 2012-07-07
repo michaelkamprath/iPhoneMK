@@ -464,13 +464,14 @@ NSString* const kSCANImageAndPositingAniamtionKey = @"imageAndPositionAnimation"
             
             NSString* soundFileName = [frameProperties objectForKey:kSCANSoundFileNameKey];
             
-            AVAudioPlayer *player = [inObjectFactory getAVAudioPlayerForFilename:soundFileName];
-            
-            if (player != nil)
-            {
-                [frameConfig setObject:player forKey:kSCANSoundObjectKey];
+            if ( soundFileName != nil ) {
+                AVAudioPlayer *player = [inObjectFactory getAVAudioPlayerForFilename:soundFileName];
+                
+                if (player != nil)
+                {
+                    [frameConfig setObject:player forKey:kSCANSoundObjectKey];
+                }
             }
-
             //
             // frame image
             //
