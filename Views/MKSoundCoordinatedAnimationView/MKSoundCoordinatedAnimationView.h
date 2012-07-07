@@ -30,7 +30,6 @@
 // use the MKSoundCoordinatedAnimationLayer class. MKSoundCoordinatedAnimationView simply wraps MKSoundCoordinatedAnimationLayer.
 //
 
-
 #import <UIKit/UIKit.h>
 #import "MKSoundCoordinatedAnimationLayer.h"
 

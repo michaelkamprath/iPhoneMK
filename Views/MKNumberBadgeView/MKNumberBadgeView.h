@@ -1,7 +1,7 @@
 //
 //  MKNumberBadgeView.h
 //  
-// Copyright 2009 Michael F. Kamprath
+// Copyright 2009-2012 Michael F. Kamprath
 // michael@claireware.com
 //
 // Licensed under the Apache License, Version 2.0 (the "License");

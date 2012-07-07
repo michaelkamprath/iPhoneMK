@@ -21,11 +21,11 @@
 		4C1DF5FB14F60B6E00AE7949 /* second@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C1DF5FA14F60B6E00AE7949 /* second@2x.png */; };
 		4C1DF5FE14F60B6E00AE7949 /* NumberBadgeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C1DF5FC14F60B6E00AE7949 /* NumberBadgeViewController.xib */; };
 		4C1DF60114F60B6E00AE7949 /* NetworkImageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C1DF5FF14F60B6E00AE7949 /* NetworkImageViewController.xib */; };
-		4C1DF61B14F60C0A00AE7949 /* MKSwitchControlTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DF60E14F60C0A00AE7949 /* MKSwitchControlTableViewCell.m */; };
-		4C1DF61C14F60C0A00AE7949 /* MKNetworkImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DF61214F60C0A00AE7949 /* MKNetworkImageView.m */; };
-		4C1DF61D14F60C0A00AE7949 /* MKNumberBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DF61514F60C0A00AE7949 /* MKNumberBadgeView.m */; };
-		4C1DF61E14F60C0A00AE7949 /* MKSoundCoordinatedAnimationLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DF61814F60C0A00AE7949 /* MKSoundCoordinatedAnimationLayer.m */; };
-		4C1DF61F14F60C0A00AE7949 /* MKSoundCoordinatedAnimationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DF61A14F60C0A00AE7949 /* MKSoundCoordinatedAnimationView.m */; };
+		4C1DF61B14F60C0A00AE7949 /* MKSwitchControlTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DF60E14F60C0A00AE7949 /* MKSwitchControlTableViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		4C1DF61C14F60C0A00AE7949 /* MKNetworkImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DF61214F60C0A00AE7949 /* MKNetworkImageView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		4C1DF61D14F60C0A00AE7949 /* MKNumberBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DF61514F60C0A00AE7949 /* MKNumberBadgeView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		4C1DF61E14F60C0A00AE7949 /* MKSoundCoordinatedAnimationLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DF61814F60C0A00AE7949 /* MKSoundCoordinatedAnimationLayer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		4C1DF61F14F60C0A00AE7949 /* MKSoundCoordinatedAnimationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DF61A14F60C0A00AE7949 /* MKSoundCoordinatedAnimationView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		4C1DF62214F60F6000AE7949 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C1DF62114F60F6000AE7949 /* QuartzCore.framework */; };
 		4C1DF62414F60FB700AE7949 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C1DF62314F60FB700AE7949 /* AVFoundation.framework */; };
 		4C1DF62714F61C7500AE7949 /* TableViewCellsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DF62614F61C7400AE7949 /* TableViewCellsViewController.m */; };
@@ -47,7 +47,7 @@
 		4C98656B15312109006F05EB /* animating_shape_04.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C98656315312109006F05EB /* animating_shape_04.png */; };
 		4C98656C15312109006F05EB /* animating_shape_04@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C98656415312109006F05EB /* animating_shape_04@2x.png */; };
 		4C98656F15312261006F05EB /* AnimationConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C98656E15312260006F05EB /* AnimationConfigModel.m */; };
-		4CBC7025150CA17A00AE63B5 /* MKIconCheckmarkTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CBC7024150CA17A00AE63B5 /* MKIconCheckmarkTableViewCell.m */; };
+		4CBC7025150CA17A00AE63B5 /* MKIconCheckmarkTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CBC7024150CA17A00AE63B5 /* MKIconCheckmarkTableViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		4CBC702D150CA25100AE63B5 /* checkmarkicon_empty.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CBC7027150CA25100AE63B5 /* checkmarkicon_empty.png */; };
 		4CBC702E150CA25100AE63B5 /* checkmarkicon_empty@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CBC7028150CA25100AE63B5 /* checkmarkicon_empty@2x.png */; };
 		4CBC7031150CA25100AE63B5 /* checkmarkicon_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CBC702B150CA25100AE63B5 /* checkmarkicon_on.png */; };
@@ -478,8 +478,10 @@
 					armv6,
 					armv7,
 				);
+				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iPhoneMK Sample App/iPhoneMK Sample App-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "iPhoneMK Sample App/iPhoneMK Sample App-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -494,8 +496,10 @@
 					armv6,
 					armv7,
 				);
+				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iPhoneMK Sample App/iPhoneMK Sample App-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "iPhoneMK Sample App/iPhoneMK Sample App-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";

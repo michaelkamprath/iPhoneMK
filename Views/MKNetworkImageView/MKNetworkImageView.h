@@ -32,7 +32,6 @@
 
 #import <UIKit/UIKit.h>
 
-
 @interface MKNetworkImageView : UIView 
 {
 	NSURL* _imageURL;

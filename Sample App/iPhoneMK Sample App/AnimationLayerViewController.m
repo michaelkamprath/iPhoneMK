@@ -34,10 +34,6 @@
 
 -(void)dealloc {
     [_animationLayer removeFromSuperlayer];
-    [_animationLayer release];
-    [_config release];
-    
-    [super dealloc];
 }
 
 - (void)viewDidLoad
@@ -75,7 +71,6 @@
     // e.g. self.myOutlet = nil;
     
     [_animationLayer removeFromSuperlayer];
-    [_animationLayer release];
     _animationLayer = nil;
     
 }

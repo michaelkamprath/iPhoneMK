@@ -28,16 +28,12 @@
         if(!_configDict)
         {
             NSLog(@"%@",error);
-            [error release];
             
             // TBC - can't run, error dialog and quit
             
             return nil;
         }	
-        
-        [_configDict retain];
-      
-        
+              
     }
     
     return self;
