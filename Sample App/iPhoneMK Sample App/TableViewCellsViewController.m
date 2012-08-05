@@ -9,8 +9,13 @@
 #import "TableViewCellsViewController.h"
 #import "MKSwitchControlTableViewCell.h"
 #import "MKIconCheckmarkTableViewCell.h"
+#import "MKSocialShareTableViewCell.h"
 
-@interface TableViewCellsViewController () 
+#define SECTIONID_MKSwitchControlTableViewCell  0
+#define SECTIONID_MKIconCheckmarkTableViewCell  1
+#define SECTIONID_MKSocialShareTableViewCell    2
+
+@interface TableViewCellsViewController ()
 
 - (void)switchControlValueChanged:(id)sender;
 
@@ -86,19 +91,25 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    if ( [MKSocialShareTableViewCell socialShareAvailable] ) {
+        return 3;
+    }
+    else {
+        return 2;
+    }
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     
     switch (section) {
-        case 0:
+        case SECTIONID_MKSwitchControlTableViewCell:
             return @"MKSwitchControlTableViewCell";
             break;
-        case 1:
+        case SECTIONID_MKIconCheckmarkTableViewCell:
             return @"MKIconCheckmarkTableViewCell";
             break;
-            
+        case SECTIONID_MKSocialShareTableViewCell:
+            return @"MKSocialShareTableViewCell";
         default:
             return nil;
             break;
@@ -109,11 +120,14 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     switch (section) {
-        case 0:
+        case SECTIONID_MKSwitchControlTableViewCell:
             return 3;
             break;
-        case 1:
+        case SECTIONID_MKIconCheckmarkTableViewCell:
             return 3;
+            break;
+        case SECTIONID_MKSocialShareTableViewCell:
+            return 1;
             break;
         default:
             return 0;
@@ -124,8 +138,9 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSUInteger sectionID = [indexPath indexAtPosition:0];
     
-    if ( [indexPath indexAtPosition:0] == 0 ) {
+    if ( sectionID == SECTIONID_MKSwitchControlTableViewCell ) {
         static NSString *CellIdentifier = @"SwitchCell";
         
         MKSwitchControlTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -141,7 +156,7 @@
         
         return cell;
     }
-    else if ( [indexPath indexAtPosition:0] == 1 ) {
+    else if ( sectionID == SECTIONID_MKIconCheckmarkTableViewCell ) {
         static NSString* IconCheckmarkCellIdentifier = @"IconCheckmarkCell";
         
         MKIconCheckmarkTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:IconCheckmarkCellIdentifier];
@@ -158,6 +173,26 @@
         cell.textLabel.text = [NSString stringWithFormat:@"Icon Checkmark Cell %d",[indexPath indexAtPosition:1]];
 
         cell.checked = YES;
+        
+        return cell;
+    }
+    else if ( sectionID == SECTIONID_MKSocialShareTableViewCell ) {
+        static NSString* SocialShareCellIdentifier = @"SocialShare";
+        
+        MKSocialShareTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:SocialShareCellIdentifier];
+        
+        if (cell == nil ) {
+            cell = [[MKSocialShareTableViewCell alloc] initWithReuseIdentifier:SocialShareCellIdentifier
+                                                                 facebookImage:[UIImage imageNamed:@"facebook.png"]
+                                                                  twitterImage:[UIImage imageNamed:@"twitter.png"]
+                                                                    weiboImage:[UIImage imageNamed:@"weibo.png"]];
+            
+            cell.postText = @"I am using iPhoneMK to make my iOS app better. So can you!";
+            cell.postURLList = [NSArray arrayWithObjects:[NSURL URLWithString:@"https://github.com/michaelkamprath/iPhoneMK"], nil];
+            
+        }
+        
+        cell.textLabel.text = @"Share iPhoneMK";
         
         return cell;
     }
@@ -183,6 +218,8 @@
 
     }
 }
+
+
 
 #pragma mark - MKSwitchControlTableViewCell Support
 
