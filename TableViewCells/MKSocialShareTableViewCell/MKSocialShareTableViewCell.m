@@ -16,9 +16,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-// Icons provided with this class were created with the publically available marketing material of each respective trademark holder. Please
-// consult with Facebook's, Twitter's, and Weibo's marketing guidelines before using the provided icons in your project.
-//
+// Icons provided with this class were created with the publically available marketing
+// material of each respective trademark holder. Please consult with Facebook's, Twitter's,
+// and Weibo's marketing guidelines before using the provided icons in your project.
+// 
 
 #ifndef __has_feature
 #define __has_feature(x) 0

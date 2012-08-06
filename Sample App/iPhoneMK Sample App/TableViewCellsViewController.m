@@ -127,7 +127,12 @@
             return 3;
             break;
         case SECTIONID_MKSocialShareTableViewCell:
-            return 1;
+            if ( [MKSocialShareTableViewCell socialShareAvailable]) {
+                return 1;
+            }
+            else {
+                return 0;
+            }
             break;
         default:
             return 0;
