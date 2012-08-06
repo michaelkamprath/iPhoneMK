@@ -19,7 +19,12 @@
 // Icons provided with this class were created with the publically available marketing
 // material of each respective trademark holder. Please consult with Facebook's, Twitter's,
 // and Weibo's marketing guidelines before using the provided icons in your project.
-// 
+// The links to each company's marketing materials are:
+//
+//      Facebook    -   https://www.facebook.com/brandpermissions/logos.php
+//      Twitter     -   http://twitter.com/logo
+//      Weibo       -   http://open.weibo.com/wiki/微博标识/en
+//
 
 #ifndef __has_feature
 #define __has_feature(x) 0
