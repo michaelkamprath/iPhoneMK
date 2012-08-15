@@ -46,6 +46,9 @@
 // The offset for the shadow, if there is one.
 @property (assign,nonatomic) CGSize shadowOffset;
 
+// The base color for the shadow, if there is one.
+@property (retain,nonatomic) UIColor * shadowColor;
+
 // Indicates whether the badge view should be drawn with a shine
 @property (assign,nonatomic) BOOL shine;
 
@@ -58,6 +61,9 @@
 
 // The color to be used for drawing the stroke around the badge.
 @property (retain,nonatomic) UIColor* strokeColor;
+
+// The width for the stroke around the badge.
+@property (assign,nonatomic) CGFloat strokeWidth;
 
 // The color to be used for drawing the badge's numbers.
 @property (retain,nonatomic) UIColor* textColor;
