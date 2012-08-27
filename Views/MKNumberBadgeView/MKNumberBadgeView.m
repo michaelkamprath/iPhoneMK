@@ -49,10 +49,12 @@
 @synthesize value=_value;
 @synthesize shadow;
 @synthesize shadowOffset;
+@synthesize shadowColor;
 @synthesize shine;
 @synthesize font;
 @synthesize fillColor;
 @synthesize strokeColor;
+@synthesize strokeWidth;
 @synthesize textColor;
 @synthesize alignment;
 @dynamic badgeSize;
@@ -90,10 +92,12 @@
 	self.font = [UIFont boldSystemFontOfSize:16];
 	self.shadow = YES;
 	self.shadowOffset = CGSizeMake(0, 3);
+	self.shadowColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
 	self.shine = YES;
 	self.alignment = UITextAlignmentCenter;
 	self.fillColor = [UIColor redColor];
 	self.strokeColor = [UIColor whiteColor];
+	self.strokeWidth = 2.0;
 	self.textColor = [UIColor whiteColor];
     self.hideWhenZero = NO;
 	
@@ -106,6 +110,7 @@
     [self.fillColor release];
     [self.strokeColor release];
     [self.textColor release];
+    [self.shadowColor release];
     
     [super dealloc];
 }
@@ -132,16 +137,14 @@
 	badgeRect.size.height = ceil( badgeRect.size.height );
 	
     
-    CGFloat lineWidth = 2.0;
-	
 	CGContextSaveGState( curContext );
-	CGContextSetLineWidth( curContext, lineWidth );
+	CGContextSetLineWidth( curContext, self.strokeWidth );
 	CGContextSetStrokeColorWithColor(  curContext, self.strokeColor.CGColor  );
 	CGContextSetFillColorWithColor( curContext, self.fillColor.CGColor );
 	
 	// Line stroke straddles the path, so we need to account for the outer portion
-	badgeRect.size.width += ceilf( lineWidth / 2 );
-	badgeRect.size.height += ceilf( lineWidth / 2 );
+	badgeRect.size.width += ceilf( self.strokeWidth / 2 );
+	badgeRect.size.height += ceilf( self.strokeWidth / 2 );
 	
 	CGPoint ctm;
 	
@@ -166,9 +169,8 @@
 		CGContextSaveGState( curContext );
 
 		CGSize blurSize = self.shadowOffset;
-		UIColor* blurColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
 		
-		CGContextSetShadowWithColor( curContext, blurSize, 4, blurColor.CGColor );
+		CGContextSetShadowWithColor( curContext, blurSize, 4, self.shadowColor.CGColor );
 		
 		CGContextBeginPath( curContext );
 		CGContextAddPath( curContext, badgePath );
