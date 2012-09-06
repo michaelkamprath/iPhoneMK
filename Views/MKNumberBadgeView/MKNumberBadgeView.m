@@ -106,11 +106,11 @@
 
 - (void)dealloc 
 {
-    [self.font release];
-    [self.fillColor release];
-    [self.strokeColor release];
-    [self.textColor release];
-    [self.shadowColor release];
+    [font release];
+    [fillColor release];
+    [strokeColor release];
+    [textColor release];
+    [git shadowColor release];
     
     [super dealloc];
 }
@@ -252,10 +252,6 @@
 	if ( badgeWidthAdjustment > 0.0 )
 	{
 		badgeWidth += badgeWidthAdjustment;
-	}
-	else
-	{
-		badgeWidthAdjustment = 0;
 	}
 	
 	
