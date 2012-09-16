@@ -274,6 +274,18 @@
 - (void)stopAnimatingImmeditely:(BOOL)inImmediately;
 
 /*!
+ @method pauseAnimation
+ @abstract Pauses all animations in this layer, ostensibly to be resumed later. Not calling resumeAnimation will prevant any animation in the layer from working. Note that you can change animations while the layer's animations are paused.
+ */
+- (void)pauseAnimation;
+
+/*!
+ @method resumeAnimation
+ @abstract Resumes animation in this layer after they have been paused. 
+ */
+- (void)resumeAnimation;
+
+/*!
  @method configFromPropertList:
  @abstract Generates a animation configuration dictionary from a property list styled dictionary.
  @param inPropertyList NSDictionary containing property list data
