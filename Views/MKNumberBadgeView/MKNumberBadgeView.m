@@ -110,7 +110,7 @@
     [fillColor release];
     [strokeColor release];
     [textColor release];
-    [git shadowColor release];
+    [shadowColor release];
     
     [super dealloc];
 }
