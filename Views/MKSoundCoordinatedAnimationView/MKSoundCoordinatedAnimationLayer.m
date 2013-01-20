@@ -234,6 +234,9 @@ NSString* const kSCANImageAndPositingAniamtionKey = @"imageAndPositionAnimation"
             [CATransaction setAnimationDuration:0];
             self.contents = (id)_stillImage.CGImage;
             self.contentsScale = _stillImage.scale;
+            CGPoint originalPos = self.position;
+            self.frame = CGRectMake( self.frame.origin.x, self.frame.origin.y, _stillImage.size.width, _stillImage.size.height );
+            self.position = originalPos;
             [CATransaction commit];
             [CATransaction unlock];
         }
