@@ -273,14 +273,7 @@
 {
 	_value = inValue;
     
-    if (self.hideWhenZero == YES && _value == 0)
-    {
-        self.hidden = YES;
-    }
-    else
-    {
-        self.hidden = NO;
-    }
+    self.hidden = self.hideWhenZero && _value == 0;
 	
 	[self setNeedsDisplay];
 }
