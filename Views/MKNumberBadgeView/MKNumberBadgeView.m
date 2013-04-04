@@ -63,7 +63,7 @@
 
 - (id)initWithFrame:(CGRect)frame 
 {
-    if (self = [super initWithFrame:frame]) 
+    if ((self = [super initWithFrame:frame])) 
 	{
         // Initialization code
 		
@@ -74,7 +74,7 @@
 
 - (id)initWithCoder:(NSCoder *)decoder
 {
-	if (self = [super initWithCoder:decoder]) 
+	if ((self = [super initWithCoder:decoder]))
 	{
         // Initialization code
 		[self initState];
@@ -85,7 +85,7 @@
 
 #pragma mark -- private methods --
 
-- (void)initState;
+- (void)initState
 {	
 	self.opaque = NO;
 	self.pad = 2;
@@ -148,9 +148,10 @@
 	
 	CGPoint ctm;
 	
-	switch (self.alignment) 
+	switch (self.alignment)
 	{
-		default:
+		case NSTextAlignmentJustified:
+		case NSTextAlignmentNatural:
 		case UITextAlignmentCenter:
 			ctm = CGPointMake( round((viewBounds.size.width - badgeRect.size.width)/2), round((viewBounds.size.height - badgeRect.size.height)/2) );
 			break;
