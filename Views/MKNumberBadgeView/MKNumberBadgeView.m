@@ -63,7 +63,7 @@
 
 - (id)initWithFrame:(CGRect)frame 
 {
-    if (self = [super initWithFrame:frame]) 
+    if ((self = [super initWithFrame:frame])) 
 	{
         // Initialization code
 		
@@ -74,7 +74,7 @@
 
 - (id)initWithCoder:(NSCoder *)decoder
 {
-	if (self = [super initWithCoder:decoder]) 
+	if ((self = [super initWithCoder:decoder]))
 	{
         // Initialization code
 		[self initState];
@@ -85,7 +85,7 @@
 
 #pragma mark -- private methods --
 
-- (void)initState;
+- (void)initState
 {	
 	self.opaque = NO;
 	self.pad = 2;
@@ -94,7 +94,7 @@
 	self.shadowOffset = CGSizeMake(0, 3);
 	self.shadowColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
 	self.shine = YES;
-	self.alignment = UITextAlignmentCenter;
+	self.alignment = NSTextAlignmentCenter;
 	self.fillColor = [UIColor redColor];
 	self.strokeColor = [UIColor whiteColor];
 	self.strokeWidth = 2.0;
@@ -148,16 +148,17 @@
 	
 	CGPoint ctm;
 	
-	switch (self.alignment) 
+	switch (self.alignment)
 	{
-		default:
-		case UITextAlignmentCenter:
+		case NSTextAlignmentJustified:
+		case NSTextAlignmentNatural:
+		case NSTextAlignmentCenter:
 			ctm = CGPointMake( round((viewBounds.size.width - badgeRect.size.width)/2), round((viewBounds.size.height - badgeRect.size.height)/2) );
 			break;
-		case UITextAlignmentLeft:
+		case NSTextAlignmentLeft:
 			ctm = CGPointMake( 0, round((viewBounds.size.height - badgeRect.size.height)/2) );
 			break;
-		case UITextAlignmentRight:
+		case NSTextAlignmentRight:
 			ctm = CGPointMake( (viewBounds.size.width - badgeRect.size.width), round((viewBounds.size.height - badgeRect.size.height)/2) );
 			break;
 	}
@@ -273,14 +274,7 @@
 {
 	_value = inValue;
     
-    if (self.hideWhenZero == YES && _value == 0)
-    {
-        self.hidden = YES;
-    }
-    else
-    {
-        self.hidden = NO;
-    }
+    self.hidden = self.hideWhenZero && _value == 0;
 	
 	[self setNeedsDisplay];
 }
