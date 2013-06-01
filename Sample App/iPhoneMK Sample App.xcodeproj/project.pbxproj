@@ -53,7 +53,7 @@
 		4C98656B15312109006F05EB /* animating_shape_04.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C98656315312109006F05EB /* animating_shape_04.png */; };
 		4C98656C15312109006F05EB /* animating_shape_04@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C98656415312109006F05EB /* animating_shape_04@2x.png */; };
 		4C98656F15312261006F05EB /* AnimationConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C98656E15312260006F05EB /* AnimationConfigModel.m */; };
-		4CAE1D4315A9E0CA007A9C07 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CAE1D4215A9E0CA007A9C07 /* Social.framework */; };
+		4CAE1D4315A9E0CA007A9C07 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CAE1D4215A9E0CA007A9C07 /* Social.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		4CAE1D4615A9E0F7007A9C07 /* MKSocialShareTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CAE1D4515A9E0F7007A9C07 /* MKSocialShareTableViewCell.m */; };
 		4CBC7025150CA17A00AE63B5 /* MKIconCheckmarkTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CBC7024150CA17A00AE63B5 /* MKIconCheckmarkTableViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		4CBC702D150CA25100AE63B5 /* checkmarkicon_empty.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CBC7027150CA25100AE63B5 /* checkmarkicon_empty.png */; };
