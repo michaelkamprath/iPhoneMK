@@ -52,14 +52,63 @@
     // Badge Four
     self.badgeFour.shine = NO;
     self.badgeFour.shadow = NO;
+
+    // Badge Five
+    self.badgeFive = [[MKNumberBadgeView alloc] initWithFrame:CGRectMake(self.buttonFive.frame.size.width - 22,
+                                                                         -15,
+                                                                         44,
+                                                                         30)];
+    [self.buttonFive addSubview:self.badgeFive];
+
+    // Badge Six
+    self.badgeSix = [[MKNumberBadgeView alloc] initWithFrame:CGRectMake(self.buttonSix.frame.size.width - 37,
+                                                                         -15,
+                                                                         74,
+                                                                         30)];
+    [self.buttonSix addSubview:self.badgeSix];
+
+    // Badge Seven
+    UIButton* buttonSeven = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 70, 30)];
+    buttonSeven.titleLabel.text = @"seven";
+    [buttonSeven setTitle:@"seven" forState:UIControlStateNormal];
+    [buttonSeven setBackgroundColor:[UIColor blueColor]];
+    self.badgeSeven = [[MKNumberBadgeView alloc] initWithFrame:CGRectMake(buttonSeven.frame.size.width - 37,
+                                                                          -15,
+                                                                          74,
+                                                                          30)];
+    [buttonSeven addSubview:self.badgeSeven];
+
+    // Badge Eight
+    self.badgeEight = [[MKNumberBadgeView alloc] initWithFrame:CGRectMake(-22,
+                                                                          -15,
+                                                                          44,
+                                                                          30)];
+    UISegmentedControl* segmentedControl =
+    [[UISegmentedControl alloc] initWithItems:@[@"9a",@"9b", @"9c"]];
+    [segmentedControl addSubview:self.badgeEight];
+
+    // Add buttons seven and eight to the toolbar
+    UIBarButtonItem* buttonEight = [[UIBarButtonItem alloc] initWithCustomView:segmentedControl];
+    NSArray* toobarItems =
+    @[
+      [[UIBarButtonItem alloc] initWithCustomView:buttonSeven],
+      [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                                    target:nil
+                                                    action:nil],
+      buttonEight
+    ];
+    [self.myToolbar setItems:toobarItems];
+    
     
     // set up
-    
     [self slideValueChanged:self];
 }
 
 - (void)viewDidUnload
 {
+    [self setMyToolbar:nil];
+    [self setButtonFive:nil];
+    [self setButtonSix:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -99,7 +148,10 @@
     self.badgeTwo.value = sliderValue;
     self.badgeThree.value = sliderValue;
     self.badgeFour.value = sliderValue;
-    
+    self.badgeFive.value = sliderValue;
+    self.badgeSix.value = sliderValue * 1000;
+    self.badgeSeven.value = sliderValue * 1000;
+    self.badgeEight.value = sliderValue;
 }
 
 @end
