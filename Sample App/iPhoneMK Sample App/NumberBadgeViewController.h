@@ -27,6 +27,7 @@
 @property (retain, nonatomic) IBOutlet UIToolbar* myToolbar;
 @property (retain, nonatomic) MKNumberBadgeView*  badgeSeven;
 @property (retain, nonatomic) MKNumberBadgeView*  badgeEight;
+@property (retain, nonatomic) MKNumberBadgeView*  badgeNine;
 
 -(IBAction)slideValueChanged:(id)sender;
 

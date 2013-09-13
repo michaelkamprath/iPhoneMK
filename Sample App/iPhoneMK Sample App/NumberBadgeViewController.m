@@ -69,33 +69,57 @@
 
     // Badge Seven
     UIButton* buttonSeven = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 70, 30)];
-    buttonSeven.titleLabel.text = @"seven";
     [buttonSeven setTitle:@"seven" forState:UIControlStateNormal];
     [buttonSeven setBackgroundColor:[UIColor blueColor]];
     self.badgeSeven = [[MKNumberBadgeView alloc] initWithFrame:CGRectMake(buttonSeven.frame.size.width - 37,
                                                                           -15,
                                                                           74,
                                                                           30)];
+    self.badgeSeven.font = [UIFont boldSystemFontOfSize:11];
     [buttonSeven addSubview:self.badgeSeven];
 
-    // Badge Eight
+    // Badge Eight - Wrong way
     self.badgeEight = [[MKNumberBadgeView alloc] initWithFrame:CGRectMake(-22,
                                                                           -15,
                                                                           44,
                                                                           30)];
-    UISegmentedControl* segmentedControl =
-    [[UISegmentedControl alloc] initWithItems:@[@"9a",@"9b", @"9c"]];
-    [segmentedControl addSubview:self.badgeEight];
+    self.badgeEight.font = [UIFont boldSystemFontOfSize:11];
+    UISegmentedControl* segmentedControlEight =
+    [[UISegmentedControl alloc] initWithItems:@[@"9a",@"9b",@"9c"]];
+    segmentedControlEight.segmentedControlStyle = UISegmentedControlStyleBar;
+    segmentedControlEight.momentary = YES;
+    [segmentedControlEight addSubview:self.badgeEight];
+    UIBarButtonItem* buttonEight = [[UIBarButtonItem alloc] initWithCustomView:segmentedControlEight];
 
-    // Add buttons seven and eight to the toolbar
-    UIBarButtonItem* buttonEight = [[UIBarButtonItem alloc] initWithCustomView:segmentedControl];
+    // Badge Nine - Right Way
+    self.badgeNine = [[MKNumberBadgeView alloc] initWithFrame:CGRectMake(-22,
+                                                                         -15,
+                                                                         44,
+                                                                         30)];
+    self.badgeNine.font = [UIFont boldSystemFontOfSize:11];
+    UISegmentedControl* segmentedControlNine =
+    [[UISegmentedControl alloc] initWithItems:@[@"9a",@"9b",@"9c"]];
+    segmentedControlNine.segmentedControlStyle = UISegmentedControlStyleBar;
+    segmentedControlNine.momentary = YES;
+    //segmentedControlNine.tintColor = [UIColor blackColor]; // may need to be set explicitly because of container indirection
+    UIView* containerViewNine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 90, 30)];
+    [containerViewNine addSubview:segmentedControlNine];
+    [containerViewNine addSubview:self.badgeNine];
+    UIBarButtonItem* buttonNine = [[UIBarButtonItem alloc] initWithCustomView:containerViewNine];
+
+    // Add seven, eight and nine to the toolbar
+    
     NSArray* toobarItems =
     @[
       [[UIBarButtonItem alloc] initWithCustomView:buttonSeven],
       [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
                                                     target:nil
                                                     action:nil],
-      buttonEight
+      buttonEight,
+      [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                                    target:nil
+                                                    action:nil],
+      buttonNine
     ];
     [self.myToolbar setItems:toobarItems];
     
@@ -152,6 +176,7 @@
     self.badgeSix.value = sliderValue * 1000;
     self.badgeSeven.value = sliderValue * 1000;
     self.badgeEight.value = sliderValue;
+    self.badgeNine.value = sliderValue;
 }
 
 @end
