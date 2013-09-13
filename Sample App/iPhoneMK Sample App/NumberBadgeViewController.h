@@ -19,14 +19,11 @@
 @property (retain) IBOutlet UISlider* valueSlider;
 
 @property (retain) MKNumberBadgeView* badgeFive;
-@property (unsafe_unretained, nonatomic) IBOutlet UIButton *buttonFive;
+@property (unsafe_unretained, nonatomic) IBOutlet UIButton *buttonLeft;
 
 @property (retain) MKNumberBadgeView* badgeSix;
-@property (unsafe_unretained, nonatomic) IBOutlet UIButton *buttonSix;
+@property (unsafe_unretained, nonatomic) IBOutlet UIButton *buttonRight;
 
-@property (retain, nonatomic) IBOutlet UIToolbar* myToolbar;
-@property (retain, nonatomic) MKNumberBadgeView*  badgeSeven;
-@property (retain, nonatomic) MKNumberBadgeView*  badgeEight;
 
 -(IBAction)slideValueChanged:(id)sender;
 

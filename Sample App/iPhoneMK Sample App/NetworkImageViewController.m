@@ -18,7 +18,7 @@
         self.title = @"Network Image";
         self.tabBarItem.image = [UIImage imageNamed:@"second"];
         if ( [self respondsToSelector:@selector(edgesForExtendedLayout)]) {
-            self.edgesForExtendedLayout = UIExtendedEdgeNone;
+            self.edgesForExtendedLayout = UIRectEdgeNone;
         }
     }
     return self;

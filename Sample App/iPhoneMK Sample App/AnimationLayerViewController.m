@@ -24,7 +24,7 @@
         self.title = @"Animation Layer";
         self.tabBarItem.image = [UIImage imageNamed:@"fourth"];
         if ( [self respondsToSelector:@selector(edgesForExtendedLayout)]) {
-            self.edgesForExtendedLayout = UIExtendedEdgeNone;
+            self.edgesForExtendedLayout = UIRectEdgeNone;
         }
         
         _config = [[AnimationConfigModel alloc] init];
