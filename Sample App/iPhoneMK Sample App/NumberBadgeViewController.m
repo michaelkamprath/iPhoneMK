@@ -21,6 +21,10 @@
     if (self) {
         self.title = @"Number Badge";
         self.tabBarItem.image = [UIImage imageNamed:@"first"];
+        
+        if ( [self respondsToSelector:@selector(edgesForExtendedLayout)]) {
+            self.edgesForExtendedLayout = UIExtendedEdgeNone;
+        }
     }
     return self;
 }
