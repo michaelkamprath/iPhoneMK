@@ -130,9 +130,9 @@
         
         CGFloat checkOriginX = cellBounds.origin.x + cellBounds.size.width - (kCheckImageSize + kCheckImagePadding);
         
-        if ( (MKIconCheckmarkTableViewCellStyleRightAccessory == _style) && (self.accessoryView == nil) ) {
+        if ( (MKIconCheckmarkTableViewCellStyleRightAccessory == _style) && (self.accessoryView != nil) ) {
             
-            checkOriginX -= (28 + 10);
+            checkOriginX = self.accessoryView.frame.origin.x - kCheckImagePadding;
         }
         
         CGRect checkFrame = CGRectMake( checkOriginX, (cellBounds.size.height - kCheckImageSize)/2.0, kCheckImageSize, kCheckImageSize);
@@ -161,7 +161,7 @@
             self.detailTextLabel.frame = detailTextLabelFrame;
         }
         else {
-            textLabelFrame.size.width -= kCheckImageSize + kCheckImagePadding;
+            textLabelFrame.size.width =  checkOriginX - textLabelFrame.origin.x;
         }
         
         self.textLabel.frame = textLabelFrame;

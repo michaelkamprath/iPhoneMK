@@ -29,6 +29,9 @@
     if (self) {
         self.title = @"Table View Cells";
         self.tabBarItem.image = [UIImage imageNamed:@"third"];
+        if ( [self respondsToSelector:@selector(edgesForExtendedLayout)]) {
+            self.edgesForExtendedLayout = UIRectEdgeNone;
+        }
     }
     return self;
 }

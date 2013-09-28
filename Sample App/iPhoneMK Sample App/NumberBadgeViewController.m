@@ -21,6 +21,10 @@
     if (self) {
         self.title = @"Number Badge";
         self.tabBarItem.image = [UIImage imageNamed:@"first"];
+        
+        if ( [self respondsToSelector:@selector(edgesForExtendedLayout)]) {
+            self.edgesForExtendedLayout = UIRectEdgeNone;
+        }
     }
     return self;
 }
@@ -52,17 +56,36 @@
     // Badge Four
     self.badgeFour.shine = NO;
     self.badgeFour.shadow = NO;
+
+    // Badge Five
+    self.badgeFive = [[MKNumberBadgeView alloc] initWithFrame:CGRectMake(self.buttonLeft.frame.size.width - 22,
+                                                                         -20,
+                                                                         44,
+                                                                         40)];
+    [self.buttonLeft addSubview:self.badgeFive];
+
+    // Badge Six
+    self.badgeSix = [[MKNumberBadgeView alloc] initWithFrame:CGRectMake( -37,
+                                                                         -20,
+                                                                         74,
+                                                                         40)];
+    [self.buttonRight addSubview:self.badgeSix];
+
+    
     
     // set up
-    
     [self slideValueChanged:self];
 }
 
 - (void)viewDidUnload
 {
+
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+    
+    self.badgeFive = nil;
+    self.badgeSix = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -99,7 +122,8 @@
     self.badgeTwo.value = sliderValue;
     self.badgeThree.value = sliderValue;
     self.badgeFour.value = sliderValue;
-    
+    self.badgeFive.value = sliderValue;
+    self.badgeSix.value = sliderValue * 1000;
 }
 
 @end

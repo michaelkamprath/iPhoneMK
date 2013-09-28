@@ -31,6 +31,7 @@
 		4C1DF62714F61C7500AE7949 /* TableViewCellsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DF62614F61C7400AE7949 /* TableViewCellsViewController.m */; };
 		4C1DF62A14F624A500AE7949 /* third.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C1DF62814F624A500AE7949 /* third.png */; };
 		4C1DF62B14F624A500AE7949 /* third@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C1DF62914F624A500AE7949 /* third@2x.png */; };
+		4C5865A4176E27E4002AA16F /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C5865A3176E27E4002AA16F /* Default-568h@2x.png */; };
 		4C8FD91B15CF2620005A36C9 /* facebook.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C8FD90D15CF2620005A36C9 /* facebook.png */; };
 		4C8FD91C15CF2620005A36C9 /* facebook@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C8FD90E15CF2620005A36C9 /* facebook@2x.png */; };
 		4C8FD91F15CF2620005A36C9 /* twitter.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C8FD91115CF2620005A36C9 /* twitter.png */; };
@@ -99,6 +100,7 @@
 		4C1DF62614F61C7400AE7949 /* TableViewCellsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewCellsViewController.m; sourceTree = "<group>"; };
 		4C1DF62814F624A500AE7949 /* third.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = third.png; sourceTree = "<group>"; };
 		4C1DF62914F624A500AE7949 /* third@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "third@2x.png"; sourceTree = "<group>"; };
+		4C5865A3176E27E4002AA16F /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		4C8FD90D15CF2620005A36C9 /* facebook.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = facebook.png; sourceTree = "<group>"; };
 		4C8FD90E15CF2620005A36C9 /* facebook@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "facebook@2x.png"; sourceTree = "<group>"; };
 		4C8FD91115CF2620005A36C9 /* twitter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = twitter.png; sourceTree = "<group>"; };
@@ -232,6 +234,7 @@
 		4C1DF5E314F60B6E00AE7949 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				4C5865A3176E27E4002AA16F /* Default-568h@2x.png */,
 				4C1DF5E414F60B6E00AE7949 /* iPhoneMK Sample App-Info.plist */,
 				4C1DF5E514F60B6E00AE7949 /* InfoPlist.strings */,
 				4C1DF5E814F60B6E00AE7949 /* main.m */,
@@ -358,7 +361,7 @@
 		4C1DF5CF14F60B6E00AE7949 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0500;
 			};
 			buildConfigurationList = 4C1DF5D214F60B6E00AE7949 /* Build configuration list for PBXProject "iPhoneMK Sample App" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -407,6 +410,7 @@
 				4C98656815312109006F05EB /* animating_shape_02@2x.png in Resources */,
 				4C98656915312109006F05EB /* animating_shape_03.png in Resources */,
 				4C98656A15312109006F05EB /* animating_shape_03@2x.png in Resources */,
+				4C5865A4176E27E4002AA16F /* Default-568h@2x.png in Resources */,
 				4C98656B15312109006F05EB /* animating_shape_04.png in Resources */,
 				4C98656C15312109006F05EB /* animating_shape_04@2x.png in Resources */,
 				4C8FD91B15CF2620005A36C9 /* facebook.png in Resources */,
@@ -476,10 +480,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					armv6,
-					armv7,
-				);
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -490,11 +490,13 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -503,13 +505,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					armv6,
-					armv7,
-				);
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -524,13 +523,10 @@
 		4C1DF60514F60B6E00AE7949 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					armv6,
-					armv7,
-				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iPhoneMK Sample App/iPhoneMK Sample App-Prefix.pch";
+				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "iPhoneMK Sample App/iPhoneMK Sample App-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
@@ -542,13 +538,10 @@
 		4C1DF60614F60B6E00AE7949 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					armv6,
-					armv7,
-				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iPhoneMK Sample App/iPhoneMK Sample App-Prefix.pch";
+				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "iPhoneMK Sample App/iPhoneMK Sample App-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
