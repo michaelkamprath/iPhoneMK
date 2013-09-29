@@ -9,6 +9,7 @@
 #import "AnimationLayerViewController.h"
 #import "MKSoundCoordinatedAnimationLayer.h"
 #import "AnimationConfigModel.h"
+#import "TouchBeepingAnimationView.h"
 
 @interface AnimationLayerViewController ()
 
@@ -62,7 +63,7 @@
     
     _animationLayer.position = position; 
    
-    [self.animationAreaView.layer addSublayer:_animationLayer];
+    self.animationAreaView.animationLayer = _animationLayer;
     
   }
 

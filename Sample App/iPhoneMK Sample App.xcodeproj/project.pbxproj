@@ -54,6 +54,10 @@
 		4C98656B15312109006F05EB /* animating_shape_04.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C98656315312109006F05EB /* animating_shape_04.png */; };
 		4C98656C15312109006F05EB /* animating_shape_04@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C98656415312109006F05EB /* animating_shape_04@2x.png */; };
 		4C98656F15312261006F05EB /* AnimationConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C98656E15312260006F05EB /* AnimationConfigModel.m */; };
+		4C9C91FD17F7B1B00051E0BF /* MKTouchTrackingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C9C91FC17F7B1B00051E0BF /* MKTouchTrackingView.m */; };
+		4C9C920017F7B33C0051E0BF /* MKTouchTrackingAnimationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C9C91FF17F7B33C0051E0BF /* MKTouchTrackingAnimationView.m */; };
+		4C9C920317F7B41C0051E0BF /* TouchBeepingAnimationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C9C920217F7B41C0051E0BF /* TouchBeepingAnimationView.m */; };
+		4C9C920517F7B5950051E0BF /* beep-timber.aif in Resources */ = {isa = PBXBuildFile; fileRef = 4C9C920417F7B5950051E0BF /* beep-timber.aif */; };
 		4CAE1D4315A9E0CA007A9C07 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CAE1D4215A9E0CA007A9C07 /* Social.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		4CAE1D4615A9E0F7007A9C07 /* MKSocialShareTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CAE1D4515A9E0F7007A9C07 /* MKSocialShareTableViewCell.m */; };
 		4CBC7025150CA17A00AE63B5 /* MKIconCheckmarkTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CBC7024150CA17A00AE63B5 /* MKIconCheckmarkTableViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -125,6 +129,13 @@
 		4C98656415312109006F05EB /* animating_shape_04@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "animating_shape_04@2x.png"; sourceTree = "<group>"; };
 		4C98656D15312260006F05EB /* AnimationConfigModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationConfigModel.h; sourceTree = "<group>"; };
 		4C98656E15312260006F05EB /* AnimationConfigModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimationConfigModel.m; sourceTree = "<group>"; };
+		4C9C91FB17F7B1B00051E0BF /* MKTouchTrackingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKTouchTrackingView.h; sourceTree = "<group>"; };
+		4C9C91FC17F7B1B00051E0BF /* MKTouchTrackingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKTouchTrackingView.m; sourceTree = "<group>"; };
+		4C9C91FE17F7B33C0051E0BF /* MKTouchTrackingAnimationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKTouchTrackingAnimationView.h; sourceTree = "<group>"; };
+		4C9C91FF17F7B33C0051E0BF /* MKTouchTrackingAnimationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKTouchTrackingAnimationView.m; sourceTree = "<group>"; };
+		4C9C920117F7B41C0051E0BF /* TouchBeepingAnimationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchBeepingAnimationView.h; sourceTree = "<group>"; };
+		4C9C920217F7B41C0051E0BF /* TouchBeepingAnimationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchBeepingAnimationView.m; sourceTree = "<group>"; };
+		4C9C920417F7B5950051E0BF /* beep-timber.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = "beep-timber.aif"; sourceTree = "<group>"; };
 		4CAE1D4215A9E0CA007A9C07 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		4CAE1D4415A9E0F7007A9C07 /* MKSocialShareTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKSocialShareTableViewCell.h; sourceTree = "<group>"; };
 		4CAE1D4515A9E0F7007A9C07 /* MKSocialShareTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKSocialShareTableViewCell.m; sourceTree = "<group>"; };
@@ -208,6 +219,9 @@
 				4CBC702C150CA25100AE63B5 /* checkmarkicon_on@2x.png */,
 				4C98655215311AE0006F05EB /* AnimationLayerViewController.h */,
 				4C98655315311AE0006F05EB /* AnimationLayerViewController.m */,
+				4C9C920117F7B41C0051E0BF /* TouchBeepingAnimationView.h */,
+				4C9C920217F7B41C0051E0BF /* TouchBeepingAnimationView.m */,
+				4C9C920417F7B5950051E0BF /* beep-timber.aif */,
 				4C98656D15312260006F05EB /* AnimationConfigModel.h */,
 				4C98656E15312260006F05EB /* AnimationConfigModel.m */,
 				4C98655415311AE0006F05EB /* AnimationLayerViewController.xib */,
@@ -269,6 +283,7 @@
 				4C1DF61014F60C0A00AE7949 /* MKNetworkImageView */,
 				4C1DF61314F60C0A00AE7949 /* MKNumberBadgeView */,
 				4C1DF61614F60C0A00AE7949 /* MKSoundCoordinatedAnimationView */,
+				4C9C91FA17F7B1870051E0BF /* MKTouchTrackingView */,
 			);
 			name = Views;
 			path = ../../Views;
@@ -314,6 +329,17 @@
 				4C8FD91815CF2620005A36C9 /* weibo@2x.png */,
 			);
 			path = icons;
+			sourceTree = "<group>";
+		};
+		4C9C91FA17F7B1870051E0BF /* MKTouchTrackingView */ = {
+			isa = PBXGroup;
+			children = (
+				4C9C91FB17F7B1B00051E0BF /* MKTouchTrackingView.h */,
+				4C9C91FC17F7B1B00051E0BF /* MKTouchTrackingView.m */,
+				4C9C91FE17F7B33C0051E0BF /* MKTouchTrackingAnimationView.h */,
+				4C9C91FF17F7B33C0051E0BF /* MKTouchTrackingAnimationView.m */,
+			);
+			path = MKTouchTrackingView;
 			sourceTree = "<group>";
 		};
 		4CAE1D4015A9E090007A9C07 /* MKSocialShareTableViewCell */ = {
@@ -393,6 +419,7 @@
 				4C1DF5FE14F60B6E00AE7949 /* NumberBadgeViewController.xib in Resources */,
 				4C1DF60114F60B6E00AE7949 /* NetworkImageViewController.xib in Resources */,
 				4C1DF62A14F624A500AE7949 /* third.png in Resources */,
+				4C9C920517F7B5950051E0BF /* beep-timber.aif in Resources */,
 				4C1DF62B14F624A500AE7949 /* third@2x.png in Resources */,
 				4CBC702D150CA25100AE63B5 /* checkmarkicon_empty.png in Resources */,
 				4CBC702E150CA25100AE63B5 /* checkmarkicon_empty@2x.png in Resources */,
@@ -430,6 +457,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				4C1DF5E914F60B6E00AE7949 /* main.m in Sources */,
+				4C9C91FD17F7B1B00051E0BF /* MKTouchTrackingView.m in Sources */,
+				4C9C920017F7B33C0051E0BF /* MKTouchTrackingAnimationView.m in Sources */,
 				4C1DF5ED14F60B6E00AE7949 /* AppDelegate.m in Sources */,
 				4C1DF5F014F60B6E00AE7949 /* NumberBadgeViewController.m in Sources */,
 				4C1DF5F714F60B6E00AE7949 /* NetworkImageViewController.m in Sources */,
@@ -440,6 +469,7 @@
 				4C1DF61F14F60C0A00AE7949 /* MKSoundCoordinatedAnimationView.m in Sources */,
 				4C1DF62714F61C7500AE7949 /* TableViewCellsViewController.m in Sources */,
 				4CBC7025150CA17A00AE63B5 /* MKIconCheckmarkTableViewCell.m in Sources */,
+				4C9C920317F7B41C0051E0BF /* TouchBeepingAnimationView.m in Sources */,
 				4C98655515311AE0006F05EB /* AnimationLayerViewController.m in Sources */,
 				4C98656F15312261006F05EB /* AnimationConfigModel.m in Sources */,
 				4CAE1D4615A9E0F7007A9C07 /* MKSocialShareTableViewCell.m in Sources */,

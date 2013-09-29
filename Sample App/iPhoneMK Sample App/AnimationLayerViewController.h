@@ -10,6 +10,7 @@
 
 @class MKSoundCoordinatedAnimationLayer;
 @class AnimationConfigModel;
+@class TouchBeepingAnimationView;
 
 @interface AnimationLayerViewController : UIViewController {
     
@@ -17,7 +18,7 @@
     
     AnimationConfigModel* _config;
 }
-@property (retain,nonatomic) IBOutlet UIView* animationAreaView;
+@property (retain,nonatomic) IBOutlet TouchBeepingAnimationView* animationAreaView;
 
 
 -(IBAction)animateButtonOne:(id)sender;
