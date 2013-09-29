@@ -355,7 +355,7 @@ NSString* const kSCANImageAndPositingAniamtionKey = @"imageAndPositionAnimation"
 
 - (void)animateWithCycleCount:(NSUInteger)inCycleCount withCompletionInvocation:(NSInvocation*)inInvocation finalStaticImage:(UIImage*)inFinalStaticImage {
     
-    if (![inInvocation argumentsRetained]) {
+    if (nil != inInvocation && ![inInvocation argumentsRetained]) {
         [inInvocation retainArguments];
     }
     
