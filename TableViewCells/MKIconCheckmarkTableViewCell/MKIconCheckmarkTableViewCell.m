@@ -90,7 +90,7 @@
 
 - (void)layoutSubviews 
 {
-	const CGFloat kCheckImageSize = 23;
+	const CGFloat kCheckImageSize = 24;
     const CGFloat kCheckImagePadding = 10;
     
 	[super layoutSubviews];
@@ -98,7 +98,7 @@
     CGRect cellBounds = self.contentView.bounds;
     
     if ( MKIconCheckmarkTableViewCellStyleLeft == _style || MKIconCheckmarkTableViewCellStyleValue1Left == _style ) {
-        CGRect checkFrame = CGRectMake( kCheckImagePadding, (cellBounds.size.height - kCheckImageSize)/2.0, kCheckImageSize, kCheckImageSize);
+        CGRect checkFrame = CGRectMake( kCheckImagePadding, floorf((cellBounds.size.height - kCheckImageSize)/2.0), kCheckImageSize, kCheckImageSize);
 
         _checkImageView.frame = checkFrame;
     
@@ -135,7 +135,7 @@
             checkOriginX = self.accessoryView.frame.origin.x - kCheckImagePadding;
         }
         
-        CGRect checkFrame = CGRectMake( checkOriginX, (cellBounds.size.height - kCheckImageSize)/2.0, kCheckImageSize, kCheckImageSize);
+        CGRect checkFrame = CGRectMake( checkOriginX,floorf((cellBounds.size.height - kCheckImageSize)/2.0), kCheckImageSize, kCheckImageSize);
         
         _checkImageView.frame = checkFrame;
         
