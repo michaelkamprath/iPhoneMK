@@ -219,7 +219,8 @@
         }
                   
         UIViewController* currentController = (UIViewController*)targetResponder;
-        [currentController presentModalViewController:socialController animated:YES];
+        
+        [currentController presentViewController:socialController animated:YES completion:NULL];
        
     }
 }
