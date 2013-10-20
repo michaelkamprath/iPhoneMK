@@ -11,6 +11,7 @@
 #import "MKIconCheckmarkTableViewCell.h"
 #import "MKSocialShareTableViewCell.h"
 #import "MKParentalGate.h"
+#import "ParentalGateSuccessViewController.h"
 
 #define SECTIONID_MKSwitchControlTableViewCell  0
 #define SECTIONID_MKIconCheckmarkTableViewCell  1
@@ -249,7 +250,12 @@
 
     }
     else if ( [indexPath indexAtPosition:0] == SECTIONID_MKParentalGate ) {
-        [MKParentalGate displayGateWithCurrentViewController:self successBlock:NULL failureBlock:NULL];
+        MKParentalGateSuccessBlock success = ^{
+            ParentalGateSuccessViewController* vc = [[ParentalGateSuccessViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+        };
+        
+        [MKParentalGate displayGateWithCurrentViewController:self successBlock:success failureBlock:NULL];
     }
 }
 

@@ -28,7 +28,7 @@
     // Override point for customization after application launch.
     UIViewController *viewController1 = [[NumberBadgeViewController alloc] initWithNibName:@"NumberBadgeViewController" bundle:nil];
     UIViewController *viewController2 = [[NetworkImageViewController alloc] initWithNibName:@"NetworkImageViewController" bundle:nil];
-    UIViewController *viewController3 = [[TableViewCellsViewController alloc] init];
+    UIViewController *viewController3 = [[UINavigationController alloc] initWithRootViewController:[[TableViewCellsViewController alloc] init]];
     UIViewController *viewController4 = [[AnimationLayerViewController alloc] initWithNibName:@"AnimationLayerViewController" bundle:nil];
     
     self.tabBarController = [[UITabBarController alloc] init];

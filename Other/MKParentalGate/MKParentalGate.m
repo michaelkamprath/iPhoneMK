@@ -35,9 +35,12 @@
 
 +(void)displayGateWithCurrentViewController:(UIViewController*)inViewController successBlock:(MKParentalGateSuccessBlock)inSuccessBlock failureBlock:(MKParentalGateFailureBlock)inFailureBlock
 {
-    
+    [MKParentalGate displayGateWithCurrentViewController:inViewController successBlock:inSuccessBlock failureBlock:inFailureBlock title:nil explanatoryMessage:nil];
+}
 
-    MKParentalGateViewController* gateVC = [[MKParentalGateViewController alloc] initWithStopIcon:[UIImage imageNamed:@"stop.png"] goIcon:nil successBlock:inSuccessBlock failureBlock:inFailureBlock];
++(void)displayGateWithCurrentViewController:(UIViewController*)inViewController successBlock:(MKParentalGateSuccessBlock)inSuccessBlock failureBlock:(MKParentalGateFailureBlock)inFailureBlock title:(NSString*)inTitle explanatoryMessage:(NSString*)inMessage
+{
+    MKParentalGateViewController* gateVC = [[MKParentalGateViewController alloc] initWithStopIcon:[UIImage imageNamed:@"stop.png"] successBlock:inSuccessBlock failureBlock:inFailureBlock title:inTitle explanatoryMessage:inMessage];
     
     [inViewController presentViewController:gateVC animated:YES completion:NULL];
     

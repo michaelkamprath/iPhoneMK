@@ -17,6 +17,9 @@ If you find any of these classes useful, I'd love to hear about it. If you have 
 * `MKSocialShareTableViewCell` - A cell that makes it easy to use the `SLComposeViewController` features of iOS 6 from a `UITableView`.
 * `MKSwitchControlTableViewCell` - A cell that simply provides a UISwitch to control a boolean state.
 
+### Other
+* `MKParentalGate` - A set of classes that implements a dexterity-based parental gate. Intended for use in apps for children under 5. 
+
 ## ARC Support
 
 Some of iPhoneMK is not ARC-enabled code, some requires ARC. Compiler errors have been built into the code base to help you identify which classes need ARC and which don't. Furthermore, the errors instruct you how to change that file's compilation method to support it's ARC-mode. Basically, if you have an ARC-enabled project, you will need to use the `-fno-objc-arc` compiler flag on iPhoneMK source files that are not ARC-enabled. Similarly, if you are not using ARC, you will have to use the `-fobjc-arc` compiler flag on iPhoneMK source files that require ARC. 
