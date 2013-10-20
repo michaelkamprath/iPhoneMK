@@ -1,5 +1,5 @@
 //
-//  MKTouchTrackingView.h
+//  MKParentalGate.h
 //
 // Copyright 2013 Michael F. Kamprath
 // michael@claireware.com
@@ -8,7 +8,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+// http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,20 +17,13 @@
 // limitations under the License.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-@interface MKTouchTrackingView : UIView
-@property (assign) NSTimeInterval delayForSimulatedTouchUp;
+typedef void (^MKParentalGateSuccessBlock)(void);
+typedef void (^MKParentalGateFailureBlock)(void);
 
--(void)touchInViewBegan;
--(void)touchTrackedIntoView;
--(void)touchTrackedOutOfView;
--(void)touchUpInView;
+@interface MKParentalGate : NSObject
 
--(void)cancelTouchTracking;
-
--(BOOL)isPtInViewCoreArea:(CGPoint)inPt;
--(BOOL)isPtInViewTrackingArea:(CGPoint)inPt;
++(void)displayGateWithCurrentViewController:(UIViewController*)inViewController successBlock:(MKParentalGateSuccessBlock)inSuccessBlock failureBlock:(MKParentalGateFailureBlock)inFailureBlock;
 
 @end
-

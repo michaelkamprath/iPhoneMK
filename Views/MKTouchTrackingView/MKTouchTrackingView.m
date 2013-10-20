@@ -31,13 +31,17 @@
 #import "MKTouchTrackingView.h"
 
 @interface MKTouchTrackingView () {
-	BOOL _curTouchInTrackingRect;
     BOOL _simulatedTouchUp;
+    BOOL _isTrackingTouch;
     
     NSTimer* _simulatedTouchUpTimer;
 }
+@property (assign,nonatomic) BOOL curTouchInTrackingRect;
 
+-(void)startTouchTimer;
 -(void)invalidateTouchTimer;
+-(BOOL)isTouchInCoreArea:(UITouch*)inTouch;
+-(BOOL)isTouchInTrackingArea:(UITouch*)inTouch;
 
 @end
 @implementation MKTouchTrackingView
@@ -47,13 +51,24 @@
     
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code.
-        
-        self.delayForSimulatedTouchUp = 0;
+        [self initObject];
     }
     return self;
 }
 
+-(id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        [self initObject];
+    }
+    
+    return self;
+}
+
+-(void)initObject {
+    self.delayForSimulatedTouchUp = 0;
+    _isTrackingTouch = NO;
+}
 
 -(void)invalidateTouchTimer {
     if (_simulatedTouchUpTimer != nil ) {
@@ -78,6 +93,7 @@
     _simulatedTouchUp = YES;
     [self touchUpInView];
     _simulatedTouchUpTimer = nil;
+    _isTrackingTouch = NO;
 }
 
 #pragma mark -- Touch Handling --
@@ -90,15 +106,24 @@
 }
 
 
+-(BOOL)isTouchInCoreArea:(UITouch*)inTouch {
+    return (inTouch.view == self && [self isPtInViewCoreArea:[inTouch locationInView:self]]);
+}
+
+-(BOOL)isTouchInTrackingArea:(UITouch*)inTouch {
+    return (inTouch.view == self && [self isPtInViewTrackingArea:[inTouch locationInView:self]]);
+}
+
 - (void)touchesBegan:(NSSet *)inTouches withEvent:(UIEvent *)inEvent
 {
 	[self invalidateTouchTimer];
     
 	UITouch *touch = [inTouches anyObject];
 	
-	if ( touch.view == self && [self isPtInViewCoreArea:[touch locationInView:self]] )
+	if ( [self isTouchInCoreArea:touch] )
 	{
-		_curTouchInTrackingRect = YES;
+		self.curTouchInTrackingRect = YES;
+        _isTrackingTouch = YES;
         
 		[self touchInViewBegan];
         
@@ -113,12 +138,12 @@
 	
 	UITouch *touch = [inTouches anyObject];
 	
-	if ( touch.view == self && !_simulatedTouchUp ) {
+	if ( _isTrackingTouch && touch.view == self && !_simulatedTouchUp ) {
 		
-		BOOL touchInRect = [self isPtInViewTrackingArea:[touch locationInView:self]];
+		BOOL touchInRect = [self isTouchInTrackingArea:touch];
 		
 		
-		if ( touchInRect != _curTouchInTrackingRect ) {
+		if ( touchInRect != self.curTouchInTrackingRect ) {
 			if ( touchInRect ) {
 				[self touchTrackedIntoView];
                 [self startTouchTimer];
@@ -130,7 +155,7 @@
 			}
 			[self setNeedsDisplay];
 			
-			_curTouchInTrackingRect = touchInRect;
+			self.curTouchInTrackingRect = touchInRect;
 		}
 		
 	}
@@ -141,19 +166,27 @@
 	
 	UITouch *touch = [inTouches anyObject];
 	
-	if ( touch.view == self && !_simulatedTouchUp ) {
+	if ( _isTrackingTouch && touch.view == self && !_simulatedTouchUp ) {
         [self invalidateTouchTimer];
         
-		if ([self isPtInViewTrackingArea:[touch locationInView:self]]) {
+		if ([self isTouchInTrackingArea:touch]) {
 			[self touchUpInView];
 		}
 		else {
 			[self touchTrackedOutOfView];
 		}
 		
-		_curTouchInTrackingRect = NO;
+		self.curTouchInTrackingRect = NO;
 	}
 	_simulatedTouchUp = NO;
+    _isTrackingTouch = NO;
+}
+
+-(void)cancelTouchTracking {
+    [self invalidateTouchTimer];
+    self.curTouchInTrackingRect = NO;
+	_simulatedTouchUp = NO;
+    _isTrackingTouch = NO;
 }
 
 -(void)touchInViewBegan {

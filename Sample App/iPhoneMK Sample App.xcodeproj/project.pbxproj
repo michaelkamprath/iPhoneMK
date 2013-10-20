@@ -31,6 +31,13 @@
 		4C1DF62714F61C7500AE7949 /* TableViewCellsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DF62614F61C7400AE7949 /* TableViewCellsViewController.m */; };
 		4C1DF62A14F624A500AE7949 /* third.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C1DF62814F624A500AE7949 /* third.png */; };
 		4C1DF62B14F624A500AE7949 /* third@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C1DF62914F624A500AE7949 /* third@2x.png */; };
+		4C3FC4A51812EB7100A60DF4 /* MKParentalGateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C3FC4A31812EB7100A60DF4 /* MKParentalGateViewController.m */; };
+		4C3FC4A61812EB7100A60DF4 /* MKParentalGateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C3FC4A41812EB7100A60DF4 /* MKParentalGateViewController.xib */; };
+		4C3FC4A91813B4C200A60DF4 /* MKParentalGateTouchTargetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C3FC4A81813B4C200A60DF4 /* MKParentalGateTouchTargetView.m */; };
+		4C3FC4AD1813B9C500A60DF4 /* stop.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C3FC4AB1813B9C500A60DF4 /* stop.png */; };
+		4C3FC4AE1813B9C500A60DF4 /* stop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C3FC4AC1813B9C500A60DF4 /* stop@2x.png */; };
+		4C3FC4B1181455CA00A60DF4 /* MKParentalGateTouchCancelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C3FC4B0181455CA00A60DF4 /* MKParentalGateTouchCancelView.m */; };
+		4C5304091812E57700F67459 /* MKParentalGate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5304081812E57700F67459 /* MKParentalGate.m */; };
 		4C5865A4176E27E4002AA16F /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C5865A3176E27E4002AA16F /* Default-568h@2x.png */; };
 		4C8FD91B15CF2620005A36C9 /* facebook.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C8FD90D15CF2620005A36C9 /* facebook.png */; };
 		4C8FD91C15CF2620005A36C9 /* facebook@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C8FD90E15CF2620005A36C9 /* facebook@2x.png */; };
@@ -104,6 +111,17 @@
 		4C1DF62614F61C7400AE7949 /* TableViewCellsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewCellsViewController.m; sourceTree = "<group>"; };
 		4C1DF62814F624A500AE7949 /* third.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = third.png; sourceTree = "<group>"; };
 		4C1DF62914F624A500AE7949 /* third@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "third@2x.png"; sourceTree = "<group>"; };
+		4C3FC4A21812EB7100A60DF4 /* MKParentalGateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKParentalGateViewController.h; sourceTree = "<group>"; };
+		4C3FC4A31812EB7100A60DF4 /* MKParentalGateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKParentalGateViewController.m; sourceTree = "<group>"; };
+		4C3FC4A41812EB7100A60DF4 /* MKParentalGateViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MKParentalGateViewController.xib; sourceTree = "<group>"; };
+		4C3FC4A71813B4C200A60DF4 /* MKParentalGateTouchTargetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKParentalGateTouchTargetView.h; sourceTree = "<group>"; };
+		4C3FC4A81813B4C200A60DF4 /* MKParentalGateTouchTargetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKParentalGateTouchTargetView.m; sourceTree = "<group>"; };
+		4C3FC4AB1813B9C500A60DF4 /* stop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stop.png; sourceTree = "<group>"; };
+		4C3FC4AC1813B9C500A60DF4 /* stop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stop@2x.png"; sourceTree = "<group>"; };
+		4C3FC4AF181455CA00A60DF4 /* MKParentalGateTouchCancelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKParentalGateTouchCancelView.h; sourceTree = "<group>"; };
+		4C3FC4B0181455CA00A60DF4 /* MKParentalGateTouchCancelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKParentalGateTouchCancelView.m; sourceTree = "<group>"; };
+		4C5304071812E57700F67459 /* MKParentalGate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKParentalGate.h; sourceTree = "<group>"; };
+		4C5304081812E57700F67459 /* MKParentalGate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKParentalGate.m; sourceTree = "<group>"; };
 		4C5865A3176E27E4002AA16F /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		4C8FD90D15CF2620005A36C9 /* facebook.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = facebook.png; sourceTree = "<group>"; };
 		4C8FD90E15CF2620005A36C9 /* facebook@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "facebook@2x.png"; sourceTree = "<group>"; };
@@ -240,6 +258,7 @@
 				4C98654915311A28006F05EB /* fourth@2x.png */,
 				4C1DF60B14F60C0A00AE7949 /* TableViewCells */,
 				4C1DF60F14F60C0A00AE7949 /* Views */,
+				4C5304021812E44300F67459 /* Other */,
 				4C1DF5E314F60B6E00AE7949 /* Supporting Files */,
 			);
 			path = "iPhoneMK Sample App";
@@ -316,6 +335,41 @@
 				4C1DF61A14F60C0A00AE7949 /* MKSoundCoordinatedAnimationView.m */,
 			);
 			path = MKSoundCoordinatedAnimationView;
+			sourceTree = "<group>";
+		};
+		4C3FC4AA1813B9C500A60DF4 /* icons */ = {
+			isa = PBXGroup;
+			children = (
+				4C3FC4AB1813B9C500A60DF4 /* stop.png */,
+				4C3FC4AC1813B9C500A60DF4 /* stop@2x.png */,
+			);
+			path = icons;
+			sourceTree = "<group>";
+		};
+		4C5304021812E44300F67459 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				4C5304061812E55B00F67459 /* MKParentalGate */,
+			);
+			name = Other;
+			path = ../../Other;
+			sourceTree = "<group>";
+		};
+		4C5304061812E55B00F67459 /* MKParentalGate */ = {
+			isa = PBXGroup;
+			children = (
+				4C3FC4AA1813B9C500A60DF4 /* icons */,
+				4C5304071812E57700F67459 /* MKParentalGate.h */,
+				4C5304081812E57700F67459 /* MKParentalGate.m */,
+				4C3FC4A21812EB7100A60DF4 /* MKParentalGateViewController.h */,
+				4C3FC4A31812EB7100A60DF4 /* MKParentalGateViewController.m */,
+				4C3FC4A41812EB7100A60DF4 /* MKParentalGateViewController.xib */,
+				4C3FC4A71813B4C200A60DF4 /* MKParentalGateTouchTargetView.h */,
+				4C3FC4A81813B4C200A60DF4 /* MKParentalGateTouchTargetView.m */,
+				4C3FC4AF181455CA00A60DF4 /* MKParentalGateTouchCancelView.h */,
+				4C3FC4B0181455CA00A60DF4 /* MKParentalGateTouchCancelView.m */,
+			);
+			path = MKParentalGate;
 			sourceTree = "<group>";
 		};
 		4C8FD90A15CF2620005A36C9 /* icons */ = {
@@ -423,6 +477,7 @@
 				4C1DF62B14F624A500AE7949 /* third@2x.png in Resources */,
 				4CBC702D150CA25100AE63B5 /* checkmarkicon_empty.png in Resources */,
 				4CBC702E150CA25100AE63B5 /* checkmarkicon_empty@2x.png in Resources */,
+				4C3FC4A61812EB7100A60DF4 /* MKParentalGateViewController.xib in Resources */,
 				4CBC7031150CA25100AE63B5 /* checkmarkicon_on.png in Resources */,
 				4CBC7032150CA25100AE63B5 /* checkmarkicon_on@2x.png in Resources */,
 				4C98654A15311A28006F05EB /* fourth.png in Resources */,
@@ -432,9 +487,11 @@
 				4C98655A15311F45006F05EB /* animating_shape@2x.png in Resources */,
 				4C98655C15311F74006F05EB /* AnimationConfig.plist in Resources */,
 				4C98656515312109006F05EB /* animating_shape_01.png in Resources */,
+				4C3FC4AE1813B9C500A60DF4 /* stop@2x.png in Resources */,
 				4C98656615312109006F05EB /* animating_shape_01@2x.png in Resources */,
 				4C98656715312109006F05EB /* animating_shape_02.png in Resources */,
 				4C98656815312109006F05EB /* animating_shape_02@2x.png in Resources */,
+				4C3FC4AD1813B9C500A60DF4 /* stop.png in Resources */,
 				4C98656915312109006F05EB /* animating_shape_03.png in Resources */,
 				4C98656A15312109006F05EB /* animating_shape_03@2x.png in Resources */,
 				4C5865A4176E27E4002AA16F /* Default-568h@2x.png in Resources */,
@@ -456,7 +513,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C3FC4A51812EB7100A60DF4 /* MKParentalGateViewController.m in Sources */,
+				4C3FC4B1181455CA00A60DF4 /* MKParentalGateTouchCancelView.m in Sources */,
 				4C1DF5E914F60B6E00AE7949 /* main.m in Sources */,
+				4C5304091812E57700F67459 /* MKParentalGate.m in Sources */,
 				4C9C91FD17F7B1B00051E0BF /* MKTouchTrackingView.m in Sources */,
 				4C9C920017F7B33C0051E0BF /* MKTouchTrackingAnimationView.m in Sources */,
 				4C1DF5ED14F60B6E00AE7949 /* AppDelegate.m in Sources */,
@@ -473,6 +533,7 @@
 				4C98655515311AE0006F05EB /* AnimationLayerViewController.m in Sources */,
 				4C98656F15312261006F05EB /* AnimationConfigModel.m in Sources */,
 				4CAE1D4615A9E0F7007A9C07 /* MKSocialShareTableViewCell.m in Sources */,
+				4C3FC4A91813B4C200A60DF4 /* MKParentalGateTouchTargetView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -559,7 +620,7 @@
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "iPhoneMK Sample App/iPhoneMK Sample App-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -574,7 +635,7 @@
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "iPhoneMK Sample App/iPhoneMK Sample App-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
