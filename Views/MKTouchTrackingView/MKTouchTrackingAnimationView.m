@@ -19,13 +19,16 @@
 
 #import "MKTouchTrackingAnimationView.h"
 
+@interface MKTouchTrackingAnimationView ()
+
+@end
 @implementation MKTouchTrackingAnimationView
 
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
+
     }
     return self;
 }
