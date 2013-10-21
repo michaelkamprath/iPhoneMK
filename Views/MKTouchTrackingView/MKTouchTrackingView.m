@@ -173,7 +173,7 @@
 			[self touchUpInView];
 		}
 		else {
-			[self touchTrackedOutOfView];
+			[self touchUpOutOfView];
 		}
 		
 		self.curTouchInTrackingRect = NO;
@@ -201,6 +201,9 @@
 -(void)touchUpInView {
 }
 
+-(void)touchUpOutOfView {
+    
+}
 
 -(BOOL)isPtInViewCoreArea:(CGPoint)inPt {
 	return CGRectContainsPoint(self.bounds, inPt);

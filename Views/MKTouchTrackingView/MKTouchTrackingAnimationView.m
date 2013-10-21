@@ -72,8 +72,8 @@
 }
 
 -(BOOL)isPtInViewTrackingArea:(CGPoint)inPt {
-    CALayer* presentationLayer = [self.layer presentationLayer];
-    
+    CALayer* presentationLayer = [self.animationLayer presentationLayer];
+
     CGRect currentFrame = presentationLayer.frame;
     
 	CGRect trackingRect = CGRectInset( currentFrame, -currentFrame.size.width, -currentFrame.size.height );

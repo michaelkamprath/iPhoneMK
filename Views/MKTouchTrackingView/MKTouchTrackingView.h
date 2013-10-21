@@ -26,6 +26,7 @@
 -(void)touchTrackedIntoView;
 -(void)touchTrackedOutOfView;
 -(void)touchUpInView;
+-(void)touchUpOutOfView;
 
 -(void)cancelTouchTracking;
 
