@@ -65,6 +65,9 @@
 {
     self = [super initWithNibName:@"MKParentalGateViewController" bundle:nil];
     if (self) {
+        self.modalPresentationStyle = UIModalPresentationFormSheet;
+        self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        
         self.stopIcon = inStopIcon;
         self.successBlock = inSuccessBlock;
         self.failureBlock = inFailureBlock;
@@ -100,6 +103,7 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated {
+    [self setUpTargetAnimation];
     [self.topTarget startAnimation];
     [self.bottomTarget startAnimation];
 }
@@ -114,12 +118,6 @@
     self.topObjectView.delegate = self;
     self.bottomObjectView.delegate = self;
     
-    self.topTarget = [[MKParentalGateTouchTargetView alloc] initWithFrame:CGRectMake(0, (self.topObjectView.bounds.size.height - self.stopIcon.size.height)/2.0, self.stopIcon.size.width, self.stopIcon.size.height) stopIcon:self.stopIcon delegate:self];
-    self.bottomTarget = [[MKParentalGateTouchTargetView alloc] initWithFrame:CGRectMake(self.bottomObjectView.bounds.size.width - self.stopIcon.size.width, (self.bottomObjectView.bounds.size.height - self.stopIcon.size.height)/2.0, self.stopIcon.size.width, self.stopIcon.size.height) stopIcon:self.stopIcon delegate:self];
-    [self setUpTargetAnimation];
-    [self.topObjectView addSubview:self.topTarget];
-    [self.bottomObjectView addSubview:self.bottomTarget];
-    
     if ( nil != _titleText ) {
         self.titleLabel.text = _titleText;
     }
@@ -133,6 +131,19 @@
 }
 
 -(void)setUpTargetAnimation {
+    
+    if ( nil == self.topTarget ) {
+        CGFloat yPos = (self.topObjectView.bounds.size.height - self.stopIcon.size.height)/2.0;
+        
+        self.topTarget = [[MKParentalGateTouchTargetView alloc] initWithFrame:CGRectMake(0, yPos, self.stopIcon.size.width, self.stopIcon.size.height) stopIcon:self.stopIcon delegate:self];
+        [self.topObjectView addSubview:self.topTarget];
+    }
+    if ( nil == self.bottomTarget ) {
+        CGFloat yPos = (self.bottomObjectView.bounds.size.height - self.stopIcon.size.height)/2.0;
+
+        self.bottomTarget = [[MKParentalGateTouchTargetView alloc] initWithFrame:CGRectMake(self.bottomObjectView.bounds.size.width - self.stopIcon.size.width, yPos, self.stopIcon.size.width, self.stopIcon.size.height) stopIcon:self.stopIcon delegate:self];
+        [self.bottomObjectView addSubview:self.bottomTarget];
+    }
     self.topTarget.frame = CGRectMake(0, (self.topObjectView.bounds.size.height - self.stopIcon.size.height)/2.0, self.stopIcon.size.width, self.stopIcon.size.height);
     [self.topTarget resetAnimationLayerFrame];
     self.topTarget.animationLayer.config = [self topTouchTargetAnimation];
@@ -182,7 +193,7 @@
     if ( nil != self.stopIcon ) {
         [animationConfig setObject:@{@"stillImageObj":self.stopIcon} forKey:@"meta"];
         [animationConfig setObject:@{@"deltaX":[NSNumber numberWithFloat:0.0]} forKey:[NSNumber numberWithFloat:0.0]];
-        [animationConfig setObject:@{@"deltaX":[NSNumber numberWithFloat:-(self.topObjectView.bounds.size.width - self.stopIcon.size.width)]} forKey:[NSNumber numberWithFloat:5.0]];
+        [animationConfig setObject:@{@"deltaX":[NSNumber numberWithFloat:-(self.bottomObjectView.bounds.size.width - self.stopIcon.size.width)]} forKey:[NSNumber numberWithFloat:5.0]];
         [animationConfig setObject:@{@"deltaX":[NSNumber numberWithFloat:0.0],@"lastFrameDuration":[NSNumber numberWithFloat:0.0]} forKey:[NSNumber numberWithFloat:10.0]];
     }
     return animationConfig;

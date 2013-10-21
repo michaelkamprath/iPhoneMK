@@ -17,6 +17,18 @@
 // limitations under the License.
 //
 
+
+#ifndef __has_feature
+#define __has_feature(x) 0
+#endif
+#ifndef __has_extension
+#define __has_extension __has_feature // Compatibility with pre-3.0 compilers.
+#endif
+
+#if !(__has_feature(objc_arc) && __clang_major__ >= 3)
+#error "MKSocialShareTableViewCell is designed to be used with ARC. Please add '-fobjc-arc' to the compiler flags of MKSocialShareTableViewCell.m."
+#endif // __has_feature(objc_arc)
+
 #import "MKTouchTrackingAnimationView.h"
 
 @interface MKTouchTrackingAnimationView ()
