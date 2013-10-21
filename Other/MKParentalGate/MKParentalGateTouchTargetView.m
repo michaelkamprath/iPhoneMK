@@ -91,8 +91,16 @@
     [self.delegate handleTargetTouchUp:self];
 }
 
+-(void)touchUpOutOfView {
+    [self.delegate handleTargetTouchUp:self];
+}
+
 -(void)touchTrackedOutOfView {
     [self.delegate handleTargetTouchUp:self];
-    [self cancelTouchTracking];
 }
+
+-(void)touchTrackedIntoView {
+    [self.delegate handleTargetTouchDown:self];
+}
+
 @end
