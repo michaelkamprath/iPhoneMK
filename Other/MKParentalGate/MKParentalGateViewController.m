@@ -45,7 +45,8 @@
 @property (weak,nonatomic) IBOutlet UILabel* explanatoryMessageLabel;
 @property (strong,nonatomic) MKParentalGateTouchTargetView* topTarget;
 @property (strong,nonatomic) MKParentalGateTouchTargetView* bottomTarget;
-@property (strong,nonatomic) UIImage* stopIcon;
+@property (strong,nonatomic) UIImage* topTargetIcon;
+@property (strong,nonatomic) UIImage* bottomTargetIcon;
 @property (strong,nonatomic) MKParentalGateSuccessBlock successBlock;
 @property (strong,nonatomic) MKParentalGateFailureBlock failureBlock;
 
@@ -61,14 +62,15 @@
 
 @implementation MKParentalGateViewController
 
--(id)initWithStopIcon:(UIImage*)inStopIcon successBlock:(MKParentalGateSuccessBlock)inSuccessBlock failureBlock:(MKParentalGateFailureBlock)inFailureBlock title:(NSString*)inTitle explanatoryMessage:(NSString*)inMessage
+-(id)initWithTopTargetIcon:(UIImage*)inTopTargetIcon bottomTargetIcon:(UIImage*)inBottomTargetIcon successBlock:(MKParentalGateSuccessBlock)inSuccessBlock failureBlock:(MKParentalGateFailureBlock)inFailureBlock title:(NSString*)inTitle explanatoryMessage:(NSString*)inMessage
 {
     self = [super initWithNibName:@"MKParentalGateViewController" bundle:nil];
     if (self) {
         self.modalPresentationStyle = UIModalPresentationFormSheet;
         self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         
-        self.stopIcon = inStopIcon;
+        self.topTargetIcon = inTopTargetIcon;
+        self.bottomTargetIcon = inBottomTargetIcon;
         self.successBlock = inSuccessBlock;
         self.failureBlock = inFailureBlock;
         if ( nil != inTitle ) {
@@ -133,22 +135,22 @@
 -(void)setUpTargetAnimation {
     
     if ( nil == self.topTarget ) {
-        CGFloat yPos = (self.topObjectView.bounds.size.height - self.stopIcon.size.height)/2.0;
+        CGFloat yPos = (self.topObjectView.bounds.size.height - self.topTargetIcon.size.height)/2.0;
         
-        self.topTarget = [[MKParentalGateTouchTargetView alloc] initWithFrame:CGRectMake(0, yPos, self.stopIcon.size.width, self.stopIcon.size.height) stopIcon:self.stopIcon delegate:self];
+        self.topTarget = [[MKParentalGateTouchTargetView alloc] initWithFrame:CGRectMake(0, yPos, self.topTargetIcon.size.width, self.topTargetIcon.size.height) targetIcon:self.topTargetIcon delegate:self];
         [self.topObjectView addSubview:self.topTarget];
     }
     if ( nil == self.bottomTarget ) {
-        CGFloat yPos = (self.bottomObjectView.bounds.size.height - self.stopIcon.size.height)/2.0;
+        CGFloat yPos = (self.bottomObjectView.bounds.size.height - self.bottomTargetIcon.size.height)/2.0;
 
-        self.bottomTarget = [[MKParentalGateTouchTargetView alloc] initWithFrame:CGRectMake(self.bottomObjectView.bounds.size.width - self.stopIcon.size.width, yPos, self.stopIcon.size.width, self.stopIcon.size.height) stopIcon:self.stopIcon delegate:self];
+        self.bottomTarget = [[MKParentalGateTouchTargetView alloc] initWithFrame:CGRectMake(self.bottomObjectView.bounds.size.width - self.bottomTargetIcon.size.width, yPos, self.bottomTargetIcon.size.width, self.bottomTargetIcon.size.height) targetIcon:self.bottomTargetIcon delegate:self];
         [self.bottomObjectView addSubview:self.bottomTarget];
     }
-    self.topTarget.frame = CGRectMake(0, (self.topObjectView.bounds.size.height - self.stopIcon.size.height)/2.0, self.stopIcon.size.width, self.stopIcon.size.height);
+    self.topTarget.frame = CGRectMake(0, (self.topObjectView.bounds.size.height - self.topTargetIcon.size.height)/2.0, self.topTargetIcon.size.width, self.topTargetIcon.size.height);
     [self.topTarget resetAnimationLayerFrame];
     self.topTarget.animationLayer.config = [self topTouchTargetAnimation];
     
-    self.bottomTarget.frame = CGRectMake(self.bottomObjectView.bounds.size.width - self.stopIcon.size.width, (self.bottomObjectView.bounds.size.height - self.stopIcon.size.height)/2.0, self.stopIcon.size.width, self.stopIcon.size.height);
+    self.bottomTarget.frame = CGRectMake(self.bottomObjectView.bounds.size.width - self.bottomTargetIcon.size.width, (self.bottomObjectView.bounds.size.height - self.bottomTargetIcon.size.height)/2.0, self.bottomTargetIcon.size.width, self.bottomTargetIcon.size.height);
     [self.bottomTarget resetAnimationLayerFrame];
     self.bottomTarget.animationLayer.config = [self bottomTouchTargetAnimation];
 }
@@ -178,10 +180,10 @@
 -(NSDictionary*)topTouchTargetAnimation {
     NSMutableDictionary* animationConfig = [NSMutableDictionary dictionaryWithCapacity:4];
     
-    if ( nil != self.stopIcon ) {
-        [animationConfig setObject:@{@"stillImageObj":self.stopIcon} forKey:@"meta"];
+    if ( nil != self.topTargetIcon ) {
+        [animationConfig setObject:@{@"stillImageObj":self.topTargetIcon} forKey:@"meta"];
         [animationConfig setObject:@{@"deltaX":[NSNumber numberWithFloat:0.0]} forKey:[NSNumber numberWithFloat:0.0]];
-        [animationConfig setObject:@{@"deltaX":[NSNumber numberWithFloat:(self.topObjectView.bounds.size.width - self.stopIcon.size.width)]} forKey:[NSNumber numberWithFloat:5.0]];
+        [animationConfig setObject:@{@"deltaX":[NSNumber numberWithFloat:(self.topObjectView.bounds.size.width - self.topTargetIcon.size.width)]} forKey:[NSNumber numberWithFloat:5.0]];
         [animationConfig setObject:@{@"deltaX":[NSNumber numberWithFloat:0.0],@"lastFrameDuration":[NSNumber numberWithFloat:0.0]} forKey:[NSNumber numberWithFloat:10.0]];
     }
     return animationConfig;
@@ -190,10 +192,10 @@
 -(NSDictionary*)bottomTouchTargetAnimation {
     NSMutableDictionary* animationConfig = [NSMutableDictionary dictionaryWithCapacity:4];
     
-    if ( nil != self.stopIcon ) {
-        [animationConfig setObject:@{@"stillImageObj":self.stopIcon} forKey:@"meta"];
+    if ( nil != self.bottomTargetIcon ) {
+        [animationConfig setObject:@{@"stillImageObj":self.bottomTargetIcon} forKey:@"meta"];
         [animationConfig setObject:@{@"deltaX":[NSNumber numberWithFloat:0.0]} forKey:[NSNumber numberWithFloat:0.0]];
-        [animationConfig setObject:@{@"deltaX":[NSNumber numberWithFloat:-(self.bottomObjectView.bounds.size.width - self.stopIcon.size.width)]} forKey:[NSNumber numberWithFloat:5.0]];
+        [animationConfig setObject:@{@"deltaX":[NSNumber numberWithFloat:-(self.bottomObjectView.bounds.size.width - self.bottomTargetIcon.size.width)]} forKey:[NSNumber numberWithFloat:5.0]];
         [animationConfig setObject:@{@"deltaX":[NSNumber numberWithFloat:0.0],@"lastFrameDuration":[NSNumber numberWithFloat:0.0]} forKey:[NSNumber numberWithFloat:10.0]];
     }
     return animationConfig;

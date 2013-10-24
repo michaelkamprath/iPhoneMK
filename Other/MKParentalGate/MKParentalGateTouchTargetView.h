@@ -31,7 +31,7 @@
 
 @interface MKParentalGateTouchTargetView : MKTouchTrackingAnimationView
 
-- (id)initWithFrame:(CGRect)frame stopIcon:(UIImage*)inStopIcon delegate:(id<MKParentalGateTouchTargetDelegate>)inDelegate;
+- (id)initWithFrame:(CGRect)frame targetIcon:(UIImage*)inStopIcon delegate:(id<MKParentalGateTouchTargetDelegate>)inDelegate;
 
 -(void)resetAnimationLayerFrame;
 

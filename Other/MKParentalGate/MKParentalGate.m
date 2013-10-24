@@ -40,7 +40,7 @@
 
 +(void)displayGateWithCurrentViewController:(UIViewController*)inViewController successBlock:(MKParentalGateSuccessBlock)inSuccessBlock failureBlock:(MKParentalGateFailureBlock)inFailureBlock title:(NSString*)inTitle explanatoryMessage:(NSString*)inMessage
 {
-    MKParentalGateViewController* gateVC = [[MKParentalGateViewController alloc] initWithStopIcon:[UIImage imageNamed:@"stop.png"] successBlock:inSuccessBlock failureBlock:inFailureBlock title:inTitle explanatoryMessage:inMessage];
+    MKParentalGateViewController* gateVC = [[MKParentalGateViewController alloc] initWithTopTargetIcon:[UIImage imageNamed:@"top-dot.png"] bottomTargetIcon:[UIImage imageNamed:@"bottom-dot.png"] successBlock:inSuccessBlock failureBlock:inFailureBlock title:inTitle explanatoryMessage:inMessage];
     
     [inViewController presentViewController:gateVC animated:YES completion:NULL];
     

@@ -36,11 +36,11 @@
 
 @implementation MKParentalGateTouchTargetView
 
-- (id)initWithFrame:(CGRect)frame stopIcon:(UIImage*)inStopIcon delegate:(id<MKParentalGateTouchTargetDelegate>)inDelegate;
+- (id)initWithFrame:(CGRect)frame targetIcon:(UIImage*)inTargetIcon delegate:(id<MKParentalGateTouchTargetDelegate>)inDelegate;
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.stopIcon = inStopIcon;
+        self.stopIcon = inTargetIcon;
         self.delegate = inDelegate;
         
         MKSoundCoordinatedAnimationLayer* aniLayer = [[MKSoundCoordinatedAnimationLayer alloc] init];
