@@ -38,6 +38,8 @@
 		4C3FC4B1181455CA00A60DF4 /* MKParentalGateTouchCancelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C3FC4B0181455CA00A60DF4 /* MKParentalGateTouchCancelView.m */; };
 		4C3FC4B5181459CB00A60DF4 /* ParentalGateSuccessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C3FC4B3181459CB00A60DF4 /* ParentalGateSuccessViewController.m */; };
 		4C3FC4B6181459CB00A60DF4 /* ParentalGateSuccessViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C3FC4B4181459CB00A60DF4 /* ParentalGateSuccessViewController.xib */; };
+		4C498D8518259FA600E6754A /* MKParentalGateViewController~landscape.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C498D8118259FA600E6754A /* MKParentalGateViewController~landscape.xib */; };
+		4C498D8618259FA600E6754A /* MKParentalGateViewController~portrait.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C498D8318259FA600E6754A /* MKParentalGateViewController~portrait.xib */; };
 		4C5304091812E57700F67459 /* MKParentalGate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5304081812E57700F67459 /* MKParentalGate.m */; };
 		4C5865A4176E27E4002AA16F /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C5865A3176E27E4002AA16F /* Default-568h@2x.png */; };
 		4C8FD91B15CF2620005A36C9 /* facebook.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C8FD90D15CF2620005A36C9 /* facebook.png */; };
@@ -73,7 +75,6 @@
 		4CBC702E150CA25100AE63B5 /* checkmarkicon_empty@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CBC7028150CA25100AE63B5 /* checkmarkicon_empty@2x.png */; };
 		4CBC7031150CA25100AE63B5 /* checkmarkicon_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CBC702B150CA25100AE63B5 /* checkmarkicon_on.png */; };
 		4CBC7032150CA25100AE63B5 /* checkmarkicon_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CBC702C150CA25100AE63B5 /* checkmarkicon_on@2x.png */; };
-		4CE19BDB1818D65300A459F9 /* MKParentalGateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CE19BDD1818D65300A459F9 /* MKParentalGateViewController.xib */; };
 		4CE19BE31818D74300A459F9 /* MKParentalGateViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CE19BE11818D74300A459F9 /* MKParentalGateViewController~ipad.xib */; };
 		4CE19BE81818DDB800A459F9 /* top-dot.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CE19BE41818DDB800A459F9 /* top-dot.png */; };
 		4CE19BE91818DDB800A459F9 /* top-dot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CE19BE51818DDB800A459F9 /* top-dot@2x.png */; };
@@ -129,6 +130,8 @@
 		4C3FC4B2181459CB00A60DF4 /* ParentalGateSuccessViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParentalGateSuccessViewController.h; sourceTree = "<group>"; };
 		4C3FC4B3181459CB00A60DF4 /* ParentalGateSuccessViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParentalGateSuccessViewController.m; sourceTree = "<group>"; };
 		4C3FC4B4181459CB00A60DF4 /* ParentalGateSuccessViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ParentalGateSuccessViewController.xib; sourceTree = "<group>"; };
+		4C498D8218259FA600E6754A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = "en.lproj/MKParentalGateViewController~landscape.xib"; sourceTree = "<group>"; };
+		4C498D8418259FA600E6754A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = "en.lproj/MKParentalGateViewController~portrait.xib"; sourceTree = "<group>"; };
 		4C5304071812E57700F67459 /* MKParentalGate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKParentalGate.h; sourceTree = "<group>"; };
 		4C5304081812E57700F67459 /* MKParentalGate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKParentalGate.m; sourceTree = "<group>"; };
 		4C5865A3176E27E4002AA16F /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -172,7 +175,6 @@
 		4CBC7028150CA25100AE63B5 /* checkmarkicon_empty@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkmarkicon_empty@2x.png"; sourceTree = "<group>"; };
 		4CBC702B150CA25100AE63B5 /* checkmarkicon_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkmarkicon_on.png; sourceTree = "<group>"; };
 		4CBC702C150CA25100AE63B5 /* checkmarkicon_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkmarkicon_on@2x.png"; sourceTree = "<group>"; };
-		4CE19BDC1818D65300A459F9 /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = en.lproj/MKParentalGateViewController.xib; sourceTree = "<group>"; };
 		4CE19BE21818D74300A459F9 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = "en.lproj/MKParentalGateViewController~ipad.xib"; sourceTree = "<group>"; };
 		4CE19BE41818DDB800A459F9 /* top-dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "top-dot.png"; sourceTree = "<group>"; };
 		4CE19BE51818DDB800A459F9 /* top-dot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "top-dot@2x.png"; sourceTree = "<group>"; };
@@ -385,8 +387,9 @@
 				4C5304081812E57700F67459 /* MKParentalGate.m */,
 				4C3FC4A21812EB7100A60DF4 /* MKParentalGateViewController.h */,
 				4C3FC4A31812EB7100A60DF4 /* MKParentalGateViewController.m */,
-				4CE19BDD1818D65300A459F9 /* MKParentalGateViewController.xib */,
 				4CE19BE11818D74300A459F9 /* MKParentalGateViewController~ipad.xib */,
+				4C498D8118259FA600E6754A /* MKParentalGateViewController~landscape.xib */,
+				4C498D8318259FA600E6754A /* MKParentalGateViewController~portrait.xib */,
 				4C3FC4A71813B4C200A60DF4 /* MKParentalGateTouchTargetView.h */,
 				4C3FC4A81813B4C200A60DF4 /* MKParentalGateTouchTargetView.m */,
 				4C3FC4AF181455CA00A60DF4 /* MKParentalGateTouchCancelView.h */,
@@ -493,17 +496,18 @@
 				4C1DF5F414F60B6E00AE7949 /* first@2x.png in Resources */,
 				4C1DF5F914F60B6E00AE7949 /* second.png in Resources */,
 				4C1DF5FB14F60B6E00AE7949 /* second@2x.png in Resources */,
+				4C498D8618259FA600E6754A /* MKParentalGateViewController~portrait.xib in Resources */,
 				4C1DF5FE14F60B6E00AE7949 /* NumberBadgeViewController.xib in Resources */,
 				4C1DF60114F60B6E00AE7949 /* NetworkImageViewController.xib in Resources */,
 				4CE19BE81818DDB800A459F9 /* top-dot.png in Resources */,
 				4C1DF62A14F624A500AE7949 /* third.png in Resources */,
 				4C9C920517F7B5950051E0BF /* beep-timber.aif in Resources */,
 				4C1DF62B14F624A500AE7949 /* third@2x.png in Resources */,
+				4C498D8518259FA600E6754A /* MKParentalGateViewController~landscape.xib in Resources */,
 				4CE19BEB1818DDB800A459F9 /* bottom-dot@2x.png in Resources */,
 				4CE19BEA1818DDB800A459F9 /* bottom-dot.png in Resources */,
 				4CBC702D150CA25100AE63B5 /* checkmarkicon_empty.png in Resources */,
 				4CBC702E150CA25100AE63B5 /* checkmarkicon_empty@2x.png in Resources */,
-				4CE19BDB1818D65300A459F9 /* MKParentalGateViewController.xib in Resources */,
 				4CBC7031150CA25100AE63B5 /* checkmarkicon_on.png in Resources */,
 				4CBC7032150CA25100AE63B5 /* checkmarkicon_on@2x.png in Resources */,
 				4C98654A15311A28006F05EB /* fourth.png in Resources */,
@@ -594,12 +598,20 @@
 			name = NetworkImageViewController.xib;
 			sourceTree = "<group>";
 		};
-		4CE19BDD1818D65300A459F9 /* MKParentalGateViewController.xib */ = {
+		4C498D8118259FA600E6754A /* MKParentalGateViewController~landscape.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4CE19BDC1818D65300A459F9 /* en */,
+				4C498D8218259FA600E6754A /* en */,
 			);
-			name = MKParentalGateViewController.xib;
+			name = "MKParentalGateViewController~landscape.xib";
+			sourceTree = "<group>";
+		};
+		4C498D8318259FA600E6754A /* MKParentalGateViewController~portrait.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4C498D8418259FA600E6754A /* en */,
+			);
+			name = "MKParentalGateViewController~portrait.xib";
 			sourceTree = "<group>";
 		};
 		4CE19BE11818D74300A459F9 /* MKParentalGateViewController~ipad.xib */ = {
