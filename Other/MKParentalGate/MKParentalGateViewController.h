@@ -21,6 +21,6 @@
 
 @interface MKParentalGateViewController : UIViewController
 
--(id)initWithTopTargetIcon:(UIImage*)inTopTargetIcon bottomTargetIcon:(UIImage*)inBottomTargetIcon successBlock:(MKParentalGateSuccessBlock)inSuccessBlock failureBlock:(MKParentalGateFailureBlock)inFailureBlock title:(NSString*)inTitle explanatoryMessage:(NSString*)inMessage;
+-(id)initWithTopTargetIcon:(UIImage*)inTopTargetIcon bottomTargetIcon:(UIImage*)inBottomTargetIcon successBlock:(MKParentalGateSuccessBlock)inSuccessBlock failureBlock:(MKParentalGateFailureBlock)inFailureBlock orientation:(UIInterfaceOrientation)inOrientation;
 
 @end

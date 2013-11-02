@@ -26,6 +26,4 @@ typedef void (^MKParentalGateFailureBlock)(void);
 
 +(void)displayGateWithCurrentViewController:(UIViewController*)inViewController successBlock:(MKParentalGateSuccessBlock)inSuccessBlock failureBlock:(MKParentalGateFailureBlock)inFailureBlock;
 
-+(void)displayGateWithCurrentViewController:(UIViewController*)inViewController successBlock:(MKParentalGateSuccessBlock)inSuccessBlock failureBlock:(MKParentalGateFailureBlock)inFailureBlock title:(NSString*)inTitle explanatoryMessage:(NSString*)inMessage;
-
 @end

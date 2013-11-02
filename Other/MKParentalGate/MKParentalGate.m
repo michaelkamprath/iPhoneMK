@@ -35,15 +35,12 @@
 
 +(void)displayGateWithCurrentViewController:(UIViewController*)inViewController successBlock:(MKParentalGateSuccessBlock)inSuccessBlock failureBlock:(MKParentalGateFailureBlock)inFailureBlock
 {
-    [MKParentalGate displayGateWithCurrentViewController:inViewController successBlock:inSuccessBlock failureBlock:inFailureBlock title:nil explanatoryMessage:nil];
-}
-
-+(void)displayGateWithCurrentViewController:(UIViewController*)inViewController successBlock:(MKParentalGateSuccessBlock)inSuccessBlock failureBlock:(MKParentalGateFailureBlock)inFailureBlock title:(NSString*)inTitle explanatoryMessage:(NSString*)inMessage
-{
-    MKParentalGateViewController* gateVC = [[MKParentalGateViewController alloc] initWithTopTargetIcon:[UIImage imageNamed:@"top-dot.png"] bottomTargetIcon:[UIImage imageNamed:@"bottom-dot.png"] successBlock:inSuccessBlock failureBlock:inFailureBlock title:inTitle explanatoryMessage:inMessage];
+    UIInterfaceOrientation hostOrientation = inViewController.interfaceOrientation;
+    
+    MKParentalGateViewController* gateVC = [[MKParentalGateViewController alloc] initWithTopTargetIcon:[UIImage imageNamed:@"top-dot.png"] bottomTargetIcon:[UIImage imageNamed:@"bottom-dot.png"] successBlock:inSuccessBlock failureBlock:inFailureBlock orientation:hostOrientation];
     
     [inViewController presentViewController:gateVC animated:YES completion:NULL];
-    
 }
+
 
 @end

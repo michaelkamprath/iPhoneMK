@@ -35,20 +35,17 @@
 @interface MKParentalGateViewController () <MKParentalGateTouchTargetDelegate,MKParentalGateTouchCancelDelegate> {
     BOOL _topTargetTouched;
     BOOL _bottomTargetTouched;
-    __strong NSString* _titleText;
-    __strong NSString* _explanatoryMessageText;
 }
 
 @property (weak,nonatomic) IBOutlet MKParentalGateTouchCancelView* topObjectView;
 @property (weak,nonatomic) IBOutlet MKParentalGateTouchCancelView* bottomObjectView;
-@property (weak,nonatomic) IBOutlet UILabel* titleLabel;
-@property (weak,nonatomic) IBOutlet UILabel* explanatoryMessageLabel;
 @property (strong,nonatomic) MKParentalGateTouchTargetView* topTarget;
 @property (strong,nonatomic) MKParentalGateTouchTargetView* bottomTarget;
 @property (strong,nonatomic) UIImage* topTargetIcon;
 @property (strong,nonatomic) UIImage* bottomTargetIcon;
 @property (strong,nonatomic) MKParentalGateSuccessBlock successBlock;
 @property (strong,nonatomic) MKParentalGateFailureBlock failureBlock;
+@property (assign,nonatomic) UIInterfaceOrientation displayOrientation;
 
 -(void)setUpTargetAnimation;
 
@@ -62,9 +59,24 @@
 
 @implementation MKParentalGateViewController
 
--(id)initWithTopTargetIcon:(UIImage*)inTopTargetIcon bottomTargetIcon:(UIImage*)inBottomTargetIcon successBlock:(MKParentalGateSuccessBlock)inSuccessBlock failureBlock:(MKParentalGateFailureBlock)inFailureBlock title:(NSString*)inTitle explanatoryMessage:(NSString*)inMessage
+-(id)initWithTopTargetIcon:(UIImage*)inTopTargetIcon bottomTargetIcon:(UIImage*)inBottomTargetIcon successBlock:(MKParentalGateSuccessBlock)inSuccessBlock failureBlock:(MKParentalGateFailureBlock)inFailureBlock orientation:(UIInterfaceOrientation)inOrientation
 {
-    self = [super initWithNibName:@"MKParentalGateViewController" bundle:nil];
+    NSString* nibName = nil;
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+    {
+        if ( UIInterfaceOrientationIsLandscape(inOrientation) ) {
+            nibName = @"MKParentalGateViewController~landscape";
+        }
+        else {
+            nibName = @"MKParentalGateViewController~portrait";
+        }
+    }
+    else {
+        nibName = @"MKParentalGateViewController~ipad";
+    }
+    
+    self = [super initWithNibName:nibName bundle:nil];
     if (self) {
         self.modalPresentationStyle = UIModalPresentationFormSheet;
         self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
@@ -73,13 +85,7 @@
         self.bottomTargetIcon = inBottomTargetIcon;
         self.successBlock = inSuccessBlock;
         self.failureBlock = inFailureBlock;
-        if ( nil != inTitle ) {
-            self.title = inTitle;
-            _titleText = inTitle;
-        }
-        if ( nil != inMessage ) {
-            _explanatoryMessageText = inMessage;
-        }
+        self.displayOrientation = inOrientation;
         
         if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
             [self setNeedsStatusBarAppearanceUpdate];
@@ -119,17 +125,6 @@
     }
     self.topObjectView.delegate = self;
     self.bottomObjectView.delegate = self;
-    
-    if ( nil != _titleText ) {
-        self.titleLabel.text = _titleText;
-    }
-    else {
-        self.title = self.titleLabel.text;
-    }
-    
-    if ( nil != _explanatoryMessageText ) {
-        self.explanatoryMessageLabel.text = _explanatoryMessageText;
-    }
 }
 
 -(void)setUpTargetAnimation {
@@ -146,11 +141,21 @@
         self.bottomTarget = [[MKParentalGateTouchTargetView alloc] initWithFrame:CGRectMake(self.bottomObjectView.bounds.size.width - self.bottomTargetIcon.size.width, yPos, self.bottomTargetIcon.size.width, self.bottomTargetIcon.size.height) targetIcon:self.bottomTargetIcon delegate:self];
         [self.bottomObjectView addSubview:self.bottomTarget];
     }
-    self.topTarget.frame = CGRectMake(0, (self.topObjectView.bounds.size.height - self.topTargetIcon.size.height)/2.0, self.topTargetIcon.size.width, self.topTargetIcon.size.height);
+    if ( (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) && UIInterfaceOrientationIsLandscape( self.displayOrientation ) ) {
+        self.topTarget.frame = CGRectMake((self.topObjectView.bounds.size.width - self.topTargetIcon.size.width)/2.0, 0, self.topTargetIcon.size.width, self.topTargetIcon.size.height);
+    }
+    else {
+        self.topTarget.frame = CGRectMake(0, (self.topObjectView.bounds.size.height - self.topTargetIcon.size.height)/2.0, self.topTargetIcon.size.width, self.topTargetIcon.size.height);
+    }
     [self.topTarget resetAnimationLayerFrame];
     self.topTarget.animationLayer.config = [self topTouchTargetAnimation];
     
-    self.bottomTarget.frame = CGRectMake(self.bottomObjectView.bounds.size.width - self.bottomTargetIcon.size.width, (self.bottomObjectView.bounds.size.height - self.bottomTargetIcon.size.height)/2.0, self.bottomTargetIcon.size.width, self.bottomTargetIcon.size.height);
+    if ( (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) && UIInterfaceOrientationIsLandscape( self.displayOrientation ) ) {
+        self.bottomTarget.frame = CGRectMake((self.bottomObjectView.bounds.size.width - self.bottomTargetIcon.size.width)/2.0, self.bottomObjectView.bounds.size.height - self.bottomTargetIcon.size.height, self.bottomTargetIcon.size.width, self.bottomTargetIcon.size.height);
+    }
+    else {
+       self.bottomTarget.frame = CGRectMake(self.bottomObjectView.bounds.size.width - self.bottomTargetIcon.size.width, (self.bottomObjectView.bounds.size.height - self.bottomTargetIcon.size.height)/2.0, self.bottomTargetIcon.size.width, self.bottomTargetIcon.size.height);
+    }
     [self.bottomTarget resetAnimationLayerFrame];
     self.bottomTarget.animationLayer.config = [self bottomTouchTargetAnimation];
 }
@@ -181,10 +186,28 @@
     NSMutableDictionary* animationConfig = [NSMutableDictionary dictionaryWithCapacity:4];
     
     if ( nil != self.topTargetIcon ) {
-        [animationConfig setObject:@{@"stillImageObj":self.topTargetIcon} forKey:@"meta"];
-        [animationConfig setObject:@{@"deltaX":[NSNumber numberWithFloat:0.0]} forKey:[NSNumber numberWithFloat:0.0]];
-        [animationConfig setObject:@{@"deltaX":[NSNumber numberWithFloat:(self.topObjectView.bounds.size.width - self.topTargetIcon.size.width)]} forKey:[NSNumber numberWithFloat:5.0]];
-        [animationConfig setObject:@{@"deltaX":[NSNumber numberWithFloat:0.0],@"lastFrameDuration":[NSNumber numberWithFloat:0.0]} forKey:[NSNumber numberWithFloat:10.0]];
+        NSTimeInterval animationTime = 10.0;
+        
+        if ( (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) && UIInterfaceOrientationIsLandscape( self.displayOrientation ) ) {
+            [animationConfig setObject:@{@"stillImageObj":self.topTargetIcon} forKey:@"meta"];
+            [animationConfig setObject:@{@"deltaY":[NSNumber numberWithFloat:0.0],@"rotatePosDegrees":[NSNumber numberWithFloat:0]} forKey:[NSNumber numberWithFloat:0.0]];
+            [animationConfig setObject:@{@"deltaY":[NSNumber numberWithFloat:(self.topObjectView.bounds.size.height - self.topTargetIcon.size.height)],@"rotatePosDegrees":[NSNumber numberWithFloat:0]} forKey:[NSNumber numberWithFloat:18.0*animationTime/40.0]];
+            [animationConfig setObject:@{@"deltaY":[NSNumber numberWithFloat:(self.topObjectView.bounds.size.height - self.topTargetIcon.size.height)],@"rotatePosDegrees":[NSNumber numberWithFloat:90]} forKey:[NSNumber numberWithFloat:19*animationTime/40.0]];
+            [animationConfig setObject:@{@"deltaY":[NSNumber numberWithFloat:(self.topObjectView.bounds.size.height - self.topTargetIcon.size.height)],@"rotatePosDegrees":[NSNumber numberWithFloat:180]} forKey:[NSNumber numberWithFloat:20.0*animationTime/40.0]];
+            [animationConfig setObject:@{@"deltaY":[NSNumber numberWithFloat:0.0],@"rotatePosDegrees":[NSNumber numberWithFloat:180]} forKey:[NSNumber numberWithFloat:38.0*animationTime/40.0]];
+            [animationConfig setObject:@{@"deltaY":[NSNumber numberWithFloat:0.0],@"rotatePosDegrees":[NSNumber numberWithFloat:270]} forKey:[NSNumber numberWithFloat:39.0*animationTime/40.0]];
+            [animationConfig setObject:@{@"deltaY":[NSNumber numberWithFloat:0.0],@"lastFrameDuration":[NSNumber numberWithFloat:0.0],@"rotatePosDegrees":[NSNumber numberWithFloat:0]} forKey:[NSNumber numberWithFloat:animationTime]];
+        }
+        else {
+            [animationConfig setObject:@{@"stillImageObj":self.topTargetIcon} forKey:@"meta"];
+            [animationConfig setObject:@{@"deltaX":[NSNumber numberWithFloat:0.0],@"rotatePosDegrees":[NSNumber numberWithFloat:0]} forKey:[NSNumber numberWithFloat:0.0]];
+            [animationConfig setObject:@{@"deltaX":[NSNumber numberWithFloat:0.0],@"rotatePosDegrees":[NSNumber numberWithFloat:90]} forKey:[NSNumber numberWithFloat:animationTime/40.0]];
+            [animationConfig setObject:@{@"deltaX":[NSNumber numberWithFloat:(self.topObjectView.bounds.size.width - self.topTargetIcon.size.width)],@"rotatePosDegrees":[NSNumber numberWithFloat:90]} forKey:[NSNumber numberWithFloat:19.0*animationTime/40.0]];
+            [animationConfig setObject:@{@"deltaX":[NSNumber numberWithFloat:(self.topObjectView.bounds.size.width - self.topTargetIcon.size.width)],@"rotatePosDegrees":[NSNumber numberWithFloat:180]} forKey:[NSNumber numberWithFloat:animationTime/2.0]];
+            [animationConfig setObject:@{@"deltaX":[NSNumber numberWithFloat:(self.topObjectView.bounds.size.width - self.topTargetIcon.size.width)],@"rotatePosDegrees":[NSNumber numberWithFloat:270]} forKey:[NSNumber numberWithFloat:21.0*animationTime/40.0]];
+            [animationConfig setObject:@{@"deltaX":[NSNumber numberWithFloat:0.0],@"rotatePosDegrees":[NSNumber numberWithFloat:270]} forKey:[NSNumber numberWithFloat:39.0*animationTime/40.0]];
+            [animationConfig setObject:@{@"deltaX":[NSNumber numberWithFloat:0.0],@"lastFrameDuration":[NSNumber numberWithFloat:0.0],@"rotatePosDegrees":[NSNumber numberWithFloat:0]} forKey:[NSNumber numberWithFloat:animationTime]];
+        }
     }
     return animationConfig;
 }
@@ -193,10 +216,28 @@
     NSMutableDictionary* animationConfig = [NSMutableDictionary dictionaryWithCapacity:4];
     
     if ( nil != self.bottomTargetIcon ) {
-        [animationConfig setObject:@{@"stillImageObj":self.bottomTargetIcon} forKey:@"meta"];
-        [animationConfig setObject:@{@"deltaX":[NSNumber numberWithFloat:0.0]} forKey:[NSNumber numberWithFloat:0.0]];
-        [animationConfig setObject:@{@"deltaX":[NSNumber numberWithFloat:-(self.bottomObjectView.bounds.size.width - self.bottomTargetIcon.size.width)]} forKey:[NSNumber numberWithFloat:5.0]];
-        [animationConfig setObject:@{@"deltaX":[NSNumber numberWithFloat:0.0],@"lastFrameDuration":[NSNumber numberWithFloat:0.0]} forKey:[NSNumber numberWithFloat:10.0]];
+        NSTimeInterval animationTime = 10.0;
+
+        if ( (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) && UIInterfaceOrientationIsLandscape( self.displayOrientation ) ) {
+            [animationConfig setObject:@{@"stillImageObj":self.bottomTargetIcon} forKey:@"meta"];
+            [animationConfig setObject:@{@"deltaY":[NSNumber numberWithFloat:0.0],@"rotatePosDegrees":[NSNumber numberWithFloat:180]} forKey:[NSNumber numberWithFloat:0.0]];
+             [animationConfig setObject:@{@"deltaY":[NSNumber numberWithFloat:-(self.bottomObjectView.bounds.size.height - self.bottomTargetIcon.size.height)],@"rotatePosDegrees":[NSNumber numberWithFloat:180]} forKey:[NSNumber numberWithFloat:18.0*animationTime/40.0]];
+            [animationConfig setObject:@{@"deltaY":[NSNumber numberWithFloat:-(self.bottomObjectView.bounds.size.height - self.bottomTargetIcon.size.height)],@"rotatePosDegrees":[NSNumber numberWithFloat:270]} forKey:[NSNumber numberWithFloat:19.0*animationTime/40.0]];
+            [animationConfig setObject:@{@"deltaY":[NSNumber numberWithFloat:-(self.bottomObjectView.bounds.size.height - self.bottomTargetIcon.size.height)],@"rotatePosDegrees":[NSNumber numberWithFloat:0]} forKey:[NSNumber numberWithFloat:20.0*animationTime/40.0]];
+            [animationConfig setObject:@{@"deltaY":[NSNumber numberWithFloat:0.0],@"rotatePosDegrees":[NSNumber numberWithFloat:0]} forKey:[NSNumber numberWithFloat:38.0*animationTime/40.0]];
+            [animationConfig setObject:@{@"deltaY":[NSNumber numberWithFloat:0.0],@"rotatePosDegrees":[NSNumber numberWithFloat:90]} forKey:[NSNumber numberWithFloat:39.0*animationTime/40.0]];
+            [animationConfig setObject:@{@"deltaY":[NSNumber numberWithFloat:0.0],@"lastFrameDuration":[NSNumber numberWithFloat:0.0],@"rotatePosDegrees":[NSNumber numberWithFloat:180]} forKey:[NSNumber numberWithFloat:animationTime]];
+        }
+        else {
+            [animationConfig setObject:@{@"stillImageObj":self.bottomTargetIcon} forKey:@"meta"];
+            [animationConfig setObject:@{@"deltaX":[NSNumber numberWithFloat:0.0],@"rotatePosDegrees":[NSNumber numberWithFloat:0]} forKey:[NSNumber numberWithFloat:0.0]];
+            [animationConfig setObject:@{@"deltaX":[NSNumber numberWithFloat:0.0],@"rotatePosDegrees":[NSNumber numberWithFloat:-90]} forKey:[NSNumber numberWithFloat:animationTime/40.0]];
+            [animationConfig setObject:@{@"deltaX":[NSNumber numberWithFloat:-(self.bottomObjectView.bounds.size.width - self.bottomTargetIcon.size.width)],@"rotatePosDegrees":[NSNumber numberWithFloat:-90]} forKey:[NSNumber numberWithFloat:19.0*animationTime/40.0]];
+            [animationConfig setObject:@{@"deltaX":[NSNumber numberWithFloat:-(self.bottomObjectView.bounds.size.width - self.bottomTargetIcon.size.width)],@"rotatePosDegrees":[NSNumber numberWithFloat:-180]} forKey:[NSNumber numberWithFloat:animationTime/2.0]];
+            [animationConfig setObject:@{@"deltaX":[NSNumber numberWithFloat:-(self.bottomObjectView.bounds.size.width - self.bottomTargetIcon.size.width)],@"rotatePosDegrees":[NSNumber numberWithFloat:-270]} forKey:[NSNumber numberWithFloat:21.0*animationTime/40.0]];
+            [animationConfig setObject:@{@"deltaX":[NSNumber numberWithFloat:0.0],@"rotatePosDegrees":[NSNumber numberWithFloat:-270]} forKey:[NSNumber numberWithFloat:39.0*animationTime/40.0]];
+            [animationConfig setObject:@{@"deltaX":[NSNumber numberWithFloat:0.0],@"lastFrameDuration":[NSNumber numberWithFloat:0.0],@"rotatePosDegrees":[NSNumber numberWithFloat:0]} forKey:[NSNumber numberWithFloat:animationTime]];
+        }
     }
     return animationConfig;
 }
