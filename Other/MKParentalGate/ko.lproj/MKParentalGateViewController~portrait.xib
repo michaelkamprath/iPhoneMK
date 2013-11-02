@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment version="1536" defaultVersion="1536" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MKParentalGateViewController">
+            <connections>
+                <outlet property="bottomObjectView" destination="DxH-wf-gzB" id="B83-FT-a5Q"/>
+                <outlet property="topObjectView" destination="MS8-xg-eIs" id="bNj-bW-pin"/>
+                <outlet property="view" destination="1" id="3"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="1" userLabel="Parental Gate Portait View" customClass="MKParentalGateTouchCancelView">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MS8-xg-eIs" userLabel="Top Object View" customClass="MKParentalGateTouchCancelView">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="120"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="120" id="yo2-Ck-sgX"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DxH-wf-gzB" userLabel="Bottom Object View" customClass="MKParentalGateTouchCancelView">
+                    <rect key="frame" x="0.0" y="360" width="320" height="120"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="120" id="dxU-GM-UXF"/>
+                    </constraints>
+                </view>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="보호자 통제 설정" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y6c-rD-Rlq" userLabel="Title Label">
+                    <rect key="frame" x="10" y="137" width="300" height="64"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="64" id="vMK-pI-S5e"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="64" id="zDX-56-esk"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-UltraLight" family="Helvetica Neue" pointSize="44"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="앞으로 진행하시려면 움직이는 두 원들을 모두 눌러 주세요" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="300" translatesAutoresizingMaskIntoConstraints="NO" id="4bY-3m-Xbs">
+                    <rect key="frame" x="10" y="209" width="300" height="62"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="62" id="gmk-IO-YkL"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="취소하시려면 두 원 밖 아무 곳이나 눌러주세요" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="16J-jC-mTD">
+                    <rect key="frame" x="10" y="279" width="300" height="26"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="26" id="wrb-u7-g39"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="16J-jC-mTD" secondAttribute="trailing" constant="10" id="0FO-zP-zUy"/>
+                <constraint firstItem="16J-jC-mTD" firstAttribute="top" secondItem="4bY-3m-Xbs" secondAttribute="bottom" constant="8" id="2W3-cn-3MG"/>
+                <constraint firstItem="16J-jC-mTD" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="10" id="3sa-eP-p5b"/>
+                <constraint firstItem="4bY-3m-Xbs" firstAttribute="top" secondItem="y6c-rD-Rlq" secondAttribute="bottom" constant="8" id="6Ts-KD-a8t"/>
+                <constraint firstItem="y6c-rD-Rlq" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="10" id="BF6-BI-AdY"/>
+                <constraint firstItem="DxH-wf-gzB" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="DeL-Nw-1VB"/>
+                <constraint firstAttribute="trailing" secondItem="DxH-wf-gzB" secondAttribute="trailing" id="FKY-cO-B12"/>
+                <constraint firstAttribute="trailing" secondItem="y6c-rD-Rlq" secondAttribute="trailing" constant="10" id="Frz-tB-TQ1"/>
+                <constraint firstAttribute="trailing" secondItem="MS8-xg-eIs" secondAttribute="trailing" id="Lsc-c1-9ZS"/>
+                <constraint firstItem="MS8-xg-eIs" firstAttribute="top" secondItem="1" secondAttribute="top" id="O2q-XK-xFP"/>
+                <constraint firstItem="MS8-xg-eIs" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="UDa-f7-G57"/>
+                <constraint firstAttribute="trailing" secondItem="4bY-3m-Xbs" secondAttribute="trailing" constant="10" id="WuX-Nl-liu"/>
+                <constraint firstAttribute="centerY" secondItem="4bY-3m-Xbs" secondAttribute="centerY" id="cHS-DB-E8S"/>
+                <constraint firstAttribute="bottom" secondItem="DxH-wf-gzB" secondAttribute="bottom" id="hRW-aQ-oPw"/>
+                <constraint firstItem="4bY-3m-Xbs" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="10" id="njP-wf-bNp"/>
+            </constraints>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+        </view>
+    </objects>
+</document>
