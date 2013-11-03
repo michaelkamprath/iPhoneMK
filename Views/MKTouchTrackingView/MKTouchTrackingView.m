@@ -25,7 +25,7 @@
 #endif
 
 #if !(__has_feature(objc_arc) && __clang_major__ >= 3)
-#error "MKSocialShareTableViewCell is designed to be used with ARC. Please add '-fobjc-arc' to the compiler flags of MKSocialShareTableViewCell.m."
+#error "MKTouchTrackingView is designed to be used with ARC. Please add '-fobjc-arc' to the compiler flags of MKTouchTrackingView.m."
 #endif // __has_feature(objc_arc)
 
 #import "MKTouchTrackingView.h"
