@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4510" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment version="1536" defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MKParentalGateViewController">
@@ -33,36 +33,38 @@
                         <constraint firstAttribute="height" constant="120" id="dxU-GM-UXF"/>
                     </constraints>
                 </view>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Parental Gate" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y6c-rD-Rlq" userLabel="Title Label">
-                    <rect key="frame" x="10" y="137" width="300" height="64"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Parental Gate" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y6c-rD-Rlq" userLabel="Title Label">
+                    <rect key="frame" x="30" y="137" width="280" height="64"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="64" id="vMK-pI-S5e"/>
                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="64" id="zDX-56-esk"/>
                     </constraints>
-                    <fontDescription key="fontDescription" name="HelveticaNeue-UltraLight" family="Helvetica Neue" pointSize="55"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-UltraLight" family="Helvetica Neue" pointSize="49"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="300" translatesAutoresizingMaskIntoConstraints="NO" id="4bY-3m-Xbs">
-                    <rect key="frame" x="10" y="209" width="300" height="62"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="4bY-3m-Xbs">
+                    <rect key="frame" x="30" y="209" width="280" height="62"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="62" id="gmk-IO-YkL"/>
                     </constraints>
                     <attributedString key="attributedText">
-                        <fragment content="Touch both moving dots">
+                        <fragment>
+                            <string key="content">Touch both moving dots
+</string>
                             <attributes>
                                 <color key="NSColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <font key="NSFont" size="25" name="HelveticaNeue-Bold"/>
+                                <font key="NSFont" size="21" name="HelveticaNeue-Bold"/>
                                 <font key="NSOriginalFont" size="20" name="HelveticaNeue-Bold"/>
                                 <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
                             </attributes>
                         </fragment>
-                        <fragment content=" in order to proceed">
+                        <fragment content="in order to proceed">
                             <attributes>
                                 <color key="NSColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <font key="NSFont" size="25" name="HelveticaNeue-Light"/>
+                                <font key="NSFont" size="21" name="HelveticaNeue-Light"/>
                                 <font key="NSOriginalFont" size="25" name="HelveticaNeue-Light"/>
                                 <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
                             </attributes>
@@ -71,12 +73,12 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Touch anywhere else to cancel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="16J-jC-mTD">
-                    <rect key="frame" x="10" y="279" width="300" height="26"/>
+                    <rect key="frame" x="30" y="279" width="280" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="26" id="wrb-u7-g39"/>
                     </constraints>
-                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="21"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="19"/>
                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -85,9 +87,9 @@
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="16J-jC-mTD" secondAttribute="trailing" constant="10" id="0FO-zP-zUy"/>
                 <constraint firstItem="16J-jC-mTD" firstAttribute="top" secondItem="4bY-3m-Xbs" secondAttribute="bottom" constant="8" id="2W3-cn-3MG"/>
-                <constraint firstItem="16J-jC-mTD" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="10" id="3sa-eP-p5b"/>
+                <constraint firstItem="16J-jC-mTD" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="30" id="3sa-eP-p5b"/>
                 <constraint firstItem="4bY-3m-Xbs" firstAttribute="top" secondItem="y6c-rD-Rlq" secondAttribute="bottom" constant="8" id="6Ts-KD-a8t"/>
-                <constraint firstItem="y6c-rD-Rlq" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="10" id="BF6-BI-AdY"/>
+                <constraint firstItem="y6c-rD-Rlq" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="30" id="BF6-BI-AdY"/>
                 <constraint firstItem="DxH-wf-gzB" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="DeL-Nw-1VB"/>
                 <constraint firstAttribute="trailing" secondItem="DxH-wf-gzB" secondAttribute="trailing" id="FKY-cO-B12"/>
                 <constraint firstAttribute="trailing" secondItem="y6c-rD-Rlq" secondAttribute="trailing" constant="10" id="Frz-tB-TQ1"/>
@@ -97,7 +99,7 @@
                 <constraint firstAttribute="trailing" secondItem="4bY-3m-Xbs" secondAttribute="trailing" constant="10" id="WuX-Nl-liu"/>
                 <constraint firstAttribute="centerY" secondItem="4bY-3m-Xbs" secondAttribute="centerY" id="cHS-DB-E8S"/>
                 <constraint firstAttribute="bottom" secondItem="DxH-wf-gzB" secondAttribute="bottom" id="hRW-aQ-oPw"/>
-                <constraint firstItem="4bY-3m-Xbs" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="10" id="njP-wf-bNp"/>
+                <constraint firstItem="4bY-3m-Xbs" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="30" id="njP-wf-bNp"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
         </view>
