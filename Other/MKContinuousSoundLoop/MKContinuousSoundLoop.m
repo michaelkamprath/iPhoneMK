@@ -72,6 +72,7 @@
             self.currentSoundIndex = self.soundPlayerList.count;
         }
         self.randomOrder = YES;
+        _volume = 1.0;
     }
     
     return self;
@@ -87,12 +88,12 @@
     }
     
     if ( nil == self.currentlyPlayingSound ) {
-        if ( nil == self.nextSound ) {
+        if ( nil == self.nextSoundToPlay ) {
             self.currentlyPlayingSound = [self nextSound];
             [self.currentlyPlayingSound prepareToPlay];
         }
         else {
-            self.currentlyPlayingSound = self.nextSound;
+            self.currentlyPlayingSound = self.nextSoundToPlay;
             self.nextSoundToPlay = nil;
         }
     }
@@ -154,13 +155,27 @@
             self.currentSoundIndex++;
         }
     }
-    return [self.soundPlayerList objectAtIndex:self.currentSoundIndex];
+    
+    AVAudioPlayer* sound = [self.soundPlayerList objectAtIndex:self.currentSoundIndex];
+    
+    sound.volume = self.volume;
+    
+    return sound;
 }
 
 
 -(BOOL)isPlaying {
     return ( nil != self.currentlyPlayingSound && [self.currentlyPlayingSound isPlaying] );
 }
+
+-(void)setVolume:(float)inVolume {
+    _volume = inVolume;
+    
+    if (nil != self.currentlyPlayingSound ) {
+        self.currentlyPlayingSound.volume = inVolume;
+    }
+}
+
 
 #pragma mark - Sound PlayerDelegate
 

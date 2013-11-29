@@ -22,6 +22,7 @@
 @interface MKContinuousSoundLoop : NSObject
 @property (assign,nonatomic) BOOL randomOrder;
 @property (readonly,nonatomic) BOOL isPlaying;
+@property (assign,nonatomic) float volume;
 
 -(id)initWithSoundFiles:(NSArray*)inSoundFileList;
 
