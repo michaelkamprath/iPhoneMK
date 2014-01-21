@@ -37,6 +37,12 @@
 	NSUInteger _value;
 }
 
+// Text format for the badge, defaults to just the number
+@property (retain,nonatomic) NSString *textFormat;
+
+// Adjustment offset for the text in the badge
+@property (assign,nonatomic) CGPoint adjustOffset;
+
 // The current value displayed in the badge. Updating the value will update the view's display
 @property (assign,nonatomic) NSUInteger value;
 
