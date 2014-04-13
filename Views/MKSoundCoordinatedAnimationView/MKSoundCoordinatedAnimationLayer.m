@@ -142,6 +142,7 @@ NSString* const kSCANImageAndPositingAniamtionKey = @"imageAndPositionAnimation"
 -(void)setConfig:(NSDictionary *)inConfig
 {
 	[self stopAnimatingImmeditely:YES];
+
 	
 	if (_config != nil )
 	{
@@ -771,6 +772,21 @@ NSString* const kSCANImageAndPositingAniamtionKey = @"imageAndPositionAnimation"
 
 -(void)stopSounds
 {
+    // first, remove times
+    if (_soundTimers != nil) {
+        for ( NSTimer* timer in _soundTimers ) {
+            AVAudioPlayer* sound = (AVAudioPlayer*)[timer userInfo];
+            
+            [sound stop];
+            
+            [timer performSelectorOnMainThread:@selector(invalidate) withObject:nil waitUntilDone:YES];
+        }
+        
+        [_soundTimers release];
+        _soundTimers = nil;
+    }
+    
+    
 	for (AVAudioPlayer* playingSound in _playingSounds)
 	{
 		[playingSound stop];
@@ -1221,18 +1237,6 @@ NSString* const kSCANImageAndPositingAniamtionKey = @"imageAndPositionAnimation"
     
     [self stopSounds];
     
-    if (_soundTimers != nil) {
-        for ( NSTimer* timer in _soundTimers ) {
-            AVAudioPlayer* sound = (AVAudioPlayer*)[timer userInfo];
-            
-            [sound stop];
-            
-            [timer invalidate];
-        }
-        
-        [_soundTimers release];
-        _soundTimers = nil;
-    }
     if ( inDidFinish ) {
  
     }
