@@ -127,7 +127,7 @@
             
         }
 
-        if ( nil != inSinaWeiboImage && [SLComposeViewController isAvailableForServiceType:SLServiceTypeTencentWeibo] ) {
+        if ( nil != inTencentWeiboImage && ([[[UIDevice currentDevice] systemVersion] compare:@"7.0" options:NSNumericSearch] != NSOrderedAscending) && [SLComposeViewController isAvailableForServiceType:SLServiceTypeTencentWeibo] ) {
             self.tencentWeiboButton = [UIButton buttonWithType:UIButtonTypeCustom];
             self.tencentWeiboButton.frame = CGRectMake(0, 0, MKSOCIALSHARE_BUTTON_SIZE, MKSOCIALSHARE_BUTTON_SIZE);
             
