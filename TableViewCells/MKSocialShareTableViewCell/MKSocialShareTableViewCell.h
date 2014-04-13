@@ -38,10 +38,14 @@
 @property (strong,nonatomic) NSString* postText;
 @property (strong,nonatomic) NSArray* postImageList;
 @property (strong,nonatomic) NSArray* postURLList;
+@property (readonly,nonatomic) UIViewController* hostingViewController;
 
 +(BOOL)socialShareAvailable;
 
-- (id)initWithReuseIdentifier:(NSString *)inReuseIdentifier facebookImage:(UIImage*)inFacebookImage twitterImage:(UIImage*)inTwitterImage weiboImage:(UIImage*)inWeiboImage;
+// With the addition of Tencent Weibo, this init method is deprecated. I tis still supported for backwards compaitibility reasons.
+- (id)initWithReuseIdentifier:(NSString *)inReuseIdentifier facebookImage:(UIImage*)inFacebookImage twitterImage:(UIImage*)inTwitterImage weiboImage:(UIImage*)inWeiboImage __attribute__((deprecated));
+
+- (id)initWithReuseIdentifier:(NSString *)inReuseIdentifier facebookImage:(UIImage*)inFacebookImage twitterImage:(UIImage*)inTwitterImage sinaWeiboImage:(UIImage*)inSinaWeiboImage tencentWeiboImage:(UIImage*)inTencentWeiboImage;
 
 
 @end

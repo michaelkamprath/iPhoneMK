@@ -44,17 +44,19 @@
 @interface MKSocialShareTableViewCell ()
 @property (strong,nonatomic) UIButton* facebookButton;
 @property (strong,nonatomic) UIButton* twitterButton;
-@property (strong,nonatomic) UIButton* weiboButton;
+@property (strong,nonatomic) UIButton* sinaWeiboButton;
+@property (strong,nonatomic) UIButton* tencentWeiboButton;
 
 
 -(void)handleFacebookAction:(id)inSender;
 -(void)handleTwitterAction:(id)inSender;
--(void)handleWeiboAction:(id)inSender;
+-(void)handleSinaWeiboAction:(id)inSender;
+-(void)handleTencentWeiboAction:(id)inSender;
 -(void)postMessageForServiceType:(NSString*)inServiceType;
 
 @end
 @implementation MKSocialShareTableViewCell
-@synthesize facebookButton, twitterButton, weiboButton;
+@synthesize facebookButton, twitterButton, sinaWeiboButton, tencentWeiboButton;
 @synthesize postText, postImageList, postURLList;
 
 #pragma mark - Class Methods
@@ -81,10 +83,15 @@
 
 - (id)initWithReuseIdentifier:(NSString *)inReuseIdentifier facebookImage:(UIImage*)inFacebookImage twitterImage:(UIImage*)inTwitterImage weiboImage:(UIImage*)inWeiboImage
 {
+    return [self initWithReuseIdentifier:inReuseIdentifier facebookImage:inFacebookImage twitterImage:inTwitterImage sinaWeiboImage:inWeiboImage tencentWeiboImage:nil];
+}
+
+- (id)initWithReuseIdentifier:(NSString *)inReuseIdentifier facebookImage:(UIImage*)inFacebookImage twitterImage:(UIImage*)inTwitterImage sinaWeiboImage:(UIImage*)inSinaWeiboImage tencentWeiboImage:(UIImage*)inTencentWeiboImage;
+{
     self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:inReuseIdentifier];
     if (self) {
         
-        if ( [SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook] ) {
+        if ( nil != inFacebookImage && [SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook] ) {
             self.facebookButton = [UIButton buttonWithType:UIButtonTypeCustom];
             self.facebookButton.frame = CGRectMake(0, 0, MKSOCIALSHARE_BUTTON_SIZE, MKSOCIALSHARE_BUTTON_SIZE);
             
@@ -96,7 +103,7 @@
             
         }
         
-        if ( [SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter] ) {
+        if ( nil != inTwitterImage && [SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter] ) {
             self.twitterButton = [UIButton buttonWithType:UIButtonTypeCustom];
             self.twitterButton.frame = CGRectMake(0, 0, MKSOCIALSHARE_BUTTON_SIZE, MKSOCIALSHARE_BUTTON_SIZE);
             
@@ -108,18 +115,30 @@
             
         }
 
-        if ( [SLComposeViewController isAvailableForServiceType:SLServiceTypeSinaWeibo] ) {
-            self.weiboButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            self.weiboButton.frame = CGRectMake(0, 0, MKSOCIALSHARE_BUTTON_SIZE, MKSOCIALSHARE_BUTTON_SIZE);
+        if ( nil != inSinaWeiboImage && [SLComposeViewController isAvailableForServiceType:SLServiceTypeSinaWeibo] ) {
+            self.sinaWeiboButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            self.sinaWeiboButton.frame = CGRectMake(0, 0, MKSOCIALSHARE_BUTTON_SIZE, MKSOCIALSHARE_BUTTON_SIZE);
             
-            [self.weiboButton setImage:inWeiboImage forState:UIControlStateNormal];
+            [self.sinaWeiboButton setImage:inSinaWeiboImage forState:UIControlStateNormal];
             
-            [self.weiboButton addTarget:self action:@selector(handleWeiboAction:) forControlEvents:UIControlEventTouchUpInside];
+            [self.sinaWeiboButton addTarget:self action:@selector(handleSinaWeiboAction:) forControlEvents:UIControlEventTouchUpInside];
             
-            [self.contentView addSubview:self.weiboButton];
+            [self.contentView addSubview:self.sinaWeiboButton];
             
         }
-        
+
+        if ( nil != inSinaWeiboImage && [SLComposeViewController isAvailableForServiceType:SLServiceTypeTencentWeibo] ) {
+            self.tencentWeiboButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            self.tencentWeiboButton.frame = CGRectMake(0, 0, MKSOCIALSHARE_BUTTON_SIZE, MKSOCIALSHARE_BUTTON_SIZE);
+            
+            [self.tencentWeiboButton setImage:inTencentWeiboImage forState:UIControlStateNormal];
+            
+            [self.tencentWeiboButton addTarget:self action:@selector(handleTencentWeiboAction:) forControlEvents:UIControlEventTouchUpInside];
+            
+            [self.contentView addSubview:self.tencentWeiboButton];
+            
+        }
+
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         
     }
@@ -155,10 +174,18 @@
         buttonOriginX -= buttonHorizInterval;
     }
     
-    if ( nil != self.weiboButton ) {
-        self.weiboButton.frame = CGRectMake(buttonOriginX, buttonOriginY, MKSOCIALSHARE_BUTTON_SIZE, MKSOCIALSHARE_BUTTON_SIZE );
+    if ( nil != self.sinaWeiboButton ) {
+        self.sinaWeiboButton.frame = CGRectMake(buttonOriginX, buttonOriginY, MKSOCIALSHARE_BUTTON_SIZE, MKSOCIALSHARE_BUTTON_SIZE );
+        buttonOriginX -= buttonHorizInterval;
     }
-   
+    
+    if ( nil != self.tencentWeiboButton ) {
+        self.tencentWeiboButton.frame = CGRectMake(buttonOriginX, buttonOriginY, MKSOCIALSHARE_BUTTON_SIZE, MKSOCIALSHARE_BUTTON_SIZE );
+        buttonOriginX -= buttonHorizInterval;
+    }
+
+    buttonOriginX += buttonHorizInterval;
+    
     CGRect labelFrame = self.textLabel.frame;
 
     labelFrame.size.width = buttonOriginX - labelFrame.origin.x - MKSOCIALSHARE_LABEL_BUTTON_PAD;
@@ -178,9 +205,14 @@
     [self postMessageForServiceType:SLServiceTypeTwitter];
 }
 
--(void)handleWeiboAction:(id)inSender {
+-(void)handleSinaWeiboAction:(id)inSender {
     [self postMessageForServiceType:SLServiceTypeSinaWeibo];
 }
+
+-(void)handleTencentWeiboAction:(id)inSender {
+    [self postMessageForServiceType:SLServiceTypeTencentWeibo];
+}
+
 
 -(void)postMessageForServiceType:(NSString*)inServiceType {
     SLComposeViewController* socialController = [SLComposeViewController composeViewControllerForServiceType:inServiceType];
@@ -202,27 +234,31 @@
             }
         }
         
-        UIResponder* targetResponder = self.nextResponder;
-        if ( ![targetResponder isKindOfClass:[UIViewController class]] ) {
-            targetResponder = targetResponder.nextResponder;
-            
-            if (![targetResponder isKindOfClass:[UIViewController class]]) {
-                targetResponder = targetResponder.nextResponder;
-                
-                // in iOS 7, you have to go 3 deep.
-                if (![targetResponder isKindOfClass:[UIViewController class]]) {
-                    // uh oh
-                    NSLog(@"Could not find MKSocialShareTableViewCell's owning view controller!");
-                    return;
-                }
-            }
-        }
-                  
-        UIViewController* currentController = (UIViewController*)targetResponder;
-        
-        [currentController presentViewController:socialController animated:YES completion:NULL];
+        [self.hostingViewController presentViewController:socialController animated:YES completion:NULL];
        
     }
+}
+
+-(UIViewController*)hostingViewController {
+    UIResponder* targetResponder = self.nextResponder;
+    if ( ![targetResponder isKindOfClass:[UIViewController class]] ) {
+        targetResponder = targetResponder.nextResponder;
+        
+        if (![targetResponder isKindOfClass:[UIViewController class]]) {
+            targetResponder = targetResponder.nextResponder;
+            
+            // in iOS 7, you have to go 3 deep.
+            if (![targetResponder isKindOfClass:[UIViewController class]]) {
+                // uh oh
+                NSLog(@"Could not find MKSocialShareTableViewCell's owning view controller!");
+                return nil;
+            }
+        }
+    }
+    
+    UIViewController* currentController = (UIViewController*)targetResponder;
+    
+    return currentController;
 }
 
 @end
