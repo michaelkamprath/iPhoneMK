@@ -42,6 +42,7 @@
 		4C498D8618259FA600E6754A /* MKParentalGateViewController~portrait.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C498D8318259FA600E6754A /* MKParentalGateViewController~portrait.xib */; };
 		4C5304091812E57700F67459 /* MKParentalGate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5304081812E57700F67459 /* MKParentalGate.m */; };
 		4C5865A4176E27E4002AA16F /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C5865A3176E27E4002AA16F /* Default-568h@2x.png */; };
+		4C59FE78195F39DC00678F08 /* tencent.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C59FE77195F39DC00678F08 /* tencent.png */; };
 		4C8FD91B15CF2620005A36C9 /* facebook.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C8FD90D15CF2620005A36C9 /* facebook.png */; };
 		4C8FD91C15CF2620005A36C9 /* facebook@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C8FD90E15CF2620005A36C9 /* facebook@2x.png */; };
 		4C8FD91F15CF2620005A36C9 /* twitter.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C8FD91115CF2620005A36C9 /* twitter.png */; };
@@ -135,6 +136,7 @@
 		4C5304071812E57700F67459 /* MKParentalGate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKParentalGate.h; sourceTree = "<group>"; };
 		4C5304081812E57700F67459 /* MKParentalGate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKParentalGate.m; sourceTree = "<group>"; };
 		4C5865A3176E27E4002AA16F /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
+		4C59FE77195F39DC00678F08 /* tencent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tencent.png; sourceTree = "<group>"; };
 		4C8FD90D15CF2620005A36C9 /* facebook.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = facebook.png; sourceTree = "<group>"; };
 		4C8FD90E15CF2620005A36C9 /* facebook@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "facebook@2x.png"; sourceTree = "<group>"; };
 		4C8FD91115CF2620005A36C9 /* twitter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = twitter.png; sourceTree = "<group>"; };
@@ -407,6 +409,7 @@
 				4C8FD91215CF2620005A36C9 /* twitter@2x.png */,
 				4C8FD91715CF2620005A36C9 /* weibo.png */,
 				4C8FD91815CF2620005A36C9 /* weibo@2x.png */,
+				4C59FE77195F39DC00678F08 /* tencent.png */,
 			);
 			path = icons;
 			sourceTree = "<group>";
@@ -510,6 +513,7 @@
 				4CBC702E150CA25100AE63B5 /* checkmarkicon_empty@2x.png in Resources */,
 				4CBC7031150CA25100AE63B5 /* checkmarkicon_on.png in Resources */,
 				4CBC7032150CA25100AE63B5 /* checkmarkicon_on@2x.png in Resources */,
+				4C59FE78195F39DC00678F08 /* tencent.png in Resources */,
 				4C98654A15311A28006F05EB /* fourth.png in Resources */,
 				4C98654B15311A28006F05EB /* fourth@2x.png in Resources */,
 				4C98655615311AE0006F05EB /* AnimationLayerViewController.xib in Resources */,

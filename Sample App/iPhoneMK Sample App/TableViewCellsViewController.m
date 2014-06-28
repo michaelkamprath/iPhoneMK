@@ -203,7 +203,8 @@
             cell = [[MKSocialShareTableViewCell alloc] initWithReuseIdentifier:SocialShareCellIdentifier
                                                                  facebookImage:[UIImage imageNamed:@"facebook.png"]
                                                                   twitterImage:[UIImage imageNamed:@"twitter.png"]
-                                                                    weiboImage:[UIImage imageNamed:@"weibo.png"]];
+                                                                sinaWeiboImage:[UIImage imageNamed:@"weibo.png"]
+                                                             tencentWeiboImage:[UIImage imageNamed:@"tencent.png"]];
             
             cell.postText = @"I am using iPhoneMK to make my iOS app better. So can you!";
             cell.postURLList = [NSArray arrayWithObjects:[NSURL URLWithString:@"https://github.com/michaelkamprath/iPhoneMK"], nil];

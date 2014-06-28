@@ -67,8 +67,9 @@
         BOOL facebookAvailable = [SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook];
         BOOL twitterAvailable = [SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter];
         BOOL weiboAvailable = [SLComposeViewController isAvailableForServiceType:SLServiceTypeSinaWeibo];
-        
-        return ( facebookAvailable || twitterAvailable || weiboAvailable );
+        BOOL tencentAvailable = [SLComposeViewController isAvailableForServiceType:SLServiceTypeTencentWeibo];
+       
+        return ( facebookAvailable || twitterAvailable || weiboAvailable || tencentAvailable );
     }
     else {
         return NO;
