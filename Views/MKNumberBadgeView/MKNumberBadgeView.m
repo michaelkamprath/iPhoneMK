@@ -233,15 +233,9 @@
 	CGContextRestoreGState( curContext );
 	CGPathRelease(badgePath);
 	
-	CGContextSaveGState( curContext );
-	CGContextSetFillColorWithColor( curContext, self.textColor.CGColor );
-		
 	CGPoint textPt = CGPointMake( ctm.x + (badgeRect.size.width - numberSize.width)/2 + self.adjustOffset.x, ctm.y + (badgeRect.size.height - numberSize.height)/2 + self.adjustOffset.y);
 	
-	[numberString drawAtPoint:textPt withAttributes:@{ NSFontAttributeName : self.font }];
-
-	CGContextRestoreGState( curContext );
-
+    [numberString drawAtPoint:textPt withAttributes:@{ NSFontAttributeName : self.font, NSForegroundColorAttributeName : self.textColor }];
 }
 
 
