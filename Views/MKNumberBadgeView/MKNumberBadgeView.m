@@ -127,7 +127,7 @@
 	NSString* numberString = [NSString stringWithFormat:self.textFormat,self.value];
 	
 	
-	CGSize numberSize = [numberString sizeWithFont:self.font];
+    CGSize numberSize = [numberString sizeWithAttributes:@{ NSFontAttributeName : self.font }];
 		
 	CGPathRef badgePath = [self newBadgePathForTextSize:numberSize];
 	
@@ -233,15 +233,9 @@
 	CGContextRestoreGState( curContext );
 	CGPathRelease(badgePath);
 	
-	CGContextSaveGState( curContext );
-	CGContextSetFillColorWithColor( curContext, self.textColor.CGColor );
-		
 	CGPoint textPt = CGPointMake( ctm.x + (badgeRect.size.width - numberSize.width)/2 + self.adjustOffset.x, ctm.y + (badgeRect.size.height - numberSize.height)/2 + self.adjustOffset.y);
 	
-	[numberString drawAtPoint:textPt withFont:self.font];
-
-	CGContextRestoreGState( curContext );
-
+    [numberString drawAtPoint:textPt withAttributes:@{ NSFontAttributeName : self.font, NSForegroundColorAttributeName : self.textColor }];
 }
 
 
@@ -286,7 +280,7 @@
 	NSString* numberString = [NSString stringWithFormat:self.textFormat,self.value];
 	
 	
-	CGSize numberSize = [numberString sizeWithFont:self.font];
+	CGSize numberSize = [numberString sizeWithAttributes:@{ NSFontAttributeName : self.font }];
 	
 	CGPathRef badgePath = [self newBadgePathForTextSize:numberSize];
 	
