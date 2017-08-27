@@ -68,7 +68,7 @@
  
  */
 
-@interface MKSoundCoordinatedAnimationLayer : CALayer <AVAudioPlayerDelegate>
+@interface MKSoundCoordinatedAnimationLayer : CALayer <AVAudioPlayerDelegate,CAAnimationDelegate>
 {
 	NSDictionary* _config;
 	UIImage* _stillImage;

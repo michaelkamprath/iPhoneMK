@@ -91,7 +91,7 @@
             [self setNeedsStatusBarAppearanceUpdate];
         }
         else {
-            self.wantsFullScreenLayout = YES;
+            self.edgesForExtendedLayout = UIRectEdgeAll;
         }
         
         _topTargetTouched = NO;
